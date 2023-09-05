@@ -7,11 +7,37 @@
 // 'src/pages/HomePage/HomePage.js'         -> HomePage
 // 'src/pages/Admin/BooksPage/BooksPage.js' -> AdminBooksPage
 
-import { Router, Route } from '@redwoodjs/router'
+import { Set, Router, Route } from '@redwoodjs/router'
+
+import ScaffoldLayout from 'src/layouts/ScaffoldLayout'
 
 const Routes = () => {
   return (
     <Router>
+      <Set wrap={ScaffoldLayout} title="Records" titleTo="records" buttonLabel="New Record" buttonTo="newRecord">
+        <Route path="/records/new" page={RecordNewRecordPage} name="newRecord" />
+        <Route path="/records/{id:Int}/edit" page={RecordEditRecordPage} name="editRecord" />
+        <Route path="/records/{id:Int}" page={RecordRecordPage} name="record" />
+        <Route path="/records" page={RecordRecordsPage} name="records" />
+      </Set>
+      <Set wrap={ScaffoldLayout} title="Categories" titleTo="categories" buttonLabel="New Category" buttonTo="newCategory">
+        <Route path="/categories/new" page={CategoryNewCategoryPage} name="newCategory" />
+        <Route path="/categories/{id:Int}/edit" page={CategoryEditCategoryPage} name="editCategory" />
+        <Route path="/categories/{id:Int}" page={CategoryCategoryPage} name="category" />
+        <Route path="/categories" page={CategoryCategoriesPage} name="categories" />
+      </Set>
+      <Set wrap={ScaffoldLayout} title="Tasks" titleTo="tasks" buttonLabel="New Task" buttonTo="newTask">
+        <Route path="/tasks/new" page={TaskNewTaskPage} name="newTask" />
+        <Route path="/tasks/{id:Int}/edit" page={TaskEditTaskPage} name="editTask" />
+        <Route path="/tasks/{id:Int}" page={TaskTaskPage} name="task" />
+        <Route path="/tasks" page={TaskTasksPage} name="tasks" />
+      </Set>
+      <Set wrap={ScaffoldLayout} title="Repeats" titleTo="repeats" buttonLabel="New Repeat" buttonTo="newRepeat">
+        <Route path="/repeats/new" page={RepeatNewRepeatPage} name="newRepeat" />
+        <Route path="/repeats/{id:Int}/edit" page={RepeatEditRepeatPage} name="editRepeat" />
+        <Route path="/repeats/{id:Int}" page={RepeatRepeatPage} name="repeat" />
+        <Route path="/repeats" page={RepeatRepeatsPage} name="repeats" />
+      </Set>
       <Route notfound page={NotFoundPage} />
     </Router>
   )

@@ -13,13 +13,13 @@ model User {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime @updatedAt
   name  String
-  email String  @unique @ignore
+  email String  @unique
   hashedPassword      String
   salt                String
   resetToken          String?
   resetTokenExpiresAt DateTime?
 
-  categories Category[]
+  // categories Category[]
 }
 
 model Category {
@@ -28,8 +28,8 @@ model Category {
   title       String
   tasks   Task[]
 
-  userId  Int
-  user User @relation(fields: [userId], references: [id])
+  // userId  Int
+  // user User @relation(fields: [userId], references: [id])
 }
 
 model Task {
@@ -39,7 +39,7 @@ model Task {
   title     String
   color     String
   description String
-  // repeats     Repeat[]
+  repeats     Repeat[]
   records   Record[]
 
   categoryId Int
@@ -83,12 +83,12 @@ model Repeat {
   endTime DateTime
   type  RepeatType?
   interval  Int
-  // daysOfWeek DayOfWeek[] // relation or json
+  daysOfWeek DayOfWeek[] // relation or json
   daysOfMonth Json? // number[]
   weekOfMonth WeekOfMonth?
 
-  // taskId  Int
-  // task  Task @relation(fields: [taskId], references: [id])
+  taskId  Int
+  task  Task @relation(fields: [taskId], references: [id])
 }
 
 enum DayOfWeekLabel {
@@ -103,8 +103,8 @@ enum DayOfWeekLabel {
 
 model DayOfWeek {
   id    Int     @id @default(autoincrement())
-  title DayOfWeekLabel @unique @ignore
-  value Int @unique @ignore // sun(0) to sat(6)
-  // repeats  Repeat[]
+  title DayOfWeekLabel @unique
+  value Int @unique // sun(0) to sat(6)
+  repeats  Repeat[]
 }
 
