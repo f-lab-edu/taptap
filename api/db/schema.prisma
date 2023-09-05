@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -8,11 +8,103 @@ generator client {
   binaryTargets = "native"
 }
 
-// Define your own datamodels here and run `yarn redwood prisma migrate dev`
-// to create migrations for them and apply to your dev DB.
-// TODO: Please remove the following example:
-model UserExample {
+model User {
   id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime @updatedAt
+  name  String
+  email String  @unique @ignore
+  hashedPassword      String
+  salt                String
+  resetToken          String?
+  resetTokenExpiresAt DateTime?
+
+  categories Category[]
 }
+
+model Category {
+  id    Int     @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  title       String
+  tasks   Task[]
+
+  userId  Int
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Task {
+  id    Int     @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime @updatedAt
+  title     String
+  color     String
+  description String
+  // repeats     Repeat[]
+  records   Record[]
+
+  categoryId Int
+  category  Category  @relation(fields: [categoryId], references: [id])
+}
+
+model Record {
+  id    Int     @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime @updatedAt
+  start     DateTime
+  end     DateTime
+
+  taskId  Int
+  task  Task  @relation(fields: [taskId], references: [id])
+}
+
+enum RepeatType {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+enum WeekOfMonth {
+  FIRST
+  SECOND
+  THIRD
+  FOURTH
+  FIFTH
+  LAST
+}
+
+model Repeat {
+  id    Int     @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime @updatedAt
+  startDate DateTime
+  startTime  DateTime
+  endDate DateTime
+  endTime DateTime
+  type  RepeatType?
+  interval  Int
+  // daysOfWeek DayOfWeek[] // relation or json
+  daysOfMonth Json? // number[]
+  weekOfMonth WeekOfMonth?
+
+  // taskId  Int
+  // task  Task @relation(fields: [taskId], references: [id])
+}
+
+enum DayOfWeekLabel {
+  MON
+  TUE
+  WED
+  THU
+  FRI
+  SAT
+  SUN
+}
+
+model DayOfWeek {
+  id    Int     @id @default(autoincrement())
+  title DayOfWeekLabel @unique @ignore
+  value Int @unique @ignore // sun(0) to sat(6)
+  // repeats  Repeat[]
+}
+
