@@ -9,8 +9,11 @@ export const schema = gql`
     endTime: DateTime!
     type: RepeatType
     interval: Int!
+    daysOfWeek: [DayOfWeek]!
     daysOfMonth: JSON
     weekOfMonth: WeekOfMonth
+    taskId: Int!
+    task: Task!
   }
 
   enum RepeatType {
@@ -43,6 +46,7 @@ export const schema = gql`
     interval: Int!
     daysOfMonth: JSON
     weekOfMonth: WeekOfMonth
+    taskId: Int!
   }
 
   input UpdateRepeatInput {
@@ -54,6 +58,7 @@ export const schema = gql`
     interval: Int
     daysOfMonth: JSON
     weekOfMonth: WeekOfMonth
+    taskId: Int
   }
 
   type Mutation {

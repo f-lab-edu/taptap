@@ -16,6 +16,7 @@ export const QUERY = gql`
       title
       color
       description
+      categoryId
     }
   }
 `
@@ -28,6 +29,7 @@ const UPDATE_TASK_MUTATION = gql`
       title
       color
       description
+      categoryId
     }
   }
 `

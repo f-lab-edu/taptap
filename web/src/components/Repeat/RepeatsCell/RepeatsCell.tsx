@@ -19,6 +19,7 @@ export const QUERY = gql`
       interval
       daysOfMonth
       weekOfMonth
+      taskId
     }
   }
 `

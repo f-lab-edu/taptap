@@ -5,22 +5,40 @@ export const standard = defineScenario<Prisma.RepeatCreateArgs>({
   repeat: {
     one: {
       data: {
-        updatedAt: '2023-09-05T09:03:19.057Z',
-        startDate: '2023-09-05T09:03:19.057Z',
-        startTime: '2023-09-05T09:03:19.057Z',
-        endDate: '2023-09-05T09:03:19.057Z',
-        endTime: '2023-09-05T09:03:19.057Z',
-        interval: 1149092,
+        updatedAt: '2023-09-05T09:09:01.111Z',
+        startDate: '2023-09-05T09:09:01.111Z',
+        startTime: '2023-09-05T09:09:01.111Z',
+        endDate: '2023-09-05T09:09:01.111Z',
+        endTime: '2023-09-05T09:09:01.111Z',
+        interval: 3551855,
+        task: {
+          create: {
+            updatedAt: '2023-09-05T09:09:01.111Z',
+            title: 'String',
+            color: 'String',
+            description: 'String',
+            category: { create: { title: 'String' } },
+          },
+        },
       },
     },
     two: {
       data: {
-        updatedAt: '2023-09-05T09:03:19.057Z',
-        startDate: '2023-09-05T09:03:19.057Z',
-        startTime: '2023-09-05T09:03:19.057Z',
-        endDate: '2023-09-05T09:03:19.057Z',
-        endTime: '2023-09-05T09:03:19.057Z',
-        interval: 3971751,
+        updatedAt: '2023-09-05T09:09:01.111Z',
+        startDate: '2023-09-05T09:09:01.111Z',
+        startTime: '2023-09-05T09:09:01.111Z',
+        endDate: '2023-09-05T09:09:01.111Z',
+        endTime: '2023-09-05T09:09:01.111Z',
+        interval: 9785378,
+        task: {
+          create: {
+            updatedAt: '2023-09-05T09:09:01.111Z',
+            title: 'String',
+            color: 'String',
+            description: 'String',
+            category: { create: { title: 'String' } },
+          },
+        },
       },
     },
   },

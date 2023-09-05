@@ -6,6 +6,10 @@ export const schema = gql`
     title: String!
     color: String!
     description: String!
+    repeats: [Repeat]!
+    records: [Record]!
+    categoryId: Int!
+    category: Category!
   }
 
   type Query {
@@ -17,12 +21,14 @@ export const schema = gql`
     title: String!
     color: String!
     description: String!
+    categoryId: Int!
   }
 
   input UpdateTaskInput {
     title: String
     color: String
     description: String
+    categoryId: Int
   }
 
   type Mutation {

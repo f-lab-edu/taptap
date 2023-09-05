@@ -3,6 +3,7 @@ export const schema = gql`
     id: Int!
     title: DayOfWeekLabel!
     value: Int!
+    repeats: [Repeat]!
   }
 
   enum DayOfWeekLabel {

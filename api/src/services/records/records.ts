@@ -1,4 +1,8 @@
-import type { QueryResolvers, MutationResolvers } from 'types/graphql'
+import type {
+  QueryResolvers,
+  MutationResolvers,
+  RecordRelationResolvers,
+} from 'types/graphql'
 
 import { db } from 'src/lib/db'
 
@@ -32,4 +36,10 @@ export const deleteRecord: MutationResolvers['deleteRecord'] = ({ id }) => {
   return db.record.delete({
     where: { id },
   })
+}
+
+export const Record: RecordRelationResolvers = {
+  task: (_obj, { root }) => {
+    return db.record.findUnique({ where: { id: root?.id } }).task()
+  },
 }

@@ -13,6 +13,7 @@ export const QUERY = gql`
       updatedAt
       start
       end
+      taskId
     }
   }
 `

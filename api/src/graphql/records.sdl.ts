@@ -5,6 +5,8 @@ export const schema = gql`
     updatedAt: DateTime!
     start: DateTime!
     end: DateTime!
+    taskId: Int!
+    task: Task!
   }
 
   type Query {
@@ -15,11 +17,13 @@ export const schema = gql`
   input CreateRecordInput {
     start: DateTime!
     end: DateTime!
+    taskId: Int!
   }
 
   input UpdateRecordInput {
     start: DateTime
     end: DateTime
+    taskId: Int
   }
 
   type Mutation {

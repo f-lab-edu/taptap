@@ -21,6 +21,7 @@ export const QUERY = gql`
       interval
       daysOfMonth
       weekOfMonth
+      taskId
     }
   }
 `
@@ -38,6 +39,7 @@ const UPDATE_REPEAT_MUTATION = gql`
       interval
       daysOfMonth
       weekOfMonth
+      taskId
     }
   }
 `

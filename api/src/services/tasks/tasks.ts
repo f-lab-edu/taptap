@@ -1,4 +1,8 @@
-import type { QueryResolvers, MutationResolvers } from 'types/graphql'
+import type {
+  QueryResolvers,
+  MutationResolvers,
+  TaskRelationResolvers,
+} from 'types/graphql'
 
 import { db } from 'src/lib/db'
 
@@ -29,4 +33,16 @@ export const deleteTask: MutationResolvers['deleteTask'] = ({ id }) => {
   return db.task.delete({
     where: { id },
   })
+}
+
+export const Task: TaskRelationResolvers = {
+  repeats: (_obj, { root }) => {
+    return db.task.findUnique({ where: { id: root?.id } }).repeats()
+  },
+  records: (_obj, { root }) => {
+    return db.task.findUnique({ where: { id: root?.id } }).records()
+  },
+  category: (_obj, { root }) => {
+    return db.task.findUnique({ where: { id: root?.id } }).category()
+  },
 }

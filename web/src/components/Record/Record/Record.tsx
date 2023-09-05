@@ -68,6 +68,10 @@ const Record = ({ record }: Props) => {
               <th>End</th>
               <td>{timeTag(record.end)}</td>
             </tr>
+            <tr>
+              <th>Task id</th>
+              <td>{record.taskId}</td>
+            </tr>
           </tbody>
         </table>
       </div>

@@ -15,6 +15,7 @@ export const QUERY = gql`
       updatedAt
       start
       end
+      taskId
     }
   }
 `
@@ -26,6 +27,7 @@ const UPDATE_RECORD_MUTATION = gql`
       updatedAt
       start
       end
+      taskId
     }
   }
 `

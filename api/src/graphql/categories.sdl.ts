@@ -3,6 +3,7 @@ export const schema = gql`
     id: Int!
     createdAt: DateTime!
     title: String!
+    tasks: [Task]!
   }
 
   type Query {

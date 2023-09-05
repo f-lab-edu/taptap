@@ -46,6 +46,7 @@ const RecordsList = ({ records }: FindRecords) => {
             <th>Updated at</th>
             <th>Start</th>
             <th>End</th>
+            <th>Task id</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
@@ -57,6 +58,7 @@ const RecordsList = ({ records }: FindRecords) => {
               <td>{timeTag(record.updatedAt)}</td>
               <td>{timeTag(record.start)}</td>
               <td>{timeTag(record.end)}</td>
+              <td>{truncate(record.taskId)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Link

@@ -52,6 +52,7 @@ const RepeatsList = ({ repeats }: FindRepeats) => {
             <th>Interval</th>
             <th>Days of month</th>
             <th>Week of month</th>
+            <th>Task id</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
@@ -69,6 +70,7 @@ const RepeatsList = ({ repeats }: FindRepeats) => {
               <td>{truncate(repeat.interval)}</td>
               <td>{jsonTruncate(repeat.daysOfMonth)}</td>
               <td>{formatEnum(repeat.weekOfMonth)}</td>
+              <td>{truncate(repeat.taskId)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Link

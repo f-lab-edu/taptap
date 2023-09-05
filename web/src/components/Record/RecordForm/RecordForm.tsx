@@ -4,6 +4,7 @@ import {
   FieldError,
   Label,
   DatetimeLocalField,
+  NumberField,
   Submit,
 } from '@redwoodjs/forms'
 
@@ -75,6 +76,24 @@ const RecordForm = (props: RecordFormProps) => {
         />
 
         <FieldError name="end" className="rw-field-error" />
+
+        <Label
+          name="taskId"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Task id
+        </Label>
+
+        <NumberField
+          name="taskId"
+          defaultValue={props.record?.taskId}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+          validation={{ required: true }}
+        />
+
+        <FieldError name="taskId" className="rw-field-error" />
 
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">

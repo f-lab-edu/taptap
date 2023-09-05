@@ -4,6 +4,7 @@ import {
   FieldError,
   Label,
   TextField,
+  NumberField,
   Submit,
 } from '@redwoodjs/forms'
 
@@ -87,6 +88,24 @@ const TaskForm = (props: TaskFormProps) => {
         />
 
         <FieldError name="description" className="rw-field-error" />
+
+        <Label
+          name="categoryId"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Category id
+        </Label>
+
+        <NumberField
+          name="categoryId"
+          defaultValue={props.task?.categoryId}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+          validation={{ required: true }}
+        />
+
+        <FieldError name="categoryId" className="rw-field-error" />
 
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">

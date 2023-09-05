@@ -30,11 +30,11 @@ describe('dayOfWeeks', () => {
 
   scenario('creates a dayOfWeek', async () => {
     const result = await createDayOfWeek({
-      input: { title: 'MON', value: 7434939 },
+      input: { title: 'MON', value: 8367410 },
     })
 
     expect(result.title).toEqual('MON')
-    expect(result.value).toEqual(7434939)
+    expect(result.value).toEqual(8367410)
   })
 
   scenario('updates a dayOfWeek', async (scenario: StandardScenario) => {

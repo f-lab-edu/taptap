@@ -69,6 +69,10 @@ const Task = ({ task }: Props) => {
               <th>Description</th>
               <td>{task.description}</td>
             </tr>
+            <tr>
+              <th>Category id</th>
+              <td>{task.categoryId}</td>
+            </tr>
           </tbody>
         </table>
       </div>

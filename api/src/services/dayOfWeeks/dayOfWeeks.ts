@@ -1,4 +1,8 @@
-import type { QueryResolvers, MutationResolvers } from 'types/graphql'
+import type {
+  QueryResolvers,
+  MutationResolvers,
+  DayOfWeekRelationResolvers,
+} from 'types/graphql'
 
 import { db } from 'src/lib/db'
 
@@ -36,4 +40,10 @@ export const deleteDayOfWeek: MutationResolvers['deleteDayOfWeek'] = ({
   return db.dayOfWeek.delete({
     where: { id },
   })
+}
+
+export const DayOfWeek: DayOfWeekRelationResolvers = {
+  repeats: (_obj, { root }) => {
+    return db.dayOfWeek.findUnique({ where: { id: root?.id } }).repeats()
+  },
 }

@@ -92,6 +92,10 @@ const Repeat = ({ repeat }: Props) => {
               <th>Week of month</th>
               <td>{formatEnum(repeat.weekOfMonth)}</td>
             </tr>
+            <tr>
+              <th>Task id</th>
+              <td>{repeat.taskId}</td>
+            </tr>
           </tbody>
         </table>
       </div>

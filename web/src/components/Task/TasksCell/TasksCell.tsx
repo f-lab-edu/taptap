@@ -14,6 +14,7 @@ export const QUERY = gql`
       title
       color
       description
+      categoryId
     }
   }
 `

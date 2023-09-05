@@ -28,28 +28,30 @@ describe('records', () => {
     expect(result).toEqual(scenario.record.one)
   })
 
-  scenario('creates a record', async () => {
+  scenario('creates a record', async (scenario: StandardScenario) => {
     const result = await createRecord({
       input: {
-        updatedAt: '2023-09-05T09:05:29.652Z',
-        start: '2023-09-05T09:05:29.652Z',
-        end: '2023-09-05T09:05:29.652Z',
+        updatedAt: '2023-09-05T09:09:15.537Z',
+        start: '2023-09-05T09:09:15.537Z',
+        end: '2023-09-05T09:09:15.537Z',
+        taskId: scenario.record.two.taskId,
       },
     })
 
-    expect(result.updatedAt).toEqual(new Date('2023-09-05T09:05:29.652Z'))
-    expect(result.start).toEqual(new Date('2023-09-05T09:05:29.652Z'))
-    expect(result.end).toEqual(new Date('2023-09-05T09:05:29.652Z'))
+    expect(result.updatedAt).toEqual(new Date('2023-09-05T09:09:15.537Z'))
+    expect(result.start).toEqual(new Date('2023-09-05T09:09:15.537Z'))
+    expect(result.end).toEqual(new Date('2023-09-05T09:09:15.537Z'))
+    expect(result.taskId).toEqual(scenario.record.two.taskId)
   })
 
   scenario('updates a record', async (scenario: StandardScenario) => {
     const original = (await record({ id: scenario.record.one.id })) as Record
     const result = await updateRecord({
       id: original.id,
-      input: { updatedAt: '2023-09-06T09:05:29.652Z' },
+      input: { updatedAt: '2023-09-06T09:09:15.537Z' },
     })
 
-    expect(result.updatedAt).toEqual(new Date('2023-09-06T09:05:29.652Z'))
+    expect(result.updatedAt).toEqual(new Date('2023-09-06T09:09:15.537Z'))
   })
 
   scenario('deletes a record', async (scenario: StandardScenario) => {
