@@ -19,7 +19,7 @@ model User {
   resetToken          String?
   resetTokenExpiresAt DateTime?
 
-  // categories Category[]
+  categories Category[]
 }
 
 model Category {
@@ -28,8 +28,8 @@ model Category {
   title       String  @unique
   tasks   Task[]
 
-  // userId  Int
-  // user User @relation(fields: [userId], references: [id])
+  userId  Int
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Task {
