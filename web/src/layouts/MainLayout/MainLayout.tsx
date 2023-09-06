@@ -11,13 +11,13 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <>
       <header>
-        <div className="flex-between">
+        <div>
           <h1>
-            <Link to={routes.home()}>Redwood Blog</Link>
+            <Link to={routes.home()}>Tap Tap</Link>
           </h1>
           {isAuthenticated ? (
             <div>
-              <span>Logged in as {currentUser.email}</span>{' '}
+              <span>Logged in as {currentUser.id}</span>{' '}
               <button type="button" onClick={logOut}>
                 Logout
               </button>

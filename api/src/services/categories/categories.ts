@@ -7,12 +7,12 @@ import type {
 import { db } from 'src/lib/db'
 
 export const categories: QueryResolvers['categories'] = () => {
-  return db.category.findMany()
+  return db.category.findMany({ where: { userId: context.currentUser.id } })
 }
 
 export const category: QueryResolvers['category'] = ({ id }) => {
-  return db.category.findUnique({
-    where: { id },
+  return db.category.findFirst({
+    where: { id, userId: context.currentUser.id },
   })
 }
 
@@ -20,7 +20,7 @@ export const createCategory: MutationResolvers['createCategory'] = ({
   input,
 }) => {
   return db.category.create({
-    data: input,
+    data: { ...input, userId: context.currentUser.id },
   })
 }
 
