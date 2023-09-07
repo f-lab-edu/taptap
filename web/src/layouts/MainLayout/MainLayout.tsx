@@ -15,7 +15,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           <h1>
             <Link to={routes.home()}>Tap Tap</Link>
           </h1>
-          {isAuthenticated ? (
+          {/* {isAuthenticated ? (
             <div>
               <span>Logged in as {currentUser.id}</span>{' '}
               <button type="button" onClick={logOut}>
@@ -24,7 +24,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
             </div>
           ) : (
             <Link to={routes.login()}>Login</Link>
-          )}
+          )} */}
         </div>
         <nav>
           <ul>
