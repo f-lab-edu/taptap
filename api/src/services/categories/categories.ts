@@ -5,6 +5,15 @@ import type {
 } from 'types/graphql'
 
 import { db } from 'src/lib/db'
+import { ForbiddenError } from '@redwoodjs/graphql-server'
+
+const verifyOwnership = async ({ id }) => {
+  if (await category({ id })) {
+    return true
+  } else {
+    throw new ForbiddenError("You don't have access to this category")
+  }
+}
 
 export const categories: QueryResolvers['categories'] = () => {
   return db.category.findMany({ where: { userId: context.currentUser.id } })
@@ -24,17 +33,21 @@ export const createCategory: MutationResolvers['createCategory'] = ({
   })
 }
 
-export const updateCategory: MutationResolvers['updateCategory'] = ({
+export const updateCategory: MutationResolvers['updateCategory'] = async ({
   id,
   input,
 }) => {
+  await verifyOwnership({ id })
   return db.category.update({
     data: input,
     where: { id },
   })
 }
 
-export const deleteCategory: MutationResolvers['deleteCategory'] = ({ id }) => {
+export const deleteCategory: MutationResolvers['deleteCategory'] = async ({
+  id,
+}) => {
+  await verifyOwnership({ id })
   return db.category.delete({
     where: { id },
   })
