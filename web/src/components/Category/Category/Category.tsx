@@ -1,13 +1,18 @@
-import { Link, routes, navigate } from '@redwoodjs/router'
+import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
+import { RiMore2Fill } from 'react-icons/ri'
+import { HiOutlineMenuAlt4 } from 'react-icons/hi'
 
-import { timeTag } from 'src/lib/formatters'
+import Toggle from 'src/components/Toggle/Toggle'
 
 import type {
   DeleteCategoryMutationVariables,
   FindCategoryById,
 } from 'types/graphql'
+import { styled } from 'styled-components'
+import tw from 'twin.macro'
+import { Toolbox } from 'src/components/Toolbox/Toolbox'
 
 const DELETE_CATEGORY_MUTATION = gql`
   mutation DeleteCategoryMutation($id: Int!) {
@@ -18,7 +23,7 @@ const DELETE_CATEGORY_MUTATION = gql`
 `
 
 interface Props {
-  category: NonNullable<FindCategoryById['category']>
+  category: Omit<NonNullable<FindCategoryById['category']>, 'createdAt'>
 }
 
 const Category = ({ category }: Props) => {
@@ -38,48 +43,48 @@ const Category = ({ category }: Props) => {
     }
   }
 
+  const onEdit = () => {
+    // 1. 해당 요소에 focus
+    // 2. edit
+    // 왜 cell이 있지? 상태 관리를 해줘야하나 해줘야지..
+  }
+
   return (
-    <>
-      <div className="rw-segment">
-        <header className="rw-segment-header">
-          <h2 className="rw-heading rw-heading-secondary">
-            Category {category.id} Detail
-          </h2>
-        </header>
-        <table className="rw-table">
-          <tbody>
-            <tr>
-              <th>Id</th>
-              <td>{category.id}</td>
-            </tr>
-            <tr>
-              <th>Created at</th>
-              <td>{timeTag(category.createdAt)}</td>
-            </tr>
-            <tr>
-              <th>Title</th>
-              <td>{category.title}</td>
-            </tr>
-          </tbody>
-        </table>
+    <Toggle>
+      {/* 카테고리 */}
+      <div className="box-border flex py-2">
+        <IconButton>
+          <HiOutlineMenuAlt4 />
+        </IconButton>
+        <Toggle.Button className="w-full">
+          <header className="text-left font-semibold">{`${category.title} (${category.tasks.length})`}</header>
+        </Toggle.Button>
+        <Toolbox
+          onEdit={() => undefined}
+          onDelete={() => onDeleteClick(category.id)}
+        />
       </div>
-      <nav className="rw-button-group">
-        <Link
-          to={routes.editCategory({ id: category.id })}
-          className="rw-button rw-button-blue"
-        >
-          Edit
-        </Link>
-        <button
-          type="button"
-          className="rw-button rw-button-red"
-          onClick={() => onDeleteClick(category.id)}
-        >
-          Delete
-        </button>
-      </nav>
-    </>
+      {/* 할일 */}
+      <Toggle.List>
+        <ul className="ml-8">
+          {category.tasks.map((task) => (
+            <li className="flex items-center gap-4 pb-2 text-sm text-slate-500	">
+              <HiOutlineMenuAlt4 />
+              <span>{task.title}</span>
+            </li>
+          ))}
+        </ul>
+      </Toggle.List>
+    </Toggle>
   )
 }
 
+const IconButton = styled.button`
+  ${tw`flex	h-12 w-12 items-center justify-center`}
+`
+
 export default Category
+// TODO: 시멘틱
+// 이렇게 작은 컴포넌트에서 header 태그를 써도 되나?
+// padding 여백같은건 나중에 다듬자
+// icon 같은 건 어떻게 넣지?

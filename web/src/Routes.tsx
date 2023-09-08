@@ -33,8 +33,6 @@ const Routes = () => {
         </Set>
         <Set wrap={ScaffoldLayout} title="Categories" titleTo="categories" buttonLabel="New Category" buttonTo="newCategory">
           <Route path="/categories/new" page={CategoryNewCategoryPage} name="newCategory" />
-          <Route path="/categories/{id:Int}/edit" page={CategoryEditCategoryPage} name="editCategory" />
-          <Route path="/categories/{id:Int}" page={CategoryCategoryPage} name="category" />
           <Route path="/categories" page={CategoryCategoriesPage} name="categories" />
         </Set>
         <Set wrap={ScaffoldLayout} title="Tasks" titleTo="tasks" buttonLabel="New Task" buttonTo="newTask">

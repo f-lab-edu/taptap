@@ -16,12 +16,16 @@ const verifyOwnership = async ({ id }) => {
 }
 
 export const categories: QueryResolvers['categories'] = () => {
-  return db.category.findMany({ where: { userId: context.currentUser.id } })
+  return db.category.findMany({
+    where: { userId: context.currentUser.id },
+    include: { tasks: true },
+  })
 }
 
 export const category: QueryResolvers['category'] = ({ id }) => {
   return db.category.findFirst({
     where: { id, userId: context.currentUser.id },
+    include: { tasks: true },
   })
 }
 

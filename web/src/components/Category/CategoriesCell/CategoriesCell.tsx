@@ -9,21 +9,22 @@ export const QUERY = gql`
   query FindCategories {
     categories {
       id
-      createdAt
       title
+      tasks {
+        title
+      }
     }
   }
 `
 
 export const Loading = () => <div>Loading...</div>
 
+// TODO
 export const Empty = () => {
   return (
     <div className="rw-text-center">
       {'No categories yet. '}
-      <Link to={routes.newCategory()} className="rw-link">
-        {'Create one?'}
-      </Link>
+      <button>{'Create one?'}</button>
     </div>
   )
 }

@@ -18203,6 +18203,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-icons@npm:^4.11.0":
+  version: 4.11.0
+  resolution: "react-icons@npm:4.11.0"
+  peerDependencies:
+    react: "*"
+  checksum: 95e837e11ece80cc39ef1beac026d10f96cd7e567afc718e717517beb35b82dd59307a758c10b3a449dc15d6682d6551ecc630b2821d9365819af921fa279a73
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.13.1, react-is@npm:^16.7.0":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -21554,6 +21563,7 @@ __metadata:
     prop-types: 15.8.1
     react: 18.2.0
     react-dom: 18.2.0
+    react-icons: ^4.11.0
     styled-components: ^6.0.7
     tailwindcss: ^3.3.3
     twin.macro: ^3.4.0
