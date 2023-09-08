@@ -38,7 +38,7 @@ model Task {
   updatedAt  DateTime @updatedAt
   title     String
   color     String
-  description String
+  description String?
   repeats     Repeat[]
   records   Record[]
 
