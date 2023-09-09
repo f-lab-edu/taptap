@@ -39,7 +39,12 @@ const Category = ({ category }: Props) => {
   })
 
   const onDeleteClick = (id: DeleteCategoryMutationVariables['id']) => {
-    if (confirm('Are you sure you want to delete category ' + id + '?')) {
+    if (!isEmpty(category.tasks)) {
+      toast.error('하위 할 일 목록이 있어 삭제할 수 없습니다.')
+      return
+    }
+
+    if (confirm('정말 삭제하시겠습니까?')) {
       deleteCategory({ variables: { id } })
     }
   }
@@ -84,3 +89,5 @@ export default Category
 // 이렇게 작은 컴포넌트에서 header 태그를 써도 되나?
 // padding 여백같은건 나중에 다듬자
 // icon 같은 건 어떻게 넣지?
+
+const isEmpty = (obj = {}) => Object.keys(obj).length == 0
