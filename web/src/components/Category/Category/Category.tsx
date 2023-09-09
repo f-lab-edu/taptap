@@ -9,11 +9,14 @@ import Toggle from 'src/components/Toggle/Toggle'
 import type {
   DeleteCategoryMutationVariables,
   FindCategoryById,
+  UpdateCategoryInput,
 } from 'types/graphql'
 import { styled } from 'styled-components'
 import tw from 'twin.macro'
 import { Toolbox } from 'src/components/Toolbox/Toolbox'
 import IconButton from 'src/components/Buttons/IconButton'
+import CategoryForm from '../CategoryForm/CategoryForm'
+import { useRef, useState } from 'react'
 
 const DELETE_CATEGORY_MUTATION = gql`
   mutation DeleteCategoryMutation($id: Int!) {
@@ -23,8 +26,18 @@ const DELETE_CATEGORY_MUTATION = gql`
   }
 `
 
+const UPDATE_CATEGORY_MUTATION = gql`
+  mutation UpdateCategoryMutation($id: Int!, $input: UpdateCategoryInput!) {
+    updateCategory(id: $id, input: $input) {
+      id
+      createdAt
+      title
+    }
+  }
+`
+
 interface Props {
-  category: Omit<NonNullable<FindCategoryById['category']>, 'createdAt'>
+  category: NonNullable<FindCategoryById['category']>
 }
 
 const Category = ({ category }: Props) => {
@@ -49,10 +62,30 @@ const Category = ({ category }: Props) => {
     }
   }
 
-  const onEdit = () => {
-    // 1. 해당 요소에 focus
-    // 2. edit
-    // 왜 cell이 있지? 상태 관리를 해줘야하나 해줘야지..
+  const [updateCategory, { loading, error }] = useMutation(
+    UPDATE_CATEGORY_MUTATION,
+    {
+      onCompleted: () => {
+        toast.success('Category updated')
+        navigate(routes.categories())
+      },
+      onError: (error) => {
+        console.log('에러난거야')
+        toast.error(error.message)
+      },
+    }
+  )
+
+  const titleInputRef = useRef<HTMLInputElement>(null)
+  const onEditClick = () => {
+    titleInputRef.current.focus()
+  }
+
+  const onSave = (
+    input: UpdateCategoryInput,
+    id: FindCategoryById['category']['id']
+  ) => {
+    updateCategory({ variables: { id, input } })
   }
 
   return (
@@ -61,11 +94,18 @@ const Category = ({ category }: Props) => {
       <div className="flex py-2">
         <IconButton icon={<HiOutlineMenuAlt4 />} />
         <Toggle.Button className="w-full">
-          <header className="text-left font-semibold">{`${category.title} (${category.tasks.length})`}</header>
+          {/* 폼 */}
+          <CategoryForm
+            ref={titleInputRef}
+            category={category}
+            onSave={onSave}
+            error={error}
+            loading={loading}
+          />
         </Toggle.Button>
 
         <Toolbox
-          onEdit={() => console.log('edit')}
+          onEdit={onEditClick}
           onDelete={() => onDeleteClick(category.id)}
         />
       </div>
@@ -73,7 +113,10 @@ const Category = ({ category }: Props) => {
       <Toggle.List>
         <ul className="ml-8">
           {category.tasks.map((task) => (
-            <li className="flex items-center gap-4 pb-2 text-sm text-slate-500	">
+            <li
+              key={task.id}
+              className="flex items-center gap-4 pb-2 text-sm text-slate-500	"
+            >
               <HiOutlineMenuAlt4 />
               <span>{task.title}</span>
             </li>

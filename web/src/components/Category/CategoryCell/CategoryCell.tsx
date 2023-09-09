@@ -10,6 +10,10 @@ export const QUERY = gql`
       id
       createdAt
       title
+      tasks {
+        id
+        title
+      }
     }
   }
 `

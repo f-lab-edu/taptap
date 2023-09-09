@@ -38,7 +38,7 @@ const NewCategory = () => {
         <h2 className="rw-heading rw-heading-secondary">New Category</h2>
       </header>
       <div className="rw-segment-main">
-        <CategoryForm onSave={onSave} loading={loading} error={error} />
+        <CategoryForm onSave={onSave} loading={loading} error={error} editing />
       </div>
     </div>
   )

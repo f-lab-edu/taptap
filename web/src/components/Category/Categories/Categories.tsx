@@ -5,7 +5,7 @@ const CategoriesList = ({ categories }: FindCategories) => {
   return (
     <div>
       {categories.map((category) => (
-        <Category category={category} />
+        <Category key={category.id} category={category} />
       ))}
     </div>
   )
