@@ -6,7 +6,7 @@ type MainLayoutProps = {
 }
 
 const MainLayout = ({ children }: MainLayoutProps) => {
-  const { isAuthenticated, currentUser, logOut } = useAuth()
+  const { currentUser, logOut } = useAuth()
   console.log(JSON.stringify(currentUser))
   return (
     <>
@@ -15,17 +15,14 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           <h1>
             <Link to={routes.home()}>Tap Tap</Link>
           </h1>
-          {/* {isAuthenticated ? (
-            <div>
-              <span>Logged in as {currentUser.id}</span>{' '}
-              <button type="button" onClick={logOut}>
-                Logout
-              </button>
-            </div>
-          ) : (
-            <Link to={routes.login()}>Login</Link>
-          )} */}
+          <div>
+            <span>Logged in as {currentUser.id}</span>{' '}
+            <button type="button" onClick={logOut}>
+              Logout
+            </button>
+          </div>
         </div>
+        <hr />
         <nav>
           <ul>
             <li>

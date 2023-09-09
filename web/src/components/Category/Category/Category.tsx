@@ -13,6 +13,7 @@ import type {
 import { styled } from 'styled-components'
 import tw from 'twin.macro'
 import { Toolbox } from 'src/components/Toolbox/Toolbox'
+import IconButton from 'src/components/Buttons/IconButton'
 
 const DELETE_CATEGORY_MUTATION = gql`
   mutation DeleteCategoryMutation($id: Int!) {
@@ -52,15 +53,14 @@ const Category = ({ category }: Props) => {
   return (
     <Toggle>
       {/* 카테고리 */}
-      <div className="box-border flex py-2">
-        <IconButton>
-          <HiOutlineMenuAlt4 />
-        </IconButton>
+      <div className="flex py-2">
+        <IconButton icon={<HiOutlineMenuAlt4 />} />
         <Toggle.Button className="w-full">
           <header className="text-left font-semibold">{`${category.title} (${category.tasks.length})`}</header>
         </Toggle.Button>
+
         <Toolbox
-          onEdit={() => undefined}
+          onEdit={() => console.log('edit')}
           onDelete={() => onDeleteClick(category.id)}
         />
       </div>
@@ -78,10 +78,6 @@ const Category = ({ category }: Props) => {
     </Toggle>
   )
 }
-
-const IconButton = styled.button`
-  ${tw`flex	h-12 w-12 items-center justify-center`}
-`
 
 export default Category
 // TODO: 시멘틱
