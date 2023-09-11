@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 const useBoolean = (initial = false) => {
   const [on, setOn] = useState(initial)
-  const open = () => setOn(true)
-  const close = () => setOn(false)
+  const turnOn = () => setOn(true)
+  const turnOff = () => setOn(false)
   const toggle = () => setOn((prev) => !prev)
 
-  return { on, open, close, toggle }
+  return { on, turnOn, turnOff, toggle }
 }
 
 export default useBoolean

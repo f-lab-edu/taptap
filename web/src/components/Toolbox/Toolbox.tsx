@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import useBoolean from 'src/hooks/useBoolean'
+import React from 'react'
 
 import { RiMore2Fill } from 'react-icons/ri'
 import IconButton from '../Buttons/IconButton'
@@ -14,13 +13,13 @@ export const Toolbox = ({ onEdit, onDelete }: Props) => {
   return (
     <Toggle>
       <div className="relative">
-        <Toggle.Button>
+        <Toggle.Trigger>
           <RiMore2Fill />
-        </Toggle.Button>
-        <Toggle.List className="absolute">
+        </Toggle.Trigger>
+        <Toggle.Panel className="absolute">
           <button onClick={onEdit}>수정</button>
           <button onClick={onDelete}>삭제</button>
-        </Toggle.List>
+        </Toggle.Panel>
       </div>
     </Toggle>
   )

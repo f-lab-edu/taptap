@@ -1,7 +1,6 @@
 import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
-import { RiMore2Fill } from 'react-icons/ri'
 import { HiOutlineMenuAlt4 } from 'react-icons/hi'
 
 import Toggle from 'src/components/Toggle/Toggle'
@@ -17,6 +16,8 @@ import { Toolbox } from 'src/components/Toolbox/Toolbox'
 import IconButton from 'src/components/Buttons/IconButton'
 import CategoryForm from '../CategoryForm/CategoryForm'
 import { useRef, useState } from 'react'
+import { QUERY as GET_CATEGORIES } from '../CategoriesCell'
+import useBoolean from 'src/hooks/useBoolean'
 
 const DELETE_CATEGORY_MUTATION = gql`
   mutation DeleteCategoryMutation($id: Int!) {
@@ -42,6 +43,7 @@ interface Props {
 
 const Category = ({ category }: Props) => {
   const [deleteCategory] = useMutation(DELETE_CATEGORY_MUTATION, {
+    refetchQueries: [GET_CATEGORIES],
     onCompleted: () => {
       toast.success('Category deleted')
       navigate(routes.categories())
@@ -65,6 +67,7 @@ const Category = ({ category }: Props) => {
   const [updateCategory, { loading, error }] = useMutation(
     UPDATE_CATEGORY_MUTATION,
     {
+      refetchQueries: [GET_CATEGORIES],
       onCompleted: () => {
         toast.success('Category updated')
         navigate(routes.categories())
@@ -76,9 +79,11 @@ const Category = ({ category }: Props) => {
     }
   )
 
-  const titleInputRef = useRef<HTMLInputElement>(null)
+  const titleRef = useRef<HTMLInputElement>(null)
+  const { on: editing, turnOn: onEditStart, turnOff: onEditEnd } = useBoolean()
   const onEditClick = () => {
-    titleInputRef.current.focus()
+    onEditStart()
+    titleRef.current.focus()
   }
 
   const onSave = (
@@ -93,16 +98,18 @@ const Category = ({ category }: Props) => {
       {/* 카테고리 */}
       <div className="flex py-2">
         <IconButton icon={<HiOutlineMenuAlt4 />} />
-        <Toggle.Button className="w-full">
+        <Toggle.Trigger className="w-full">
           {/* 폼 */}
           <CategoryForm
-            ref={titleInputRef}
+            ref={titleRef}
             category={category}
             onSave={onSave}
             error={error}
             loading={loading}
+            editing={editing}
+            onEditEnd={onEditEnd}
           />
-        </Toggle.Button>
+        </Toggle.Trigger>
 
         <Toolbox
           onEdit={onEditClick}
@@ -110,27 +117,25 @@ const Category = ({ category }: Props) => {
         />
       </div>
       {/* 할일 */}
-      <Toggle.List>
+      <Toggle.Panel>
         <ul className="ml-8">
           {category.tasks.map((task) => (
             <li
               key={task.id}
-              className="flex items-center gap-4 pb-2 text-sm text-slate-500	"
+              className="flex items-center gap-4 pb-2 text-sm text-slate-500"
             >
               <HiOutlineMenuAlt4 />
               <span>{task.title}</span>
             </li>
           ))}
         </ul>
-      </Toggle.List>
+      </Toggle.Panel>
     </Toggle>
   )
 }
 
 export default Category
 // TODO: 시멘틱
-// 이렇게 작은 컴포넌트에서 header 태그를 써도 되나?
 // padding 여백같은건 나중에 다듬자
-// icon 같은 건 어떻게 넣지?
 
 const isEmpty = (obj = {}) => Object.keys(obj).length == 0

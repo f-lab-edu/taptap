@@ -2,7 +2,13 @@ import { Form, TextField, Submit } from '@redwoodjs/forms'
 
 import type { FindCategoryById, UpdateCategoryInput } from 'types/graphql'
 import type { RWGqlError } from '@redwoodjs/forms'
-import { ForwardedRef, forwardRef, useState } from 'react'
+import {
+  ChangeEventHandler,
+  ForwardedRef,
+  forwardRef,
+  useMemo,
+  useState,
+} from 'react'
 
 type FormCategory = NonNullable<FindCategoryById['category']>
 
@@ -11,43 +17,47 @@ interface CategoryFormProps {
   onSave: (data: UpdateCategoryInput, id?: FormCategory['id']) => void
   error: RWGqlError
   loading: boolean
+  editing?: boolean
+  onEditEnd: () => void
 }
 
 const CategoryForm = forwardRef(
   (props: CategoryFormProps, ref: ForwardedRef<HTMLInputElement>) => {
-    const { category, onSave, error, loading } = props
-    const onSubmit = (data: FormCategory) => {
-      onSave(data, category?.id)
+    const { category, onSave, loading, editing = true, onEditEnd } = props
+
+    const [title, setTitle] = useState(category?.title || '')
+    const initialTitle = useMemo(() => category?.title || '', [category])
+    const onBlur = () => {
+      setTitle(initialTitle)
+      onEditEnd()
     }
 
-    const [title, setTitle] = useState(category?.title)
-    const onBlur = () => {
-      if (category?.title) {
-        setTitle(category?.title)
-      }
+    const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+      setTitle(e.target.value)
+    }
+
+    const onSubmit = (data: FormCategory) => {
+      onSave(data, category?.id)
+      onEditEnd()
     }
 
     return (
       <div className="rw-form-wrapper">
-        <Form<FormCategory> onSubmit={onSubmit} error={error}>
+        <Form<FormCategory> onSubmit={onSubmit}>
           <TextField
-            // readOnly={!editing}
             ref={ref}
             name="title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={onChange}
             onBlur={onBlur}
-            // defaultValue={`${category.title} (${category.tasks.length})`}
-            // className="rw-input"
-            // errorClassName="rw-input rw-input-error"
+            autoFocus={editing}
+            readOnly={!editing}
+            className="w-full"
             validation={{ required: true }}
           />
 
-          {/* 안보이게 */}
           <div className="invisible">
-            <Submit disabled={loading} className="">
-              Save
-            </Submit>
+            <Submit disabled={loading}>Save</Submit>
           </div>
         </Form>
       </div>
