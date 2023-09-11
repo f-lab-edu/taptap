@@ -56,7 +56,7 @@ const CategoryForm = forwardRef(
             validation={{ required: true }}
           />
 
-          <div className="invisible">
+          <div className="invisible h-0 w-0 overflow-hidden">
             <Submit disabled={loading}>Save</Submit>
           </div>
         </Form>

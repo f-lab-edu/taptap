@@ -6,7 +6,10 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const IconButton = ({ icon, ...rest }: Props) => {
   return (
-    <button className="flex	h-12 w-12 items-center justify-center" {...rest}>
+    <button
+      className="flex	h-10 w-10 items-center justify-center focus:outline-none"
+      {...rest}
+    >
       {icon}
     </button>
   )

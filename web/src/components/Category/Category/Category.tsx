@@ -2,6 +2,7 @@ import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { HiOutlineMenuAlt4 } from 'react-icons/hi'
+import { Bars2Icon } from '@heroicons/react/20/solid'
 
 import Toggle from 'src/components/Toggle/Toggle'
 
@@ -96,8 +97,10 @@ const Category = ({ category }: Props) => {
   return (
     <Toggle>
       {/* 카테고리 */}
-      <div className="flex py-2">
-        <IconButton icon={<HiOutlineMenuAlt4 />} />
+      <div className="flex items-center py-2">
+        <IconButton
+          icon={<Bars2Icon className="ml-2 mr-1 h-4 w-4" aria-hidden="true" />}
+        />
         <Toggle.Trigger className="w-full">
           {/* 폼 */}
           <CategoryForm
