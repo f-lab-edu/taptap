@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react'
 import { ToggleContext } from './ToggleContext'
-import ToggleButton from './ToggleTrigger'
-import ToggleList from './TogglePanel'
+import Trigger from './ToggleTrigger'
+import Panel from './TogglePanel'
 
 interface Props {
   children: React.ReactNode
@@ -17,6 +17,6 @@ const Toggle = ({ children }: Props) => {
   )
 }
 
-Toggle.Trigger = ToggleButton
-Toggle.Panel = ToggleList
+Toggle.Trigger = Trigger
+Toggle.Panel = Panel
 export default Toggle

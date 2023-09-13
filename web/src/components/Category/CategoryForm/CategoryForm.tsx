@@ -42,7 +42,7 @@ const CategoryForm = forwardRef(
     }
 
     return (
-      <div className="rw-form-wrapper">
+      <div className="w-full">
         <Form<FormCategory> onSubmit={onSubmit}>
           <TextField
             ref={ref}
@@ -52,7 +52,7 @@ const CategoryForm = forwardRef(
             onBlur={onBlur}
             autoFocus={editing}
             readOnly={!editing}
-            className="w-full"
+            className="w-full bg-transparent focus:outline-none"
             validation={{ required: true }}
           />
 

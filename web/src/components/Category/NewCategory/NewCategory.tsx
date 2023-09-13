@@ -1,14 +1,14 @@
 import { navigate, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
-import { HiOutlineMenuAlt4 } from 'react-icons/hi'
-import { AiOutlinePlusCircle } from 'react-icons/ai'
+import { Center, IconButton } from '@chakra-ui/react'
+import { Bars2Icon, PlusSmallIcon } from '@heroicons/react/20/solid'
 
 import { QUERY as GET_CATEGORIES } from '../CategoriesCell'
 import type { CreateCategoryInput } from 'types/graphql'
 
 import CategoryForm from 'src/components/Category/CategoryForm'
-import IconButton from 'src/components/Buttons/IconButton'
+
 import { useRef, useState } from 'react'
 import useBoolean from 'src/hooks/useBoolean'
 
@@ -43,7 +43,7 @@ const NewCategory = () => {
 
   return editing ? (
     <div className="flex py-2">
-      <IconButton icon={<HiOutlineMenuAlt4 />} />
+      <Bars2Icon className="h-4 w-4" />
       <CategoryForm
         onSave={onSave}
         loading={loading}
@@ -53,7 +53,15 @@ const NewCategory = () => {
       />
     </div>
   ) : (
-    <IconButton icon={<AiOutlinePlusCircle onClick={onEditStart} />} />
+    <Center my="8">
+      <IconButton
+        isRound
+        aria-label="new category"
+        onClick={onEditStart}
+        colorScheme="teal"
+        icon={<PlusSmallIcon className="h-7" />}
+      />
+    </Center>
   )
 }
 

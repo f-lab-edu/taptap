@@ -1,23 +1,26 @@
+import { useRef } from 'react'
 import { routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
-import { HiOutlineMenuAlt4 } from 'react-icons/hi'
+import {
+  IconButton,
+  Flex,
+  Box,
+  useDisclosure,
+  Collapse,
+  Button,
+} from '@chakra-ui/react'
 import { Bars2Icon } from '@heroicons/react/20/solid'
-
-import Toggle from 'src/components/Toggle/Toggle'
 
 import type {
   DeleteCategoryMutationVariables,
   FindCategoryById,
   UpdateCategoryInput,
 } from 'types/graphql'
-import { styled } from 'styled-components'
-import tw from 'twin.macro'
-import { Toolbox } from 'src/components/Toolbox/Toolbox'
-import IconButton from 'src/components/Buttons/IconButton'
-import CategoryForm from '../CategoryForm/CategoryForm'
-import { useRef, useState } from 'react'
 import { QUERY as GET_CATEGORIES } from '../CategoriesCell'
+
+import { Toolbox } from 'src/components/Toolbox/Toolbox'
+import CategoryForm from '../CategoryForm/CategoryForm'
 import useBoolean from 'src/hooks/useBoolean'
 
 const DELETE_CATEGORY_MUTATION = gql`
@@ -94,15 +97,26 @@ const Category = ({ category }: Props) => {
     updateCategory({ variables: { id, input } })
   }
 
+  const { isOpen, onToggle } = useDisclosure()
+
   return (
-    <Toggle>
+    <>
       {/* 카테고리 */}
-      <div className="flex items-center py-2">
+      <Flex align="center" px="4" py="2" _hover={{ bg: 'gray.50' }}>
         <IconButton
-          icon={<Bars2Icon className="ml-2 mr-1 h-4 w-4" aria-hidden="true" />}
+          variant="ghost"
+          aria-label="order-controller"
+          icon={<Bars2Icon className="h-4 w-4" />}
+          _hover={{}}
+          _active={{}}
         />
-        <Toggle.Trigger className="w-full">
-          {/* 폼 */}
+        <Button
+          variant="ghost"
+          flex="1"
+          onClick={onToggle}
+          _hover={{}}
+          _active={{}}
+        >
           <CategoryForm
             ref={titleRef}
             category={category}
@@ -112,28 +126,29 @@ const Category = ({ category }: Props) => {
             editing={editing}
             onEditEnd={onEditEnd}
           />
-        </Toggle.Trigger>
+          {/* 하위항목을 나타내는: Text */}
+        </Button>
 
         <Toolbox
           onEdit={onEditClick}
           onDelete={() => onDeleteClick(category.id)}
         />
-      </div>
+      </Flex>
       {/* 할일 */}
-      <Toggle.Panel>
-        <ul className="ml-8">
+      <Collapse in={isOpen}>
+        <Box as="ul" ml="12">
           {category.tasks.map((task) => (
             <li
               key={task.id}
-              className="flex items-center gap-4 pb-2 text-sm text-slate-500"
+              className="flex items-center gap-4 py-2 text-sm text-slate-600"
             >
-              <HiOutlineMenuAlt4 />
+              <Bars2Icon className="h-3 w-3" />
               <span>{task.title}</span>
             </li>
           ))}
-        </ul>
-      </Toggle.Panel>
-    </Toggle>
+        </Box>
+      </Collapse>
+    </>
   )
 }
 

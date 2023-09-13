@@ -1,6 +1,5 @@
 import type { FindCategories } from 'types/graphql'
 
-import { Link, routes } from '@redwoodjs/router'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
 import Categories from 'src/components/Category/Categories'
@@ -22,14 +21,8 @@ export const QUERY = gql`
 
 export const Loading = () => <div>Loading...</div>
 
-// TODO
 export const Empty = () => {
-  return (
-    <div className="rw-text-center">
-      {'No categories yet. '}
-      <button>{'Create one?'}</button>
-    </div>
-  )
+  return <NewCategory />
 }
 
 export const Failure = ({ error }: CellFailureProps) => (
