@@ -126,12 +126,13 @@ const Category = ({ category }: Props) => {
             editing={editing}
             onEditEnd={onEditEnd}
           />
-          {/* 하위항목을 나타내는: Text */}
+          {/* TODO: 하위항목을 나타내는: Text */}
         </Button>
-
         <Toolbox
-          onEdit={onEditClick}
-          onDelete={() => onDeleteClick(category.id)}
+          items={[
+            { label: '수정', onClick: onEditClick },
+            { label: '삭제', onClick: () => onDeleteClick(category.id) },
+          ]}
         />
       </Flex>
       {/* 할일 */}
@@ -153,7 +154,5 @@ const Category = ({ category }: Props) => {
 }
 
 export default Category
-// TODO: 시멘틱
-// padding 여백같은건 나중에 다듬자
 
 const isEmpty = (obj = {}) => Object.keys(obj).length == 0

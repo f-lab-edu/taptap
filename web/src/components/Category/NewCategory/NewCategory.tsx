@@ -1,7 +1,7 @@
 import { navigate, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
-import { Center, IconButton } from '@chakra-ui/react'
+import { Center, Flex, IconButton } from '@chakra-ui/react'
 import { Bars2Icon, PlusSmallIcon } from '@heroicons/react/20/solid'
 
 import { QUERY as GET_CATEGORIES } from '../CategoriesCell'
@@ -42,8 +42,8 @@ const NewCategory = () => {
   const { on: editing, turnOn: onEditStart, turnOff: onEditEnd } = useBoolean()
 
   return editing ? (
-    <div className="flex py-2">
-      <Bars2Icon className="h-4 w-4" />
+    <Flex align="center" px="4" py="2">
+      <Bars2Icon className="mx-3 h-4 w-4" />
       <CategoryForm
         onSave={onSave}
         loading={loading}
@@ -51,7 +51,7 @@ const NewCategory = () => {
         editing
         onEditEnd={onEditEnd}
       />
-    </div>
+    </Flex>
   ) : (
     <Center my="8">
       <IconButton

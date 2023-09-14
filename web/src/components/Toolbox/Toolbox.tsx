@@ -1,6 +1,3 @@
-import tw from 'twin.macro'
-import styled from 'styled-components'
-
 import {
   Menu,
   MenuButton,
@@ -11,18 +8,20 @@ import {
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
 
 interface Props {
-  onEdit: () => void
-  onDelete: () => void
+  items: {
+    // icon?: HeroIconKey;
+    label: string
+    onClick: () => void
+  }[]
 }
 
-export const Toolbox = ({ onDelete, onEdit }: Props) => {
+export const Toolbox = ({ items }: Props) => {
   return (
     <Menu>
       <MenuButton
         as={IconButton}
         aria-label="Options"
         variant="ghost"
-        // isRound
         _hover={{}}
         _active={{}}
         icon={
@@ -33,13 +32,23 @@ export const Toolbox = ({ onDelete, onEdit }: Props) => {
         }
       />
       <MenuList>
-        <MenuItem as="button" onClick={onEdit}>
-          수정
-        </MenuItem>
-        <MenuItem as="button" onClick={onDelete}>
-          삭제
-        </MenuItem>
+        {items.map((item) => (
+          <MenuItem as="button" onClick={item.onClick}>
+            {item.label}
+          </MenuItem>
+        ))}
       </MenuList>
     </Menu>
   )
 }
+
+// 라벨, 이벤트 핸들러
+
+// 1. 귀찮음
+// 2. 자유(잘못쓸수도있따)
+
+// 100
+// 1. 정확한 자유도 + 노귀찮
+
+// 90
+// 1. 정확한 자유도 + 귀찮 <- 잘못쓸일은ㅇ벗음
