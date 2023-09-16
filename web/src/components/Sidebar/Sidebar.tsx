@@ -1,10 +1,19 @@
 import React, { createContext, useContext, useMemo } from 'react'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
-import { Avatar, HStack, Box, IconButton, useBoolean } from '@chakra-ui/react'
+import {
+  Avatar,
+  HStack,
+  Box,
+  IconButton,
+  useBoolean,
+  Image,
+  Heading,
+} from '@chakra-ui/react'
 import { styled } from 'styled-components'
 import tw from 'twin.macro'
 
 import Navigation from '../Navigation/Navigation'
+import { Link, routes } from '@redwoodjs/router'
 
 interface ControllerProps {
   isOpen: boolean
@@ -35,7 +44,7 @@ const Sidebar = () => {
         <Controller
           icon={<ControllerIcon isOpen={isOpen} />}
           aria-label={isOpen ? '사이드바 열기' : '사이드바 닫기'}
-          // top (로고랑 같은 위치 선상)
+          top="9"
           pos="absolute"
           right="0"
           size="xs"
@@ -47,8 +56,13 @@ const Sidebar = () => {
           onClick={toggle}
           isOpen={isOpen}
         />
-        {/* logo - h1?  */}
-        <div className="h-5 bg-black" />
+        <header>
+          <Link
+            to={routes.home()}
+            className="block h-9 w-full bg-[url('images/logo.svg')] bg-contain bg-no-repeat"
+            aria-label="logo"
+          />
+        </header>
         <Navigation />
 
         <Box as="aside" mt="auto">
