@@ -24,6 +24,7 @@ const Routes = () => {
       <Private unauthenticated="login">
         <Set wrap={MainLayout}>
           <Route path="/" page={HomePage} name="home" />
+          <Route path="/categories" page={CategoryCategoriesPage} name="categories" />
         </Set>
         <Set wrap={ScaffoldLayout} title="Records" titleTo="records" buttonLabel="New Record" buttonTo="newRecord">
           <Route path="/records/new" page={RecordNewRecordPage} name="newRecord" />
@@ -33,7 +34,6 @@ const Routes = () => {
         </Set>
         <Set wrap={ScaffoldLayout} title="Categories" titleTo="categories" buttonLabel="New Category" buttonTo="newCategory">
           <Route path="/categories/new" page={CategoryNewCategoryPage} name="newCategory" />
-          <Route path="/categories" page={CategoryCategoriesPage} name="categories" />
         </Set>
         <Set wrap={ScaffoldLayout} title="Tasks" titleTo="tasks" buttonLabel="New Task" buttonTo="newTask">
           <Route path="/tasks/new" page={TaskNewTaskPage} name="newTask" />

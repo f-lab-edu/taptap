@@ -23,7 +23,7 @@ const items: NavItemProps[] = [
   {
     title: 'Dashboard',
     icon: ChartBarIcon,
-    to: 'newRecord',
+    to: 'categories',
   },
 ]
 

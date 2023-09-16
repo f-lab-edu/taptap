@@ -8,6 +8,7 @@ import {
   useBoolean,
   Image,
   Heading,
+  Text,
 } from '@chakra-ui/react'
 import { styled } from 'styled-components'
 import tw from 'twin.macro'
@@ -67,8 +68,13 @@ const Sidebar = () => {
 
         <Box as="aside" mt="auto">
           {/* 프로필 */}
-          <HStack align="center" w="100%" className="bg-black">
+          <HStack align="center" w="100%" justify={isOpen ? 'start' : 'center'}>
             <Avatar size="sm" />
+            {isOpen && (
+              <Text fontSize="sm" fontWeight="bold">
+                username
+              </Text>
+            )}
             {/* <Heading as="h3" size="sm">
             username
           </Heading> */}
