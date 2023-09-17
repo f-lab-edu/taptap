@@ -25,12 +25,12 @@ const Routes = () => {
         <Set wrap={MainLayout}>
           <Route path="/" page={HomePage} name="home" />
           <Route path="/categories" page={CategoryCategoriesPage} name="categories" />
+          <Route path="/records" page={RecordRecordsPage} name="records" />
         </Set>
         <Set wrap={ScaffoldLayout} title="Records" titleTo="records" buttonLabel="New Record" buttonTo="newRecord">
           <Route path="/records/new" page={RecordNewRecordPage} name="newRecord" />
           <Route path="/records/{id:Int}/edit" page={RecordEditRecordPage} name="editRecord" />
           <Route path="/records/{id:Int}" page={RecordRecordPage} name="record" />
-          <Route path="/records" page={RecordRecordsPage} name="records" />
         </Set>
         <Set wrap={ScaffoldLayout} title="Categories" titleTo="categories" buttonLabel="New Category" buttonTo="newCategory">
           <Route path="/categories/new" page={CategoryNewCategoryPage} name="newCategory" />
