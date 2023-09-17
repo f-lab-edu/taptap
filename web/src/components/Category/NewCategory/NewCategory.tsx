@@ -59,7 +59,7 @@ const NewCategory = () => {
         aria-label="new category"
         onClick={onEditStart}
         colorScheme="teal"
-        icon={<PlusSmallIcon className="h-7" />}
+        icon={<PlusSmallIcon className="w-7" />}
       />
     </Center>
   )
