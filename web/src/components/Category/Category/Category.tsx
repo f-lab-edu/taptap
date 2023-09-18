@@ -1,7 +1,5 @@
-import { useRef } from 'react'
-import { routes, navigate } from '@redwoodjs/router'
-import { useMutation } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
+import { useCallback, useRef } from 'react'
+
 import {
   IconButton,
   Flex,
@@ -9,19 +7,23 @@ import {
   useDisclosure,
   Collapse,
   Button,
+  useBoolean,
 } from '@chakra-ui/react'
 import { Bars2Icon } from '@heroicons/react/20/solid'
-
 import type {
   DeleteCategoryMutationVariables,
   FindCategoryById,
   UpdateCategoryInput,
 } from 'types/graphql'
-import { QUERY as GET_CATEGORIES } from '../CategoriesCell'
 
-import { Toolbox } from 'src/components/Toolbox/Toolbox'
+import { routes, navigate } from '@redwoodjs/router'
+import { useMutation } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
+
+import Toolbox from 'src/components/Toolbox/Toolbox'
+
+import { QUERY as GET_CATEGORIES } from '../CategoriesCell'
 import CategoryForm from '../CategoryForm/CategoryForm'
-import useBoolean from 'src/hooks/useBoolean'
 
 const DELETE_CATEGORY_MUTATION = gql`
   mutation DeleteCategoryMutation($id: Int!) {
@@ -77,25 +79,24 @@ const Category = ({ category }: Props) => {
         navigate(routes.categories())
       },
       onError: (error) => {
-        console.log('에러난거야')
         toast.error(error.message)
       },
     }
   )
 
   const titleRef = useRef<HTMLInputElement>(null)
-  const { on: editing, turnOn: onEditStart, turnOff: onEditEnd } = useBoolean()
-  const onEditClick = () => {
+  const [editing, { on: onEditStart, off: onEditEnd }] = useBoolean()
+  const onEditClick = useCallback(() => {
     onEditStart()
     titleRef.current.focus()
-  }
+  }, [onEditStart])
 
-  const onSave = (
-    input: UpdateCategoryInput,
-    id: FindCategoryById['category']['id']
-  ) => {
-    updateCategory({ variables: { id, input } })
-  }
+  const onSave = useCallback(
+    (input: UpdateCategoryInput, id: FindCategoryById['category']['id']) => {
+      updateCategory({ variables: { id, input } })
+    },
+    [updateCategory]
+  )
 
   const { isOpen, onToggle } = useDisclosure()
 
@@ -104,19 +105,11 @@ const Category = ({ category }: Props) => {
       {/* 카테고리 */}
       <Flex align="center" px="4" py="2" _hover={{ bg: 'gray.50' }}>
         <IconButton
-          variant="ghost"
+          variant="unstyled"
           aria-label="order-controller"
           icon={<Bars2Icon className="h-4 w-4" />}
-          _hover={{}}
-          _active={{}}
         />
-        <Button
-          variant="ghost"
-          flex="1"
-          onClick={onToggle}
-          _hover={{}}
-          _active={{}}
-        >
+        <Button variant="unstyled" flex="1" onClick={onToggle}>
           <CategoryForm
             ref={titleRef}
             category={category}
@@ -126,7 +119,6 @@ const Category = ({ category }: Props) => {
             editing={editing}
             onEditEnd={onEditEnd}
           />
-          {/* TODO: 하위항목을 나타내는: Text */}
         </Button>
         <Toolbox
           items={[
@@ -135,7 +127,7 @@ const Category = ({ category }: Props) => {
           ]}
         />
       </Flex>
-      {/* 할일 */}
+      {/* 하위 할 일 항목 */}
       <Collapse in={isOpen}>
         <Box as="ul" ml="12">
           {category.tasks.map((task) => (
@@ -153,6 +145,6 @@ const Category = ({ category }: Props) => {
   )
 }
 
-export default Category
+export default React.memo(Category)
 
 const isEmpty = (obj = {}) => Object.keys(obj).length == 0
