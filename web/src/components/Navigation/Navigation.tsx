@@ -1,12 +1,15 @@
+import React, { memo } from 'react'
+
 import { List, ListItem } from '@chakra-ui/react'
 import {
   ClockIcon,
   ChartBarIcon,
   CalendarIcon,
 } from '@heroicons/react/24/outline'
+
 import { routes } from '@redwoodjs/router'
-import React from 'react'
-import { NavItem } from './NavItem'
+
+import NavItem from './NavItem'
 import type { NavItemProps } from './NavItem'
 
 const items: NavItemProps[] = [
@@ -45,4 +48,4 @@ const Navigation = () => {
   )
 }
 
-export default Navigation
+export default memo(Navigation)

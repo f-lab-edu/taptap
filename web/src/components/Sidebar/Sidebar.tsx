@@ -1,20 +1,20 @@
 import React, { createContext, useContext, useMemo } from 'react'
-import { ChevronRightIcon } from '@heroicons/react/24/outline'
+
 import {
   Avatar,
   HStack,
   Box,
   IconButton,
   useBoolean,
-  Image,
-  Heading,
   Text,
 } from '@chakra-ui/react'
+import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { styled } from 'styled-components'
 import tw from 'twin.macro'
 
-import Navigation from '../Navigation/Navigation'
 import { Link, routes } from '@redwoodjs/router'
+
+import Navigation from '../Navigation/Navigation'
 
 interface ControllerProps {
   isOpen: boolean
@@ -37,7 +37,10 @@ export const useSidebarContext = () => {
 
 const Sidebar = () => {
   const [isOpen, { toggle }] = useBoolean()
-  const value = useMemo(() => ({ isOpen, toggleSidebar: toggle }), [isOpen])
+  const value = useMemo(
+    () => ({ isOpen, toggleSidebar: toggle }),
+    [isOpen, toggle]
+  )
 
   return (
     <SidebarContext.Provider value={value}>
@@ -85,7 +88,7 @@ const Sidebar = () => {
   )
 }
 
-export default Sidebar
+export default React.memo(Sidebar)
 
 const Controller = styled(IconButton)<ControllerProps>(({ isOpen = true }) => [
   isOpen ? tw`translate-x-[50%] duration-1000` : tw`translate-x-[150%]`,
