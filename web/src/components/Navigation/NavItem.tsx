@@ -1,8 +1,11 @@
-import React from 'react'
-import { Link, useMatch } from '@redwoodjs/router'
+import React, { memo, useMemo } from 'react'
+
 import { Icon, Text, HStack } from '@chakra-ui/react'
 import { styled } from 'styled-components'
 import tw from 'twin.macro'
+
+import { Link, useMatch } from '@redwoodjs/router'
+
 import { useSidebarContext } from '../Sidebar'
 
 export interface NavItemProps {
@@ -13,10 +16,10 @@ export interface NavItemProps {
   >
 }
 
-export const NavItem = ({ title, to, icon }: NavItemProps) => {
+const NavItem = ({ title, to, icon }: NavItemProps) => {
   const { isOpen } = useSidebarContext()
   const { match } = useMatch(to)
-  const color = match ? '#0a0a0a' : '#a3a3a3'
+  const color = useMemo(() => (match ? '#0a0a0a' : '#a3a3a3'), [match])
 
   return (
     <Container to={to} $active={match} $isOpen={isOpen}>
@@ -27,6 +30,8 @@ export const NavItem = ({ title, to, icon }: NavItemProps) => {
     </Container>
   )
 }
+
+export default memo(NavItem)
 
 const Container = styled(Link)<{ $active?: boolean; $isOpen: boolean }>`
   ${tw`
