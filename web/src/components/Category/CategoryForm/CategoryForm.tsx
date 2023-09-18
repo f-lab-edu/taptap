@@ -1,7 +1,4 @@
-import { Form, TextField, Submit } from '@redwoodjs/forms'
-
-import type { FindCategoryById, UpdateCategoryInput } from 'types/graphql'
-import type { RWGqlError } from '@redwoodjs/forms'
+/* eslint-disable jsx-a11y/no-autofocus */
 import {
   ChangeEventHandler,
   ForwardedRef,
@@ -9,6 +6,11 @@ import {
   useMemo,
   useState,
 } from 'react'
+
+import type { FindCategoryById, UpdateCategoryInput } from 'types/graphql'
+
+import { Form, TextField, Submit } from '@redwoodjs/forms'
+import type { RWGqlError } from '@redwoodjs/forms'
 
 type FormCategory = NonNullable<FindCategoryById['category']>
 
@@ -65,4 +67,4 @@ const CategoryForm = forwardRef(
   }
 )
 
-export default CategoryForm
+export default React.memo(CategoryForm)

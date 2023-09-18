@@ -2,8 +2,8 @@ import type { FindCategories } from 'types/graphql'
 
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
-import NewCategory from '../NewCategory/NewCategory'
 import Category from '../Category'
+import NewCategory from '../NewCategory/NewCategory'
 
 export const QUERY = gql`
   query FindCategories {
@@ -33,7 +33,7 @@ export const Success = ({ categories }: CellSuccessProps<FindCategories>) => {
   return (
     <>
       {categories.map((category) => (
-        <Category category={category} />
+        <Category key={category.id} category={category} />
       ))}
       <NewCategory />
     </>
