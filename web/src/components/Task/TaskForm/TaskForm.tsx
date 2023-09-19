@@ -1,23 +1,32 @@
 import {
   Box,
+  Flex,
   FormControl,
   FormLabel,
   HStack,
   Icon,
   Input,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
   Tag,
   VStack,
+  useRadioGroup,
 } from '@chakra-ui/react'
 import { RadioGroup } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/24/outline'
-
 import type { EditTaskById, UpdateTaskInput } from 'types/graphql'
-import type { RWGqlError } from '@redwoodjs/forms'
+
+import {
+  useForm,
+  type RWGqlError,
+  Controller,
+  Form,
+  useRegister,
+  Label,
+  InputField,
+  TextField,
+  RadioField,
+} from '@redwoodjs/forms'
+
+import ColorRadio from './ColorRadio'
 
 type FormTask = NonNullable<EditTaskById['task']>
 
@@ -34,99 +43,61 @@ const categories = [
 ]
 
 const TaskForm = ({ task, onSave, error, loading }: TaskFormProps) => {
+  const form = useForm()
+  const selectedColor = form.watch('color')
+  const category = form.watch('category')
   const onSubmit = (data: FormTask) => {
-    onSave(data, task?.id)
+    // onSave(data, task?.id)
+    console.log('data: ', data)
   }
 
   return (
-    <VStack as="form" align="stretch" spacing="4" w="full">
-      <FormControl>
-        <FormLabel>제목</FormLabel>
-        <Input placeholder="제목을 입력해주세요" />
-      </FormControl>
-      <RadioGroup className="flex flex-col gap-2">
-        <RadioGroup.Label>카테고리</RadioGroup.Label>
-        <HStack>
-          {categories.map((category) => (
-            <RadioGroup.Option key={category.id} value={category.id}>
-              {({ checked }) => (
-                <Tag
-                  variant={checked ? 'solid' : 'outline'}
-                  colorScheme="teal"
-                  borderRadius="full"
-                  cursor="pointer"
-                  px="3"
-                  py="1"
-                >
-                  {category.title}
-                </Tag>
-              )}
-            </RadioGroup.Option>
-          ))}
-        </HStack>
-      </RadioGroup>
-      <RadioGroup>
-        <RadioGroup.Label>색상</RadioGroup.Label>
-        <div className="m-0 flex flex-wrap justify-between gap-x-[2%] gap-y-2">
-          {colorchips.map((c) => (
-            <RadioGroup.Option
-              key={c.value}
-              value={c.value}
-              className="relative h-0 flex-[8%] pb-[8%]"
+    <Form
+      className="flex w-full flex-col"
+      formMethods={form}
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
+      <Label name="title">제목</Label>
+      <TextField
+        name="title"
+        validation={{ required: true }}
+        placeholder="제목을 입력해주세요"
+        className="border-natural-50 rounded-md border-[1px] border-solid px-3 py-1.5"
+      />
+      <Label name="category">카테고리</Label>
+      <HStack>
+        {categories.map(({ id, title }) => (
+          <label key={id}>
+            <input
+              hidden
+              type="radio"
+              value={id}
+              {...form.register('category')}
+            />
+            <Tag
+              variant={category === id ? 'solid' : 'outline'}
+              colorScheme="teal"
+              borderRadius="full"
+              cursor="pointer"
+              px="3"
+              py="1"
             >
-              {({ checked }) => (
-                <Box
-                  bg={c.value}
-                  className="absolute flex h-full w-full overflow-hidden rounded-lg"
-                >
-                  {checked && (
-                    <div className="flex h-full w-full items-center justify-center bg-black/50">
-                      <Icon
-                        as={CheckIcon}
-                        color="white"
-                        w="7"
-                        strokeWidth="2.5"
-                      />
-                    </div>
-                  )}
-                </Box>
-              )}
-            </RadioGroup.Option>
-          ))}
-        </div>
-        {/* <Tabs variant="line" colorScheme="gray" size="sm">
-          <TabList>
-            <Tab px="3">theme1</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel
-              px="0"
-              className="m-0 flex flex-wrap justify-between gap-x-[2%] gap-y-2 p-0"
-            >
-              {colorchips.map((c) => (
-                <RadioGroup.Option
-                  key={c.value}
-                  value={c.value}
-                  className="relative h-0 flex-[8%] pb-[8%]"
-                >
-                  <Box
-                    bg={c.value}
-                    className="absolute h-full w-full rounded-lg"
-                  />
-                </RadioGroup.Option>
-              ))}
-            </TabPanel>
-            <TabPanel>
-              <p>two</p>
-            </TabPanel>
-          </TabPanels>
-        </Tabs> */}
-      </RadioGroup>
-
-      <FormControl>
-        <FormLabel>반복 설정</FormLabel>
-      </FormControl>
-    </VStack>
+              {title}
+            </Tag>
+          </label>
+        ))}
+      </HStack>
+      <Flex flexWrap="wrap" justify="space-between" rowGap="2" columnGap="2%">
+        {colorchips.map(({ value }) => (
+          <ColorRadio
+            {...form.register('color')}
+            key={value}
+            value={value}
+            active={value === selectedColor}
+          />
+        ))}
+      </Flex>
+    </Form>
   )
 }
 
