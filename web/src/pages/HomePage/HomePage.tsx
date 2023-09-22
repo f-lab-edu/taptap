@@ -1,11 +1,7 @@
 import {
   Box,
   Button,
-  FormControl,
-  FormLabel,
-  HStack,
   IconButton,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,30 +9,16 @@ import {
   ModalFooter,
   ModalHeader,
   ScaleFade,
-  Tag,
   Text,
-  Wrap,
-  defineStyleConfig,
   useBoolean,
 } from '@chakra-ui/react'
-import { Link, routes } from '@redwoodjs/router'
+import { PlusIcon, TagIcon, DocumentIcon } from '@heroicons/react/24/outline'
+
+import { Link } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
+
 import NewTaskModal from 'src/components/Task/NewTaskModal/NewTaskModal'
-
-import {
-  PlusIcon,
-  TagIcon,
-  DocumentIcon,
-  CheckCircleIcon,
-} from '@heroicons/react/24/outline'
-import { RadioGroup } from '@headlessui/react'
-import TaskForm from 'src/components/Task/TaskForm/TaskForm'
-
-/**
- * 1. speed dial
- *    - hover -> toggle
- *    - spin icon
- */
+import TaskFormCell from 'src/components/Task/TaskFormCell'
 
 const HomePage = () => {
   const [isOpen, { toggle }] = useBoolean()
@@ -85,9 +67,11 @@ const HomePage = () => {
                   key={label}
                 >
                   <Box
+                    as="label"
                     pos="relative"
                     _hover={{ color: 'black' }}
                     color="gray.500"
+                    display="block"
                   >
                     <IconButton
                       aria-label={label}
@@ -106,6 +90,7 @@ const HomePage = () => {
                       fontSize="sm"
                       fontWeight="medium"
                       className="first-letter:uppercase"
+                      cursor="pointer"
                     >
                       {label}
                     </Text>
@@ -114,23 +99,7 @@ const HomePage = () => {
               )
             })}
           </aside>
-          <Modal isOpen={isOpenNewTaskModal} onClose={closeModal}>
-            <ModalContent>
-              <ModalHeader>New Task</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <TaskForm
-                  onSave={() => undefined}
-                  error={undefined}
-                  loading={false}
-                />
-              </ModalBody>
-              <ModalFooter>
-                <Button>취소</Button>
-                <Button>저장</Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
+          <NewTaskModal isOpen={isOpenNewTaskModal} onClose={closeModal} />
         </div>
       </Box>
     </>

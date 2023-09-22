@@ -34,11 +34,11 @@ model Category {
 
 model Task {
   id    Int     @id @default(autoincrement())
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime?  @default(now())
+  updatedAt  DateTime? @updatedAt
   title     String
   color     String
-  description String?
+  // description String?
   repeats     Repeat[]
   records   Record[]
 

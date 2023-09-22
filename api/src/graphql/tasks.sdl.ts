@@ -5,7 +5,6 @@ export const schema = gql`
     updatedAt: DateTime!
     title: String!
     color: String!
-    description: String!
     repeats: [Repeat]!
     records: [Record]!
     categoryId: Int!
@@ -20,14 +19,12 @@ export const schema = gql`
   input CreateTaskInput {
     title: String!
     color: String!
-    description: String!
     categoryId: Int!
   }
 
   input UpdateTaskInput {
     title: String
     color: String
-    description: String
     categoryId: Int
   }
 

@@ -11,11 +11,8 @@ export const QUERY = gql`
   query EditTaskById($id: Int!) {
     task: task(id: $id) {
       id
-      createdAt
-      updatedAt
       title
       color
-      description
       categoryId
     }
   }
@@ -28,7 +25,6 @@ const UPDATE_TASK_MUTATION = gql`
       updatedAt
       title
       color
-      description
       categoryId
     }
   }

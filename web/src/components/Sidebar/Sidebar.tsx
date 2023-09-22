@@ -54,9 +54,8 @@ const Sidebar = () => {
           size="xs"
           isRound
           bg="white"
+          variant="unstyled"
           shadow="md"
-          _hover={{}}
-          _active={{}}
           onClick={toggle}
           $isOpen={isOpen}
         />
