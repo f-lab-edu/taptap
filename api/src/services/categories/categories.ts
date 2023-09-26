@@ -4,8 +4,9 @@ import type {
   CategoryRelationResolvers,
 } from 'types/graphql'
 
-import { db } from 'src/lib/db'
 import { ForbiddenError } from '@redwoodjs/graphql-server'
+
+import { db } from 'src/lib/db'
 
 const verifyOwnership = async ({ id }) => {
   if (await category({ id })) {

@@ -20,10 +20,12 @@
     "@redwoodjs/forms": "6.1.1",
     "@redwoodjs/router": "6.1.1",
     "@redwoodjs/web": "6.1.1",
+    "date-fns": "^2.30.0",
     "framer-motion": "^9",
     "humanize-string": "2.1.0",
     "prop-types": "15.8.1",
     "react": "18.2.0",
+    "react-date-range": "^1.4.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.11.0",
     "styled-components": "^6.0.7"

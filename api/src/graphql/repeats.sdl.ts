@@ -3,12 +3,12 @@ export const schema = gql`
     id: Int!
     createdAt: DateTime!
     updatedAt: DateTime!
-    startDate: DateTime!
-    startTime: DateTime!
-    endDate: DateTime!
-    endTime: DateTime!
+    startDate: Date!
+    startTime: DateTime
+    endDate: Date
+    endTime: DateTime
     type: RepeatType
-    interval: Int!
+    interval: Int
     daysOfWeek: [DayOfWeek]!
     daysOfMonth: JSON
     weekOfMonth: WeekOfMonth
@@ -37,33 +37,32 @@ export const schema = gql`
     repeat(id: Int!): Repeat @requireAuth
   }
 
-  input CreateRepeatInput {
-    startDate: DateTime!
-    startTime: DateTime!
-    endDate: DateTime!
-    endTime: DateTime!
-    type: RepeatType
-    interval: Int!
-    daysOfMonth: JSON
-    weekOfMonth: WeekOfMonth
-    taskId: Int!
+  input ConnectDayOfWeekArgs {
+    connect: [UpdateDayOfWeekInput]!
   }
 
-  input UpdateRepeatInput {
-    startDate: DateTime
+  input CreateRepeatInput {
+    startDate: Date!
     startTime: DateTime
-    endDate: DateTime
+    endDate: Date
     endTime: DateTime
     type: RepeatType
     interval: Int
+    daysOfWeek: ConnectDayOfWeekArgs
+    daysOfMonth: JSON
+    weekOfMonth: WeekOfMonth
+  }
+
+  input UpdateRepeatInput {
+    startDate: Date
+    startTime: DateTime
+    endDate: Date
+    endTime: DateTime
+    type: RepeatType
+    interval: Int
+    daysOfWeek: [UpdateDayOfWeekInput]
     daysOfMonth: JSON
     weekOfMonth: WeekOfMonth
     taskId: Int
-  }
-
-  type Mutation {
-    createRepeat(input: CreateRepeatInput!): Repeat! @requireAuth
-    updateRepeat(id: Int!, input: UpdateRepeatInput!): Repeat! @requireAuth
-    deleteRepeat(id: Int!): Repeat! @requireAuth
   }
 `

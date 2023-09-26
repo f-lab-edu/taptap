@@ -1,24 +1,10 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ScaleFade,
-  Text,
-  useBoolean,
-} from '@chakra-ui/react'
+import { Box, IconButton, ScaleFade, Text, useBoolean } from '@chakra-ui/react'
 import { PlusIcon, TagIcon, DocumentIcon } from '@heroicons/react/24/outline'
 
 import { Link } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 
 import NewTaskModal from 'src/components/Task/NewTaskModal/NewTaskModal'
-import TaskFormCell from 'src/components/Task/TaskFormCell'
 
 const HomePage = () => {
   const [isOpen, { toggle }] = useBoolean()

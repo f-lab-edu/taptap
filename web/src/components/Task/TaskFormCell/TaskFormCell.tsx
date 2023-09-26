@@ -2,7 +2,7 @@ import type { FindCategoriesForTask } from 'types/graphql'
 
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
-import TaskForm, { TaskFormProps } from '../TaskForm/TaskForm'
+import TaskForm, { TaskFormProps } from './TaskForm'
 
 export const QUERY = gql`
   query FindCategoriesForTask {
