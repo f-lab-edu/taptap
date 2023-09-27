@@ -77,12 +77,11 @@ model Repeat {
   id    Int     @id @default(autoincrement())
   createdAt  DateTime  @default(now())
   updatedAt  DateTime @updatedAt
-  startDate DateTime
-  startTime  DateTime
-  endDate DateTime
-  endTime DateTime
+  startDate DateTime  @default(now())
+  endDate DateTime?
+  times    Json?    @default("[]") // [시작시간, 종료시간][] format: hh:mm (24hours)
   type  RepeatType?
-  interval  Int
+  interval  Int?
   daysOfWeek DayOfWeek[] // relation or json
   daysOfMonth Json? // number[]
   weekOfMonth WeekOfMonth?
