@@ -14,9 +14,7 @@ export const QUERY = gql`
       createdAt
       updatedAt
       startDate
-      startTime
       endDate
-      endTime
       type
       interval
       daysOfMonth
@@ -32,9 +30,7 @@ const UPDATE_REPEAT_MUTATION = gql`
       createdAt
       updatedAt
       startDate
-      startTime
       endDate
-      endTime
       type
       interval
       daysOfMonth

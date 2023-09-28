@@ -12,9 +12,7 @@ export const QUERY = gql`
       createdAt
       updatedAt
       startDate
-      startTime
       endDate
-      endTime
       type
       interval
       daysOfMonth

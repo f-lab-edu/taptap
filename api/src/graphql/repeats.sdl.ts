@@ -8,36 +8,41 @@ export const schema = gql`
     times: [[String]]
     type: RepeatType
     interval: Int
-    daysOfWeek: [DayOfWeek]!
-    daysOfMonth: JSON
+    daysOfWeek: [DayOfWeek]
+    daysOfMonth: [String]
     weekOfMonth: WeekOfMonth
     taskId: Int!
     task: Task!
   }
 
   enum RepeatType {
-    DAILY
-    WEEKLY
-    MONTHLY
-    YEARLY
+    Daily
+    Weekly
+    Monthly
+    Yearly
+  }
+
+  enum DayOfWeek {
+    Sun
+    Mon
+    Tue
+    Wed
+    Thu
+    Fri
+    Sat
   }
 
   enum WeekOfMonth {
-    FIRST
-    SECOND
-    THIRD
-    FOURTH
-    FIFTH
-    LAST
+    First
+    Second
+    Third
+    Fourth
+    Fifth
+    Last
   }
 
   type Query {
     repeats: [Repeat!]! @requireAuth
-    repeat(id: Int!): Repeat @requireAuth
-  }
-
-  input ConnectDayOfWeekArgs {
-    connect: [UpdateDayOfWeekInput]!
   }
 
   input CreateRepeatInput {
@@ -46,20 +51,19 @@ export const schema = gql`
     times: [[String]]
     type: RepeatType
     interval: Int
-    daysOfWeek: ConnectDayOfWeekArgs
-    daysOfMonth: JSON
+    daysOfWeek: [DayOfWeek]
+    daysOfMonth: [String]
     weekOfMonth: WeekOfMonth
   }
 
   input UpdateRepeatInput {
     startDate: Date
     endDate: Date
-    times: [[String]]
+    times: JSON
     type: RepeatType
     interval: Int
-    daysOfWeek: ConnectDayOfWeekArgs
-    daysOfMonth: JSON
+    daysOfWeek: [DayOfWeek]
+    daysOfMonth: [String]
     weekOfMonth: WeekOfMonth
-    taskId: Int
   }
 `
