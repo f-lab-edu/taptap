@@ -1,6 +1,0 @@
--- AlterTable
-ALTER TABLE `Repeat` MODIFY `startDate` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    MODIFY `startTime` DATETIME(3) NULL,
-    MODIFY `endDate` DATETIME(3) NULL,
-    MODIFY `endTime` DATETIME(3) NULL,
-    MODIFY `interval` INTEGER NULL;

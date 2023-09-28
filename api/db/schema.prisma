@@ -1,5 +1,5 @@
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -58,19 +58,29 @@ model Record {
 }
 
 enum RepeatType {
-  DAILY
-  WEEKLY
-  MONTHLY
-  YEARLY
+  Daily
+  Weekly
+  Monthly
+  Yearly
 }
 
 enum WeekOfMonth {
-  FIRST
-  SECOND
-  THIRD
-  FOURTH
-  FIFTH
-  LAST
+  First
+  Second
+  Third
+  Fourth
+  Fifth
+  Last
+}
+
+enum DayOfWeek {
+  Sun @map("0")
+  Mon @map("1")
+  Tue @map("2")
+  Wed @map("3")
+  Thu @map("4")
+  Fri @map("5")
+  Sat @map("6")
 }
 
 model Repeat {
@@ -82,28 +92,10 @@ model Repeat {
   times    Json?    @default("[]") // [시작시간, 종료시간][] format: hh:mm (24hours)
   type  RepeatType?
   interval  Int?
-  daysOfWeek DayOfWeek[] // relation or json
-  daysOfMonth Json? // number[]
+  daysOfWeek DayOfWeek[]
+  daysOfMonth String[] // 1 ~30 or 31 to string
   weekOfMonth WeekOfMonth?
 
   taskId  Int
   task  Task @relation(fields: [taskId], references: [id])
 }
-
-enum DayOfWeekLabel {
-  MON
-  TUE
-  WED
-  THU
-  FRI
-  SAT
-  SUN
-}
-
-model DayOfWeek {
-  id    Int     @id @default(autoincrement())
-  title DayOfWeekLabel @unique
-  value Int @unique // sun(0) to sat(6)
-  repeats  Repeat[]
-}
-
