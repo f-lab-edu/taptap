@@ -10356,13 +10356,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:^2.2.6":
-  version: 2.3.2
-  resolution: "classnames@npm:2.3.2"
-  checksum: cd50ead57b4f97436aaa9f9885c6926323efc7c2bea8e3d4eb10e4e972aa6a1cfca1c7a0e06f8a199ca7498d4339e30bb6002e589e61c9f21248cbf3e8b0b18d
-  languageName: node
-  linkType: hard
-
 "clean-css@npm:^5.2.2":
   version: 5.3.2
   resolution: "clean-css@npm:5.3.2"
@@ -19419,7 +19412,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:15, prop-types@npm:15.8.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:15.8.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -19675,18 +19668,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-date-range@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "react-date-range@npm:1.4.0"
-  dependencies:
-    classnames: ^2.2.6
-    prop-types: ^15.7.2
-    react-list: ^0.8.13
-    shallow-equal: ^1.2.1
+"react-day-picker@npm:^8.8.2":
+  version: 8.8.2
+  resolution: "react-day-picker@npm:8.8.2"
   peerDependencies:
-    date-fns: 2.0.0-alpha.7 || >=2.0.0
-    react: ^0.14 || ^15.0.0-rc || >=15.0
-  checksum: e9c625d6f2e0b6b87dda8e835c00828b3ec072141c32cf48934de2b1b9c0b1a21a86b854e8140f844839c0cdd1110fd5ce57f34211c7a723297027e7e61e2390
+    date-fns: ^2.28.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 2ec239cb3a800f2b6097cc5eecdae5d3023f26546da904f3169835ed4ea0c575fb8b22e83414178322df49124da0963e41bec9270375523a0ae4616843a62d84
   languageName: node
   linkType: hard
 
@@ -19793,17 +19781,6 @@ __metadata:
   version: 18.2.0
   resolution: "react-is@npm:18.2.0"
   checksum: 6eb5e4b28028c23e2bfcf73371e72cd4162e4ac7ab445ddae2afe24e347a37d6dc22fae6e1748632cd43c6d4f9b8f86dcf26bf9275e1874f436d129952528ae0
-  languageName: node
-  linkType: hard
-
-"react-list@npm:^0.8.13":
-  version: 0.8.17
-  resolution: "react-list@npm:0.8.17"
-  dependencies:
-    prop-types: 15
-  peerDependencies:
-    react: 0.14 || 15 - 18
-  checksum: 85b2324b9fb410fcb3c6811578d8de51ec84eb308c320a865664c7f161fa3f70510fcc15ec7786e2725cac981355a937683b37d91a66ccfdffacf92c9e40326c
   languageName: node
   linkType: hard
 
@@ -20902,13 +20879,6 @@ __metadata:
   dependencies:
     kind-of: ^6.0.2
   checksum: 7bab09613a1b9f480c85a9823aebec533015579fa055ba6634aa56ba1f984380670eaf33b8217502931872aa1401c9fcadaa15f9f604d631536df475b05bcf1e
-  languageName: node
-  linkType: hard
-
-"shallow-equal@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "shallow-equal@npm:1.2.1"
-  checksum: 51e03abadd97c9ebe590547d92db9148446962a3f23a3a0fb1ba2fccab80af881eef0ff1f8ccefd3f066c0bc5a4c8ca53706194813b95c8835fa66448a843a26
   languageName: node
   linkType: hard
 
@@ -23261,7 +23231,7 @@ __metadata:
     postcss-loader: ^7.3.3
     prop-types: 15.8.1
     react: 18.2.0
-    react-date-range: ^1.4.0
+    react-day-picker: ^8.8.2
     react-dom: 18.2.0
     react-icons: ^4.11.0
     styled-components: ^6.0.7

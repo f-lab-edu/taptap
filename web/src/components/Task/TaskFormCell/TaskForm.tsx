@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 
 import {
   Button,
@@ -7,14 +7,31 @@ import {
   FormLabel,
   HStack,
   Input,
+  Menu,
+  MenuButton,
+  MenuList,
+  Select,
 } from '@chakra-ui/react'
+import {
+  format,
+  eachMinuteOfInterval,
+  endOfToday,
+  startOfToday,
+  getUnixTime,
+} from 'date-fns'
+import { DayPicker } from 'react-day-picker'
 import type {
   EditTaskById,
   FindCategoriesForTask,
   UpdateTaskInput,
 } from 'types/graphql'
 
-import { useForm, SubmitHandler, Controller } from '@redwoodjs/forms'
+import {
+  useForm,
+  SubmitHandler,
+  Controller,
+  useFieldArray,
+} from '@redwoodjs/forms'
 
 import CategoryRadio from './CategoryRadio'
 import ColorRadio from './ColorRadio'
@@ -40,16 +57,43 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
       title: task?.title || '',
       categoryId: task?.categoryId || categories[0].id,
       color: task?.color || COLOR_PALETTE[0].value,
+      // repeats: [{ startDate: new Date() }],
+      startDate: new Date(),
+      startTime: '',
+      endTime: '',
     },
   })
 
-  const [color, categoryId] = watch(['color', 'categoryId'])
+  // const { fields, append, remove } = useFieldArray({
+  //   name: 'repeats',
+  //   control,
+  // })
+
+  const [color, categoryId, startDate, startTime, endTime] = watch([
+    'color',
+    'categoryId',
+    'startDate',
+    'startTime',
+    'endTime',
+  ])
 
   const onSubmit: SubmitHandler<FormTask> = useCallback(
     async (data) => {
-      await onSave(data, task?.id)
+      // await onSave(data, task?.id)
+      console.log(data)
     },
     [onSave, task]
+  )
+
+  useEffect(() => console.log(startTime, endTime), [startTime, endTime])
+
+  // TOOD: create time options - date fns에 있지 않을까
+  const timeOptions = eachMinuteOfInterval(
+    {
+      start: startOfToday(),
+      end: endOfToday(),
+    },
+    { step: 10 }
   )
 
   return (
@@ -103,9 +147,66 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
         </Flex>
       </FormControl>
 
+      <FormControl as="fieldset">
+        <FormLabel>반복설정</FormLabel>
+        {/* {fields.map((field, index) => (
+          <section key={field.id}>
+            <Calendar {...register(`repeats.${index}.startDate` as const)} />
+          </section>
+        ))} */}
+        <Menu isLazy>
+          <MenuButton>{format(new Date(startDate), 'yyyy.MM.dd')}</MenuButton>
+          <MenuList>
+            <Controller
+              control={control}
+              name="startDate"
+              render={({ field: { onChange, onBlur, value, ref } }) => (
+                <DayPicker
+                  mode="single"
+                  onDayBlur={() => console.log('day picker blur')}
+                  onSelect={onChange}
+                  selected={value}
+                />
+              )}
+            />
+          </MenuList>
+        </Menu>
+        {/* 객체처럼 key-value로 만들어야겟다 */}
+        <HStack>
+          <Select {...register('startTime')}>
+            {timeOptions.map((time) => (
+              <option key={getUnixTime(time)}>{format(time, 'HH:mm')}</option>
+            ))}
+          </Select>
+          <Select {...register('endTime')}>
+            <option>9:00</option>
+            <option>10:00</option>
+          </Select>
+        </HStack>
+
+        {/* 반복종료일 */}
+        {/* <Menu isLazy>
+          <MenuButton>{format(new Date(startDate), 'yyyy.MM.dd')}</MenuButton>
+          <MenuList>
+            <Controller
+              control={control}
+              name="endDate"
+              render={({ field: { onChange, onBlur, value, ref } }) => (
+                <DayPicker
+                  mode="single"
+                  onDayBlur={() => console.log('day picker blur')}
+                  onSelect={onChange}
+                  selected={value}
+                />
+              )}
+            />
+          </MenuList>
+        </Menu> */}
+      </FormControl>
+
       <footer className="flex flex-row justify-end gap-4">
         <Button onClick={onCancel}>취소</Button>
-        <Button type="submit" isLoading={isSubmitting} colorScheme="teal">
+        <Button type="submit" isLoading={isSubmitting} colorScheme="blue">
           저장
         </Button>
       </footer>

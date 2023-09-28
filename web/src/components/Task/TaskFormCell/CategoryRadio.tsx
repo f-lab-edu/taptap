@@ -14,7 +14,7 @@ const CategoryRadio = forwardRef<HTMLInputElement, Props>(
       <input {...props} ref={ref} type="radio" hidden />
       <Tag
         variant={active ? 'solid' : 'outline'}
-        colorScheme="teal"
+        colorScheme="blue"
         borderRadius="full"
         cursor="pointer"
         px="3"

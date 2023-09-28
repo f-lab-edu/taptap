@@ -14,6 +14,15 @@ export const QUERY = gql`
       title
       color
       categoryId
+      repeats {
+        id
+        startDate
+        endDate
+        times
+        type
+        interval
+        daysOfWeek
+      }
     }
   }
 `
