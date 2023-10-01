@@ -2,8 +2,6 @@ import type { FindCategories } from 'types/graphql'
 
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
-import TaskFormCell from 'src/components/Task/TaskFormCell'
-
 import Category from '../Category'
 import NewCategory from '../NewCategory/NewCategory'
 

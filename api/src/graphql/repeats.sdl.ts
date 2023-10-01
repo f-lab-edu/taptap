@@ -1,13 +1,11 @@
 export const schema = gql`
   type Repeat {
     id: Int!
-    createdAt: DateTime!
-    updatedAt: DateTime!
-    startDate: Date!
+    createdAt: DateTime
+    updatedAt: DateTime
     endDate: Date
-    times: [[String]]
-    type: RepeatType
-    interval: Int
+    type: RepeatType!
+    interval: Int!
     daysOfWeek: [DayOfWeek]
     daysOfMonth: [String]
     weekOfMonth: WeekOfMonth
@@ -46,20 +44,16 @@ export const schema = gql`
   }
 
   input CreateRepeatInput {
-    startDate: Date!
     endDate: Date
-    times: [[String]]
-    type: RepeatType
-    interval: Int
+    type: RepeatType!
+    interval: Int!
     daysOfWeek: [DayOfWeek]
     daysOfMonth: [String]
     weekOfMonth: WeekOfMonth
   }
 
   input UpdateRepeatInput {
-    startDate: Date
     endDate: Date
-    times: JSON
     type: RepeatType
     interval: Int
     daysOfWeek: [DayOfWeek]

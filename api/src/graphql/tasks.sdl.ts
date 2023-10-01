@@ -1,11 +1,13 @@
 export const schema = gql`
   type Task {
     id: Int!
-    createdAt: DateTime!
-    updatedAt: DateTime!
+    createdAt: DateTime
+    updatedAt: DateTime
     title: String!
     color: String!
-    repeats: [Repeat]!
+    startDate: Date!
+    times: [[String]]
+    repeat: Repeat
     records: [Record]!
     categoryId: Int!
     category: Category!
@@ -23,6 +25,8 @@ export const schema = gql`
   input CreateTaskInput {
     title: String!
     color: String!
+    startDate: Date
+    times: [[String]]
     categoryId: Int!
     repeats: CreateRepeatArgs!
   }
@@ -44,15 +48,15 @@ export const schema = gql`
   input UpdateTaskInput {
     title: String
     color: String
+    startDate: Date
+    times: [[String]]
     categoryId: Int
     repeats: UpdateRepeatArgs
   }
 
   type Mutation {
-    createTask(input: CreateTaskInput!): Task! @skipAuth
-    updateTask(id: Int!, input: UpdateTaskInput!): Task! @skipAuth
-    # createTask(input: CreateTaskInput!): Task! @requireAuth
-    # updateTask(id: Int!, input: UpdateTaskInput!): Task! @requireAuth
+    createTask(input: CreateTaskInput!): Task! @requireAuth
+    updateTask(id: Int!, input: UpdateTaskInput!): Task! @requireAuth
     deleteTask(id: Int!): Task! @requireAuth
   }
 `

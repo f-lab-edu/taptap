@@ -38,8 +38,10 @@ model Task {
   updatedAt  DateTime? @updatedAt
   title     String
   color     String
+  startDate DateTime?  @default(now())
+  times    Json?     // [시작시간, 종료시간][] format: hh:mm (24hours)
   // description String?
-  repeats     Repeat[]
+  repeat     Repeat?
   records   Record[]
 
   categoryId Int
@@ -85,17 +87,15 @@ enum DayOfWeek {
 
 model Repeat {
   id    Int     @id @default(autoincrement())
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime @updatedAt
-  startDate DateTime  @default(now())
+  createdAt  DateTime?  @default(now())
+  updatedAt  DateTime? @updatedAt
   endDate DateTime?
-  times    Json?    @default("[]") // [시작시간, 종료시간][] format: hh:mm (24hours)
-  type  RepeatType?
-  interval  Int?
+  type  RepeatType
+  interval  Int
   daysOfWeek DayOfWeek[]
   daysOfMonth String[] // 1 ~30 or 31 to string
   weekOfMonth WeekOfMonth?
 
-  taskId  Int
+  taskId  Int @unique
   task  Task @relation(fields: [taskId], references: [id])
 }

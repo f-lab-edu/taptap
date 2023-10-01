@@ -16,10 +16,10 @@
     "@emotion/styled": "^11",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
-    "@redwoodjs/auth-dbauth-web": "6.1.1",
-    "@redwoodjs/forms": "6.1.1",
-    "@redwoodjs/router": "6.1.1",
-    "@redwoodjs/web": "6.1.1",
+    "@redwoodjs/auth-dbauth-web": "6.3.1",
+    "@redwoodjs/forms": "6.3.1",
+    "@redwoodjs/router": "6.3.1",
+    "@redwoodjs/web": "6.3.1",
     "date-fns": "^2.30.0",
     "framer-motion": "^9",
     "humanize-string": "2.1.0",
@@ -31,7 +31,7 @@
     "styled-components": "^6.0.7"
   },
   "devDependencies": {
-    "@redwoodjs/vite": "6.1.1",
+    "@redwoodjs/vite": "6.3.1",
     "@types/styled-components": "^5.1.26",
     "autoprefixer": "^10.4.15",
     "babel-plugin-macros": "^3.1.0",
