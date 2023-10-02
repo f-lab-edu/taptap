@@ -69,12 +69,6 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
       categoryId: task?.categoryId || categories[0].id,
       color: task?.color || COLOR_PALETTE[0].value,
       startDate: new Date(),
-      times: [
-        {
-          start: '12:00', // 현재에 가까운 시간 (30분 간격?)
-          end: '13:00', // 1시간
-        },
-      ],
       repeat: {
         endDate: null,
         repeat: null,
