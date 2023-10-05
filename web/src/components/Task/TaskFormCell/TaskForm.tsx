@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 
 import {
   Button,
@@ -7,20 +7,14 @@ import {
   FormLabel,
   HStack,
   Input,
-  Menu,
-  MenuButton,
-  MenuList,
-  Select,
-  Text,
 } from '@chakra-ui/react'
 import {
-  format,
+  addHours,
   eachMinuteOfInterval,
   endOfToday,
+  roundToNearestMinutes,
   startOfToday,
-  getUnixTime,
 } from 'date-fns'
-import { DayPicker } from 'react-day-picker'
 import type {
   EditTaskById,
   UpdateTaskInput,
@@ -34,21 +28,20 @@ import {
   FormProvider,
 } from '@redwoodjs/forms'
 
-import CategoryRadio from './CategoryRadio'
-import ColorRadio from './ColorRadio'
-import DateTimeField from './DateTimeField'
+import CategoryRadio from './components/CategoryRadio'
+import ColorRadio from './components/ColorRadio'
+import DateField from './components/DateField'
+import TimeField from './components/TimeField/TimeField'
+import { timeFormat } from './components/TimeField/TimeField.config'
 
 type FormTask = NonNullable<EditTaskById['task']>
 
-type Form = {
+interface Form {
   title: string
   categoryId: number
   color: string
   startDate: Date
-  times: {
-    start: string
-    end: string
-  }[]
+  times: [string, string][]
   repeat: {
     repeat: string | null // map: type, interval
     endDate: Date | null
@@ -63,6 +56,19 @@ export interface TaskFormProps {
 }
 
 const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
+  const defaultStartTime = useMemo(
+    () =>
+      roundToNearestMinutes(new Date(), {
+        nearestTo: 30,
+        roundingMethod: 'ceil',
+      }),
+    []
+  )
+  const defaultEndTime = useMemo(
+    () => addHours(defaultStartTime, 1),
+    [defaultStartTime]
+  )
+
   const formMethod = useForm<Form>({
     defaultValues: {
       title: task?.title || '',
@@ -73,6 +79,7 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
         endDate: null,
         repeat: null,
       },
+      times: [[timeFormat(defaultStartTime), timeFormat(defaultEndTime)]],
     },
   })
   const {
@@ -146,7 +153,8 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
           </Flex>
         </FormControl>
 
-        <DateTimeField />
+        <DateField />
+        <TimeField />
 
         <FormControl as="fieldset">
           <FormLabel>반복설정</FormLabel>
