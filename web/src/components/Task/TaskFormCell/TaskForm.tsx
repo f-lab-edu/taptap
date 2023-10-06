@@ -7,6 +7,7 @@ import {
   FormLabel,
   HStack,
   Input,
+  Text,
 } from '@chakra-ui/react'
 import {
   addHours,
@@ -33,6 +34,7 @@ import ColorRadio from './components/ColorRadio'
 import DateField from './components/DateField'
 import TimeField from './components/TimeField/TimeField'
 import { timeFormat } from './components/TimeField/TimeField.config'
+import { getDefaultTimes } from './TaskForm.utils'
 
 type FormTask = NonNullable<EditTaskById['task']>
 
@@ -56,19 +58,6 @@ export interface TaskFormProps {
 }
 
 const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
-  const defaultStartTime = useMemo(
-    () =>
-      roundToNearestMinutes(new Date(), {
-        nearestTo: 30,
-        roundingMethod: 'ceil',
-      }),
-    []
-  )
-  const defaultEndTime = useMemo(
-    () => addHours(defaultStartTime, 1),
-    [defaultStartTime]
-  )
-
   const formMethod = useForm<Form>({
     defaultValues: {
       title: task?.title || '',
@@ -79,7 +68,7 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
         endDate: null,
         repeat: null,
       },
-      times: [[timeFormat(defaultStartTime), timeFormat(defaultEndTime)]],
+      times: [getDefaultTimes().map(timeFormat) as [string, string]],
     },
   })
   const {
@@ -135,7 +124,7 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
         </FormControl>
 
         <FormControl as="fieldset">
-          <FormLabel>색상</FormLabel>
+          <FormLabel as="legend">색상</FormLabel>
           <Flex
             flexWrap="wrap"
             justify="space-between"
@@ -156,8 +145,8 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
         <DateField />
         <TimeField />
 
-        <FormControl as="fieldset">
-          <FormLabel>반복설정</FormLabel>
+        <fieldset>
+          {/* <FormLabel>반복설정</FormLabel> */}
           {/* {fields.map((field, index) => (
           <section key={field.id}>
             <Calendar {...register(`repeats.${index}.startDate` as const)} />
@@ -210,7 +199,7 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
             />
           </MenuList>
         </Menu> */}
-        </FormControl>
+        </fieldset>
 
         <footer className="flex flex-row justify-end gap-4">
           <Button onClick={onCancel}>취소</Button>
