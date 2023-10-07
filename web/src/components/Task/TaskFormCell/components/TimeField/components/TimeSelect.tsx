@@ -18,7 +18,7 @@ import {
 } from '@redwoodjs/forms'
 
 import BasicSelect from '../../BasicSelect'
-import { getTimeOptions, timeFormat } from '../TimeField.config'
+import { getTimeOptions, timeFormat } from '../TimeField.utils'
 
 interface Props extends InputProps {
   field: ControllerRenderProps<FieldValues, any>

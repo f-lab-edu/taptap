@@ -6,12 +6,6 @@ export const repeats: QueryResolvers['repeats'] = () => {
   return db.repeat.findMany()
 }
 
-export const repeat: QueryResolvers['repeat'] = ({ id }) => {
-  return db.repeat.findUnique({
-    where: { id },
-  })
-}
-
 export const Repeat: RepeatRelationResolvers = {
   task: (_obj, { root }) => {
     return db.repeat.findUnique({ where: { id: root?.id } }).task()

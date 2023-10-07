@@ -9,7 +9,7 @@ import {
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 
 type BasicInputProps = {
-  leftIcon: React.ForwardRefExoticComponent<
+  leftIcon?: React.ForwardRefExoticComponent<
     Omit<React.SVGProps<SVGSVGElement>, 'ref'>
   >
   rightIcon?: React.ForwardRefExoticComponent<
@@ -23,9 +23,11 @@ const BasicSelect = ({
   ...inputProps
 }: BasicInputProps) => (
   <InputGroup>
-    <InputLeftElement>
-      <Icon as={leftIcon} color="gray.400" />
-    </InputLeftElement>
+    {leftIcon && (
+      <InputLeftElement>
+        <Icon as={leftIcon} color="gray.400" />
+      </InputLeftElement>
+    )}
     <Input {...inputProps} cursor="pointer" />
     <InputRightElement>
       <Icon as={rightIcon} strokeWidth="2" />

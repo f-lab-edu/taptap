@@ -7,13 +7,16 @@ import {
   ModalContent,
   ModalHeader,
 } from '@chakra-ui/react'
-import type { CreateTaskInput } from 'types/graphql'
+import { format, getDate, getMonth, getWeekOfMonth } from 'date-fns'
+import type { DayOfWeek, UpdateRepeatInput } from 'types/graphql'
 
 import { useMutation } from '@redwoodjs/web'
 import { Toaster } from '@redwoodjs/web/toast'
 import { toast } from '@redwoodjs/web/toast'
 
 import TaskFormCell from 'src/components/Task/TaskFormCell'
+
+import { RepeatOption, TaskFormData } from '../TaskFormCell/TaskForm.types'
 
 const CREATE_TASK_MUTATION = gql`
   mutation CreateTaskMutation($input: CreateTaskInput!) {
@@ -26,6 +29,37 @@ const CREATE_TASK_MUTATION = gql`
 interface Props {
   isOpen: boolean
   onClose: () => void
+}
+
+type RepeatData = {
+  [key in RepeatOption]?: UpdateRepeatInput
+}
+const repeatData: RepeatData = {
+  안함: null,
+  매일: { type: 'Daily', interval: 1 },
+  평일: {
+    type: 'Weekly',
+    interval: 1,
+    daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+  },
+  주말: { type: 'Weekly', interval: 1, daysOfWeek: ['Sat', 'Sun'] },
+  매주: {
+    type: 'Weekly',
+    interval: 1,
+    daysOfWeek: [format(new Date(), 'iii') as DayOfWeek],
+  },
+  매월: {
+    type: 'Monthly',
+    interval: 1,
+    weekOfMonth: getWeekOfMonth(new Date()),
+    daysOfWeek: [format(new Date(), 'iii') as DayOfWeek],
+  },
+  매년: {
+    type: 'Yearly',
+    interval: 1,
+    months: [getMonth(new Date())],
+    daysOfMonth: [getDate(new Date()).toString()],
+  },
 }
 
 const NewTask = ({ isOpen, onClose }: Props) => {
@@ -41,8 +75,15 @@ const NewTask = ({ isOpen, onClose }: Props) => {
     },
   })
 
-  const onSave = (input: CreateTaskInput) =>
+  const onSave = (data: TaskFormData) => {
+    const input = {
+      ...data,
+      repeat: {
+        create: {},
+      },
+    }
     createTask({ variables: { input } })
+  }
 
   useEffect(() => console.log('loading in new task', loading), [loading])
   useEffect(() => console.log('error in new task', error), [error])

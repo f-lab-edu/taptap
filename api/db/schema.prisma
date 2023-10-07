@@ -66,15 +66,6 @@ enum RepeatType {
   Yearly
 }
 
-enum WeekOfMonth {
-  First
-  Second
-  Third
-  Fourth
-  Fifth
-  Last
-}
-
 enum DayOfWeek {
   Sun @map("0")
   Mon @map("1")
@@ -94,7 +85,8 @@ model Repeat {
   interval  Int
   daysOfWeek DayOfWeek[]
   daysOfMonth String[] // 1 ~30 or 31 to string
-  weekOfMonth WeekOfMonth?
+  weekOfMonth Int?
+  months  Int[]
 
   taskId  Int @unique
   task  Task @relation(fields: [taskId], references: [id])

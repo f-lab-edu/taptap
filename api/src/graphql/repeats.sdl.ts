@@ -8,7 +8,8 @@ export const schema = gql`
     interval: Int!
     daysOfWeek: [DayOfWeek]
     daysOfMonth: [String]
-    weekOfMonth: WeekOfMonth
+    weekOfMonth: Int
+    months: [Int]
     taskId: Int!
     task: Task!
   }
@@ -30,15 +31,6 @@ export const schema = gql`
     Sat
   }
 
-  enum WeekOfMonth {
-    First
-    Second
-    Third
-    Fourth
-    Fifth
-    Last
-  }
-
   type Query {
     repeats: [Repeat!]! @requireAuth
   }
@@ -49,7 +41,8 @@ export const schema = gql`
     interval: Int!
     daysOfWeek: [DayOfWeek]
     daysOfMonth: [String]
-    weekOfMonth: WeekOfMonth
+    weekOfMonth: Int
+    months: [Int]
   }
 
   input UpdateRepeatInput {
@@ -58,6 +51,7 @@ export const schema = gql`
     interval: Int
     daysOfWeek: [DayOfWeek]
     daysOfMonth: [String]
-    weekOfMonth: WeekOfMonth
+    weekOfMonth: Int
+    months: [Int]
   }
 `
