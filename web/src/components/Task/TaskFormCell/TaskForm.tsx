@@ -55,7 +55,6 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
   const onSubmit: SubmitHandler<TaskFormData> = useCallback(
     async (data) => {
       await onSave(data, task?.id)
-      console.log(data)
     },
     [onSave, task]
   )

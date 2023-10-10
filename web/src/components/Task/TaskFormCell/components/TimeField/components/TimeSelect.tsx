@@ -28,7 +28,6 @@ interface Props extends InputProps {
   options?: Date[]
 }
 
-// ref
 const TimeSelect = ({
   field: { value, name, onChange },
   inputProps,

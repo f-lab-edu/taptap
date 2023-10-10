@@ -37,38 +37,42 @@ const RepeatField = () => {
           </MenuList>
         </Menu> */}
 
-        <Select placeholder="반복" {...register('repeat.repeat')}>
+        <Select {...register('repeat.repeat')}>
           {REPEAT_OPTIONS.map((value) => (
             <option key={value}>{value}</option>
           ))}
         </Select>
       </section>
-      <section>
-        <Menu isLazy>
-          <MenuButton w="full">
-            <HStack justifyContent="space-between">
-              <Text decoration="underline">반복 종료</Text>
-              <Text>
-                {value?.endDate ? format(value.endDate, 'yyyy.MM.dd') : '안함'}
-              </Text>
-            </HStack>
-          </MenuButton>
-          <MenuList>
-            <Controller
-              control={control}
-              name="repeat.endDate"
-              render={({ field: { onChange, value } }) => (
-                <DayPicker
-                  mode="single"
-                  onDayBlur={() => console.log('day picker blur')}
-                  onSelect={onChange}
-                  selected={value}
-                />
-              )}
-            />
-          </MenuList>
-        </Menu>
-      </section>
+      {value.repeat !== '안함' && (
+        <section>
+          <Menu isLazy>
+            <MenuButton w="full">
+              <HStack justifyContent="space-between">
+                <Text decoration="underline">반복 종료일</Text>
+                <Text>
+                  {value?.endDate
+                    ? format(value.endDate, 'yyyy.MM.dd')
+                    : '설정 안함'}
+                </Text>
+              </HStack>
+            </MenuButton>
+            <MenuList>
+              <Controller
+                control={control}
+                name="repeat.endDate"
+                render={({ field: { onChange, value } }) => (
+                  <DayPicker
+                    mode="single"
+                    onDayBlur={() => console.log('day picker blur')}
+                    onSelect={onChange}
+                    selected={value}
+                  />
+                )}
+              />
+            </MenuList>
+          </Menu>
+        </section>
+      )}
     </FormControl>
   )
 }
