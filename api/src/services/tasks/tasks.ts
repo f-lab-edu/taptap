@@ -36,8 +36,8 @@ export const deleteTask: MutationResolvers['deleteTask'] = ({ id }) => {
 }
 
 export const Task: TaskRelationResolvers = {
-  repeats: (_obj, { root }) => {
-    return db.task.findUnique({ where: { id: root?.id } }).repeats()
+  repeat: (_obj, { root }) => {
+    return db.task.findUnique({ where: { id: root?.id } }).repeat()
   },
   records: (_obj, { root }) => {
     return db.task.findUnique({ where: { id: root?.id } }).records()

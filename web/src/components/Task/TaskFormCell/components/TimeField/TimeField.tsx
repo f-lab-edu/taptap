@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo } from 'react'
 
 import { Checkbox, HStack, FormLabel, IconButton, Flex } from '@chakra-ui/react'
 import { MinusCircleIcon } from '@heroicons/react/20/solid'
@@ -18,12 +18,12 @@ import TimeSelect from './components/TimeSelect'
 import { getTimeOptions, timeFormat, timestringToDate } from './TimeField.utils'
 
 const TimeField = () => {
-  const { control, setValue } = useFormContext()
+  const { control, setValue, register } = useFormContext()
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'times',
+    name: 'times.data',
   })
-  const times = useWatch({ name: 'times' })
+  const times = useWatch({ name: 'times.data' })
   return (
     <fieldset className="w-full">
       <HStack justifyContent="space-between" alignItems="center">
@@ -39,14 +39,14 @@ const TimeField = () => {
         />
       </HStack>
       <div className="flex flex-col-reverse gap-2">
-        <Checkbox defaultChecked className="peer" data-peer>
+        <Checkbox className="peer" data-peer {...register('times.allDay')}>
           종일
         </Checkbox>
         <Flex _peerChecked={{ display: 'none' }} gap="2" direction="column">
           {fields.map((field, idx) => (
             <HStack key={field.id}>
               <Controller
-                name={`times.${idx}.${0}`}
+                name={`times.data.${idx}.${0}`}
                 control={control}
                 render={(props) => (
                   <TimeSelect
@@ -56,7 +56,7 @@ const TimeField = () => {
                       onChange: (e) => {
                         props.field.onChange(e)
                         setValue(
-                          `times.${idx}.${1}`,
+                          `times.data.${idx}.${1}`,
                           timeFormat(addHours(timestringToDate(e), 1))
                         )
                       },
@@ -69,7 +69,7 @@ const TimeField = () => {
               />
 
               <Controller
-                name={`times.${idx}.${1}`}
+                name={`times.data.${idx}.${1}`}
                 control={control}
                 render={(props) => (
                   <TimeSelect

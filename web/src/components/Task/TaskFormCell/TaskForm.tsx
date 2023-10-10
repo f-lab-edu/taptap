@@ -23,17 +23,20 @@ import DateField from './components/DateField'
 import RepeatField from './components/RepeatField'
 import TimeField from './components/TimeField/TimeField'
 import { timeFormat } from './components/TimeField/TimeField.utils'
-import { TaskFormProps, TaskFormData, Task } from './TaskForm.types'
+import { TaskFormProps, TaskFormData } from './TaskForm.types'
 import { COLOR_PALETTE, getDefaultTimes } from './TaskForm.utils'
 
 const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
   const formMethod = useForm<TaskFormData>({
     defaultValues: {
       title: task?.title,
-      categoryId: task?.categoryId || categories[0].id,
+      category: task?.categoryId || categories[0].id,
       color: task?.color || COLOR_PALETTE[0].value,
       startDate: new Date(),
-      times: [getDefaultTimes().map(timeFormat) as [string, string]],
+      times: {
+        allDay: true,
+        data: [getDefaultTimes().map(timeFormat) as [string, string]],
+      },
       repeat: {
         repeat: '안함',
       },
@@ -47,11 +50,11 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
     formState: { isSubmitting },
   } = formMethod
 
-  const { color, categoryId } = watch()
+  const { color, category } = watch()
 
-  const onSubmit: SubmitHandler<Task> = useCallback(
+  const onSubmit: SubmitHandler<TaskFormData> = useCallback(
     async (data) => {
-      // await onSave(data, task?.id)
+      await onSave(data, task?.id)
       console.log(data)
     },
     [onSave, task]
@@ -75,7 +78,7 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
               {categories.map(({ id, title }) => (
                 <Controller
                   key={id}
-                  name="categoryId"
+                  name="category"
                   control={control}
                   rules={{ required: true }}
                   render={({ field }) => (
@@ -83,7 +86,7 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
                       {...field}
                       value={id}
                       label={title}
-                      active={categoryId === id}
+                      active={category === id}
                       onChange={(e) => field.onChange(parseInt(e.target.value))}
                     />
                   )}

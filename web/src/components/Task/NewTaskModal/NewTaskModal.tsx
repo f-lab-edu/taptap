@@ -35,7 +35,7 @@ type RepeatData = {
   [key in RepeatOption]?: UpdateRepeatInput
 }
 const repeatData: RepeatData = {
-  안함: null,
+  안함: undefined,
   매일: { type: 'Daily', interval: 1 },
   평일: {
     type: 'Weekly',
@@ -65,12 +65,10 @@ const repeatData: RepeatData = {
 const NewTask = ({ isOpen, onClose }: Props) => {
   const [createTask, { loading, error }] = useMutation(CREATE_TASK_MUTATION, {
     onCompleted: () => {
-      console.log('complete in new task')
       toast.success('할 일이 저장되었습니다')
       onClose()
     },
     onError: (error) => {
-      console.log('error in new task')
       toast.error(error.message)
     },
   })
@@ -78,8 +76,18 @@ const NewTask = ({ isOpen, onClose }: Props) => {
   const onSave = (data: TaskFormData) => {
     const input = {
       ...data,
-      repeat: {
-        create: {},
+      times: data.times.allDay ? undefined : data.times.data,
+      startDate: format(data.startDate, 'yyyy-MM-dd'),
+      category: {
+        connect: {
+          id: data.category,
+        },
+      },
+      repeat: repeatData[data.repeat.repeat] && {
+        create: {
+          ...repeatData[data.repeat.repeat],
+          endDate: data.repeat.endDate,
+        },
       },
     }
     createTask({ variables: { input } })

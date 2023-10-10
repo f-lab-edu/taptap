@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { memo, useRef } from 'react'
 
 import { useDisclosure, useOutsideClick } from '@chakra-ui/react'
 import { CalendarDaysIcon } from '@heroicons/react/24/outline'
@@ -18,6 +18,7 @@ const DateField = () => {
     ref: calendarMenuRef,
     handler: onClose,
   })
+
   return (
     <section className="flex w-full flex-col gap-2">
       <div className="relative" {...getButtonProps()} ref={calendarMenuRef}>
@@ -52,21 +53,8 @@ const DateField = () => {
           />
         </div>
       </div>
-
-      {/* 객체처럼 key-value로 만들어야겟다 */}
-      {/* <HStack>
-        <Select {...register('times')}>
-          {timeOptions.map((time) => (
-            <option key={getUnixTime(time)}>{format(time, 'HH:mm')}</option>
-          ))}
-        </Select>
-        <Select {...register('endTime')}>
-          <option>9:00</option>
-          <option>10:00</option>
-        </Select>
-      </HStack> */}
     </section>
   )
 }
 
-export default DateField
+export default memo(DateField)

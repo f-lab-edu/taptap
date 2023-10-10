@@ -45,7 +45,11 @@ const TimeSelect = ({
     <MenuList h="200px" overflowY="auto">
       <MenuOptionGroup type="radio" {...{ name, value, onChange }}>
         {options.map((date) => (
-          <MenuItemOption key={date.toISOString()} value={timeFormat(date)}>
+          <MenuItemOption
+            key={date.toISOString()}
+            value={timeFormat(date)}
+            isChecked
+          >
             {timeFormat(date)}
           </MenuItemOption>
         ))}

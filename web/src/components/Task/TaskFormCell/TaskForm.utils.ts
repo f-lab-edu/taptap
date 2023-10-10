@@ -9,16 +9,6 @@ export const getDefaultTimes = (): [Date, Date] => {
   return [start, end]
 }
 
-export const repeatSelectValue = {
-  안함: null,
-  매일: { type: 'Daily', interval: 1 },
-  평일: { type: 'Weekly', interval: 1 },
-  주말: { type: 'Weekly', interval: 1 },
-  매주: { type: 'Weekly', interval: 1 },
-  매월: { type: 'Monthly', interval: 1 },
-  매년: { type: 'Yearly', interval: 1 },
-}
-
 export const COLOR_PALETTE = [
   { value: '#073b4c' },
   { value: '#005f73' },
