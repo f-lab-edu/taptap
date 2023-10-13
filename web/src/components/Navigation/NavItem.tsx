@@ -1,8 +1,8 @@
 import React, { memo, useMemo } from 'react'
 
 import { Icon, Text, HStack } from '@chakra-ui/react'
-import { styled } from 'styled-components'
-import tw from 'twin.macro'
+// import { styled } from 'styled-components'
+import tw, { styled } from 'twin.macro'
 
 import { Link, useMatch } from '@redwoodjs/router'
 
