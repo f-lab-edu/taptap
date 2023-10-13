@@ -27,12 +27,13 @@
     "react": "18.2.0",
     "react-day-picker": "^8.8.2",
     "react-dom": "18.2.0",
-    "react-icons": "^4.11.0",
-    "styled-components": "^6.0.7"
+    "react-icons": "^4.11.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.22.15",
+    "@emotion/babel-plugin-jsx-pragmatic": "^0.2.1",
     "@redwoodjs/vite": "6.3.1",
-    "@types/styled-components": "^5.1.26",
+    "@types/react": "^18.2.28",
     "autoprefixer": "^10.4.15",
     "babel-plugin-macros": "^3.1.0",
     "postcss": "^8.4.29",

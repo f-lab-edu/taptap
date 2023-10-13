@@ -1,20 +1,13 @@
 import React, { createContext, useContext, useMemo } from 'react'
 
-import {
-  Avatar,
-  HStack,
-  Box,
-  IconButton,
-  useBoolean,
-  Text,
-} from '@chakra-ui/react'
-import { ChevronRightIcon } from '@heroicons/react/24/outline'
-import { styled } from 'styled-components'
-import tw from 'twin.macro'
+import { Avatar, HStack, Box, useBoolean, Text } from '@chakra-ui/react'
+import tw, { styled } from 'twin.macro'
 
 import { Link, routes } from '@redwoodjs/router'
 
 import Navigation from '../Navigation/Navigation'
+
+import Controller from './components/Controller'
 
 interface ControllerProps {
   $isOpen: boolean
@@ -45,20 +38,7 @@ const Sidebar = () => {
   return (
     <SidebarContext.Provider value={value}>
       <Container $isOpen={isOpen}>
-        <Controller
-          icon={<ControllerIcon $isOpen={isOpen} />}
-          aria-label={isOpen ? '사이드바 열기' : '사이드바 닫기'}
-          top="9"
-          pos="absolute"
-          right="0"
-          size="xs"
-          isRound
-          bg="white"
-          variant="unstyled"
-          shadow="md"
-          onClick={toggle}
-          $isOpen={isOpen}
-        />
+        <Controller />
         <header>
           <Link
             to={routes.home()}
@@ -89,13 +69,13 @@ const Sidebar = () => {
 
 export default React.memo(Sidebar)
 
-const Controller = styled(IconButton)<ControllerProps>(({ $isOpen = true }) => [
-  $isOpen ? tw`translate-x-[50%] duration-1000` : tw`translate-x-[150%]`,
-])
+// const Controller = styled(IconButton)<ControllerProps>(({ $isOpen = true }) => [
+//   $isOpen ? tw`translate-x-[50%] duration-1000` : tw`translate-x-[150%]`,
+// ])
 
-const ControllerIcon = styled(ChevronRightIcon)<ControllerProps>(
-  ({ $isOpen }) => [tw`m-[6px] stroke-2`, $isOpen && tw`scale-x-[-1]`]
-)
+// const ControllerIcon = styled(ChevronRightIcon)<ControllerProps>(
+//   ({ $isOpen }) => [tw`m-[6px] stroke-2`, $isOpen && tw`scale-x-[-1]`]
+// )
 
 const Container = styled.div<ControllerProps>`
   ${tw`flex flex-col gap-8 py-8 h-screen bg-white drop-shadow-sm transition-all duration-500`}
