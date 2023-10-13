@@ -32,8 +32,7 @@ const Routes = () => {
           <Route path="/records" page={RecordRecordsPage} name="records" />
         </Set>
         <Set wrap={ScaffoldLayout} title="Categories" titleTo="categories" buttonLabel="New Category" buttonTo="newCategory">
-          <Route path="/categories/new" page={CategoryNewCategoryPage} name="newCategory" />
-          <Route path="/categories" page={CategoryCategoriesPage} name="categories" />
+          <Route path="/categories" page={CategoriesPage} name="categories" />
         </Set>
         <Set wrap={ScaffoldLayout} title="Tasks" titleTo="tasks" buttonLabel="New Task" buttonTo="newTask">
           <Route path="/tasks/new" page={TaskNewTaskPage} name="newTask" />
