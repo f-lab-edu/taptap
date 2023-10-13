@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import {
   ChangeEventHandler,
-  ForwardedRef,
   forwardRef,
+  useCallback,
   useMemo,
   useState,
 } from 'react'
@@ -23,25 +23,27 @@ interface CategoryFormProps {
   onEditEnd: () => void
 }
 
-const CategoryForm = forwardRef(
-  (props: CategoryFormProps, ref: ForwardedRef<HTMLInputElement>) => {
+const CategoryForm = forwardRef<HTMLInputElement, CategoryFormProps>(
+  (props, ref) => {
     const { category, onSave, loading, editing = true, onEditEnd } = props
 
-    const [title, setTitle] = useState(category?.title || '')
-    const initialTitle = useMemo(() => category?.title || '', [category])
-    const onBlur = () => {
-      setTitle(initialTitle)
+    const [title, setTitle] = useState(category?.title)
+    const onBlur = useCallback(() => {
+      setTitle(category?.title)
       onEditEnd()
-    }
+    }, [onEditEnd, category])
 
-    const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const onChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
       setTitle(e.target.value)
-    }
+    }, [])
 
-    const onSubmit = (data: FormCategory) => {
-      onSave(data, category?.id)
-      onEditEnd()
-    }
+    const onSubmit = useCallback(
+      (data: FormCategory) => {
+        onSave(data, category?.id)
+        onEditEnd()
+      },
+      [onSave, onEditEnd, category]
+    )
 
     return (
       <div className="w-full">
