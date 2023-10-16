@@ -17,7 +17,7 @@ import { Link, routes } from '@redwoodjs/router'
 import Navigation from '../Navigation/Navigation'
 
 interface ControllerProps {
-  isOpen: boolean
+  $isOpen: boolean
 }
 
 interface SidebarContextType {
@@ -44,9 +44,9 @@ const Sidebar = () => {
 
   return (
     <SidebarContext.Provider value={value}>
-      <Container isOpen={isOpen}>
+      <Container $isOpen={isOpen}>
         <Controller
-          icon={<ControllerIcon isOpen={isOpen} />}
+          icon={<ControllerIcon $isOpen={isOpen} />}
           aria-label={isOpen ? '사이드바 열기' : '사이드바 닫기'}
           top="9"
           pos="absolute"
@@ -54,11 +54,10 @@ const Sidebar = () => {
           size="xs"
           isRound
           bg="white"
+          variant="unstyled"
           shadow="md"
-          _hover={{}}
-          _active={{}}
           onClick={toggle}
-          isOpen={isOpen}
+          $isOpen={isOpen}
         />
         <header>
           <Link
@@ -90,15 +89,15 @@ const Sidebar = () => {
 
 export default React.memo(Sidebar)
 
-const Controller = styled(IconButton)<ControllerProps>(({ isOpen = true }) => [
-  isOpen ? tw`translate-x-[50%] duration-1000` : tw`translate-x-[150%]`,
+const Controller = styled(IconButton)<ControllerProps>(({ $isOpen = true }) => [
+  $isOpen ? tw`translate-x-[50%] duration-1000` : tw`translate-x-[150%]`,
 ])
 
 const ControllerIcon = styled(ChevronRightIcon)<ControllerProps>(
-  ({ isOpen }) => [tw`m-[6px] stroke-2`, isOpen && tw`scale-x-[-1]`]
+  ({ $isOpen }) => [tw`m-[6px] stroke-2`, $isOpen && tw`scale-x-[-1]`]
 )
 
-const Container = styled.div<{ isOpen: boolean }>`
+const Container = styled.div<ControllerProps>`
   ${tw`flex flex-col gap-8 py-8 h-screen bg-white drop-shadow-sm transition-all duration-500`}
-  ${({ isOpen }) => (isOpen ? tw`w-1/4 pl-5 pr-6` : tw`w-[70px] px-4`)}
+  ${({ $isOpen }) => ($isOpen ? tw`w-1/4 pl-5 pr-6` : tw`w-[70px] px-4`)}
 `

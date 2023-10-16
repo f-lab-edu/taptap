@@ -24,28 +24,18 @@ const Routes = () => {
       <Private unauthenticated="login">
         <Set wrap={MainLayout}>
           <Route path="/" page={HomePage} name="home" />
-          <Route path="/categories" page={CategoryCategoriesPage} name="categories" />
+          <Route path="/categories" page={CategoriesPage} name="categories" />
+          <Route path="/records" page={RecordRecordsPage} name="records" />
         </Set>
         <Set wrap={ScaffoldLayout} title="Records" titleTo="records" buttonLabel="New Record" buttonTo="newRecord">
           <Route path="/records/new" page={RecordNewRecordPage} name="newRecord" />
           <Route path="/records/{id:Int}/edit" page={RecordEditRecordPage} name="editRecord" />
           <Route path="/records/{id:Int}" page={RecordRecordPage} name="record" />
-          <Route path="/records" page={RecordRecordsPage} name="records" />
-        </Set>
-        <Set wrap={ScaffoldLayout} title="Categories" titleTo="categories" buttonLabel="New Category" buttonTo="newCategory">
-          <Route path="/categories/new" page={CategoryNewCategoryPage} name="newCategory" />
         </Set>
         <Set wrap={ScaffoldLayout} title="Tasks" titleTo="tasks" buttonLabel="New Task" buttonTo="newTask">
-          <Route path="/tasks/new" page={TaskNewTaskPage} name="newTask" />
           <Route path="/tasks/{id:Int}/edit" page={TaskEditTaskPage} name="editTask" />
           <Route path="/tasks/{id:Int}" page={TaskTaskPage} name="task" />
           <Route path="/tasks" page={TaskTasksPage} name="tasks" />
-        </Set>
-        <Set wrap={ScaffoldLayout} title="Repeats" titleTo="repeats" buttonLabel="New Repeat" buttonTo="newRepeat">
-          <Route path="/repeats/new" page={RepeatNewRepeatPage} name="newRepeat" />
-          <Route path="/repeats/{id:Int}/edit" page={RepeatEditRepeatPage} name="editRepeat" />
-          <Route path="/repeats/{id:Int}" page={RepeatRepeatPage} name="repeat" />
-          <Route path="/repeats" page={RepeatRepeatsPage} name="repeats" />
         </Set>
       </Private>
       <Route notfound page={NotFoundPage} />

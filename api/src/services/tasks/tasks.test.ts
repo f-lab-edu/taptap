@@ -25,18 +25,14 @@ describe('tasks', () => {
   scenario('creates a task', async (scenario: StandardScenario) => {
     const result = await createTask({
       input: {
-        updatedAt: '2023-09-05T09:09:30.379Z',
         title: 'String',
         color: 'String',
-        description: 'String',
         categoryId: scenario.task.two.categoryId,
       },
     })
 
-    expect(result.updatedAt).toEqual(new Date('2023-09-05T09:09:30.379Z'))
     expect(result.title).toEqual('String')
     expect(result.color).toEqual('String')
-    expect(result.description).toEqual('String')
     expect(result.categoryId).toEqual(scenario.task.two.categoryId)
   })
 
@@ -44,10 +40,10 @@ describe('tasks', () => {
     const original = (await task({ id: scenario.task.one.id })) as Task
     const result = await updateTask({
       id: original.id,
-      input: { updatedAt: '2023-09-06T09:09:30.379Z' },
+      input: { title: 'String2' },
     })
 
-    expect(result.updatedAt).toEqual(new Date('2023-09-06T09:09:30.379Z'))
+    expect(result.title).toEqual('String2')
   })
 
   scenario('deletes a task', async (scenario: StandardScenario) => {

@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "Repeat" ALTER COLUMN "createdAt" DROP NOT NULL,
+ALTER COLUMN "updatedAt" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "Task" ALTER COLUMN "startDate" DROP NOT NULL,
+ALTER COLUMN "times" DROP DEFAULT;

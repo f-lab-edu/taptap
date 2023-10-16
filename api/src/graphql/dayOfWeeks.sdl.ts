@@ -32,7 +32,7 @@ export const schema = gql`
   }
 
   type Mutation {
-    createDayOfWeek(input: CreateDayOfWeekInput!): DayOfWeek! @requireAuth
+    createDayOfWeek(input: CreateDayOfWeekInput!): DayOfWeek! @skipAuth
     updateDayOfWeek(id: Int!, input: UpdateDayOfWeekInput!): DayOfWeek!
       @requireAuth
     deleteDayOfWeek(id: Int!): DayOfWeek! @requireAuth

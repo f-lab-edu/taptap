@@ -1,69 +1,57 @@
 export const schema = gql`
   type Repeat {
     id: Int!
-    createdAt: DateTime!
-    updatedAt: DateTime!
-    startDate: DateTime!
-    startTime: DateTime!
-    endDate: DateTime!
-    endTime: DateTime!
-    type: RepeatType
+    createdAt: DateTime
+    updatedAt: DateTime
+    endDate: Date
+    type: RepeatType!
     interval: Int!
-    daysOfWeek: [DayOfWeek]!
-    daysOfMonth: JSON
-    weekOfMonth: WeekOfMonth
+    daysOfWeek: [DayOfWeek]
+    daysOfMonth: [String]
+    weekOfMonth: Int
+    months: [Int]
     taskId: Int!
     task: Task!
   }
 
   enum RepeatType {
-    DAILY
-    WEEKLY
-    MONTHLY
-    YEARLY
+    Daily
+    Weekly
+    Monthly
+    Yearly
   }
 
-  enum WeekOfMonth {
-    FIRST
-    SECOND
-    THIRD
-    FOURTH
-    FIFTH
-    LAST
+  enum DayOfWeek {
+    Sun
+    Mon
+    Tue
+    Wed
+    Thu
+    Fri
+    Sat
   }
 
   type Query {
     repeats: [Repeat!]! @requireAuth
-    repeat(id: Int!): Repeat @requireAuth
   }
 
   input CreateRepeatInput {
-    startDate: DateTime!
-    startTime: DateTime!
-    endDate: DateTime!
-    endTime: DateTime!
-    type: RepeatType
+    endDate: Date
+    type: RepeatType!
     interval: Int!
-    daysOfMonth: JSON
-    weekOfMonth: WeekOfMonth
-    taskId: Int!
+    daysOfWeek: [DayOfWeek]
+    daysOfMonth: [String]
+    weekOfMonth: Int
+    months: [Int]
   }
 
   input UpdateRepeatInput {
-    startDate: DateTime
-    startTime: DateTime
-    endDate: DateTime
-    endTime: DateTime
+    endDate: Date
     type: RepeatType
     interval: Int
-    daysOfMonth: JSON
-    weekOfMonth: WeekOfMonth
-    taskId: Int
-  }
-
-  type Mutation {
-    createRepeat(input: CreateRepeatInput!): Repeat! @requireAuth
-    updateRepeat(id: Int!, input: UpdateRepeatInput!): Repeat! @requireAuth
-    deleteRepeat(id: Int!): Repeat! @requireAuth
+    daysOfWeek: [DayOfWeek]
+    daysOfMonth: [String]
+    weekOfMonth: Int
+    months: [Int]
   }
 `

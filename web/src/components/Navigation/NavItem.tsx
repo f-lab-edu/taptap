@@ -22,9 +22,9 @@ const NavItem = ({ title, to, icon }: NavItemProps) => {
   const color = useMemo(() => (match ? '#0a0a0a' : '#a3a3a3'), [match])
 
   return (
-    <Container to={to} isActive={match} isOpen={isOpen}>
+    <Container to={to} $active={match} $isOpen={isOpen}>
       <HStack fontWeight="bold" color={color} fontSize="sm">
-        <Icon as={icon} fontSize="lg" />
+        <Icon as={icon} fontSize="lg" strokeWidth="2" />
         {isOpen && <Text>{title}</Text>}
       </HStack>
     </Container>
@@ -33,12 +33,12 @@ const NavItem = ({ title, to, icon }: NavItemProps) => {
 
 export default memo(NavItem)
 
-const Container = styled(Link)<{ isActive?: boolean; isOpen: boolean }>`
+const Container = styled(Link)<{ $active?: boolean; $isOpen: boolean }>`
   ${tw`
     flex items-center h-9 px-3 rounded-lg transition duration-150
   `}
 
-  ${({ isActive }) =>
-    isActive ? tw`bg-neutral-200/70` : tw`hover:bg-neutral-200/30`}
-  ${({ isOpen }) => (isOpen ? tw`justify-start` : tw`flex justify-center`)}
+  ${({ $active }) =>
+    $active ? tw`bg-neutral-200/70` : tw`hover:bg-neutral-200/30`}
+  ${({ $isOpen }) => ($isOpen ? tw`justify-start` : tw`flex justify-center`)}
 `
