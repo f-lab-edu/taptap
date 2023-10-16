@@ -1,4 +1,5 @@
 import * as React from 'react'
+
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import * as theme from 'config/chakra.config'
 /** @type { import("@storybook/csf").GlobalTypes } */

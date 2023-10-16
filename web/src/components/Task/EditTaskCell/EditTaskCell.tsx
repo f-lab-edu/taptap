@@ -5,8 +5,6 @@ import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
-import TaskForm from 'src/components/Task/TaskForm'
-
 export const QUERY = gql`
   query EditTaskById($id: Int!) {
     task: task(id: $id) {
@@ -14,13 +12,6 @@ export const QUERY = gql`
       title
       color
       categoryId
-      repeat {
-        id
-        endDate
-        type
-        interval
-        daysOfWeek
-      }
     }
   }
 `
@@ -65,9 +56,7 @@ export const Success = ({ task }: CellSuccessProps<EditTaskById>) => {
           Edit Task {task?.id}
         </h2>
       </header>
-      <div className="rw-segment-main">
-        <TaskForm task={task} onSave={onSave} error={error} loading={loading} />
-      </div>
+      <div className="rw-segment-main"></div>
     </div>
   )
 }
