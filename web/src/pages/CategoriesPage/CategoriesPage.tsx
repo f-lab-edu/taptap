@@ -1,7 +1,13 @@
-import CategoriesCell from 'src/components/CategoriesCell'
+import { MetaTags } from '@redwoodjs/web'
 
-const CategoriesPage = () => {
-  return <CategoriesCell />
-}
+import CategoriesCell from 'src/components/Category/CategoriesCell'
+
+const CategoriesPage = () => (
+  <>
+    <MetaTags title="Categories" description="Categories page" />
+
+    <CategoriesCell />
+  </>
+)
 
 export default CategoriesPage

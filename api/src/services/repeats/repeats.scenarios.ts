@@ -5,38 +5,52 @@ export const standard = defineScenario<Prisma.RepeatCreateArgs>({
   repeat: {
     one: {
       data: {
-        updatedAt: '2023-09-05T09:09:01.111Z',
-        startDate: '2023-09-05T09:09:01.111Z',
-        startTime: '2023-09-05T09:09:01.111Z',
-        endDate: '2023-09-05T09:09:01.111Z',
-        endTime: '2023-09-05T09:09:01.111Z',
-        interval: 3551855,
+        updatedAt: '2023-09-28T09:48:17.499Z',
+        daysOfWeek: '0',
+        daysOfMonth: 'String',
         task: {
           create: {
-            updatedAt: '2023-09-05T09:09:01.111Z',
             title: 'String',
             color: 'String',
-            description: 'String',
-            category: { create: { title: 'String' } },
+            category: {
+              create: {
+                title: 'String2593219',
+                user: {
+                  create: {
+                    updatedAt: '2023-09-28T09:48:17.499Z',
+                    email: 'String6303528',
+                    hashedPassword: 'String',
+                    salt: 'String',
+                  },
+                },
+              },
+            },
           },
         },
       },
     },
     two: {
       data: {
-        updatedAt: '2023-09-05T09:09:01.111Z',
-        startDate: '2023-09-05T09:09:01.111Z',
-        startTime: '2023-09-05T09:09:01.111Z',
-        endDate: '2023-09-05T09:09:01.111Z',
-        endTime: '2023-09-05T09:09:01.111Z',
-        interval: 9785378,
+        updatedAt: '2023-09-28T09:48:17.499Z',
+        daysOfWeek: '0',
+        daysOfMonth: 'String',
         task: {
           create: {
-            updatedAt: '2023-09-05T09:09:01.111Z',
             title: 'String',
             color: 'String',
-            description: 'String',
-            category: { create: { title: 'String' } },
+            category: {
+              create: {
+                title: 'String3020582',
+                user: {
+                  create: {
+                    updatedAt: '2023-09-28T09:48:17.499Z',
+                    email: 'String6184534',
+                    hashedPassword: 'String',
+                    salt: 'String',
+                  },
+                },
+              },
+            },
           },
         },
       },

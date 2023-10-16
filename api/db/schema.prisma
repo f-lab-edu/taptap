@@ -1,5 +1,5 @@
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -34,12 +34,14 @@ model Category {
 
 model Task {
   id    Int     @id @default(autoincrement())
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime?  @default(now())
+  updatedAt  DateTime? @updatedAt
   title     String
   color     String
-  description String?
-  repeats     Repeat[]
+  startDate DateTime?  @default(now())
+  times    Json?     // [시작시간, 종료시간][] format: hh:mm (24hours)
+  // description String?
+  repeat     Repeat?
   records   Record[]
 
   categoryId Int
@@ -58,53 +60,34 @@ model Record {
 }
 
 enum RepeatType {
-  DAILY
-  WEEKLY
-  MONTHLY
-  YEARLY
+  Daily
+  Weekly
+  Monthly
+  Yearly
 }
 
-enum WeekOfMonth {
-  FIRST
-  SECOND
-  THIRD
-  FOURTH
-  FIFTH
-  LAST
+enum DayOfWeek {
+  Sun @map("0")
+  Mon @map("1")
+  Tue @map("2")
+  Wed @map("3")
+  Thu @map("4")
+  Fri @map("5")
+  Sat @map("6")
 }
 
 model Repeat {
   id    Int     @id @default(autoincrement())
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime @updatedAt
-  startDate DateTime
-  startTime  DateTime
-  endDate DateTime
-  endTime DateTime
-  type  RepeatType?
+  createdAt  DateTime?  @default(now())
+  updatedAt  DateTime? @updatedAt
+  endDate DateTime?
+  type  RepeatType
   interval  Int
-  daysOfWeek DayOfWeek[] // relation or json
-  daysOfMonth Json? // number[]
-  weekOfMonth WeekOfMonth?
+  daysOfWeek DayOfWeek[]
+  daysOfMonth String[] // 1 ~30 or 31 to string
+  weekOfMonth Int?
+  months  Int[]
 
-  taskId  Int
+  taskId  Int @unique
   task  Task @relation(fields: [taskId], references: [id])
 }
-
-enum DayOfWeekLabel {
-  MON
-  TUE
-  WED
-  THU
-  FRI
-  SAT
-  SUN
-}
-
-model DayOfWeek {
-  id    Int     @id @default(autoincrement())
-  title DayOfWeekLabel @unique
-  value Int @unique // sun(0) to sat(6)
-  repeats  Repeat[]
-}
-

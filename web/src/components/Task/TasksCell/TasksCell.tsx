@@ -1,6 +1,5 @@
 import type { FindTasks } from 'types/graphql'
 
-import { Link, routes } from '@redwoodjs/router'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
 import Tasks from 'src/components/Task/Tasks'
@@ -13,7 +12,6 @@ export const QUERY = gql`
       updatedAt
       title
       color
-      description
       categoryId
     }
   }
@@ -25,9 +23,9 @@ export const Empty = () => {
   return (
     <div className="rw-text-center">
       {'No tasks yet. '}
-      <Link to={routes.newTask()} className="rw-link">
+      {/* <Link to={routes.newTask()} className="rw-link">
         {'Create one?'}
-      </Link>
+      </Link> */}
     </div>
   )
 }

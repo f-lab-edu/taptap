@@ -1,49 +1,19 @@
-import { Link, routes } from '@redwoodjs/router'
-import { useAuth } from 'src/auth'
+import { HStack } from '@chakra-ui/react'
+
+import Sidebar from 'src/components/Sidebar/Sidebar'
 
 type MainLayoutProps = {
   children?: React.ReactNode
 }
 
-const MainLayout = ({ children }: MainLayoutProps) => {
-  // const { currentUser, logOut } = useAuth()
-  // console.log(JSON.stringify(currentUser))
-  return (
-    <>
-      <header>
-        <div>
-          <h1>
-            <Link to={routes.home()}>Tap Tap</Link>
-          </h1>
-          {/* <div>
-            <span>Logged in as {currentUser.id}</span>{' '}
-            <button type="button" onClick={logOut}>
-              Logout
-            </button>
-          </div> */}
-        </div>
-        <hr />
-        <nav>
-          <ul>
-            <li>
-              <Link to={routes.home()}>Home</Link>
-            </li>
-            <li>
-              <Link to={routes.tasks()}>Tasks</Link>
-            </li>
-            <li>
-              <Link to={routes.categories()}>Category</Link>
-            </li>
-            <li>
-              <Link to={routes.records()}>Record</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
+const MainLayout = ({ children }: MainLayoutProps) => (
+  <HStack className="bg-neutral-100" w="full" h="100vh" spacing="0.5">
+    <Sidebar />
+    <main className="h-full flex-1">
+      <header>title</header>
       {children}
-      <footer></footer>
-    </>
-  )
-}
+    </main>
+  </HStack>
+)
 
 export default MainLayout

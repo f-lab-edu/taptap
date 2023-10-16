@@ -1,11 +1,11 @@
+import type { DeleteTaskMutationVariables, FindTasks } from 'types/graphql'
+
 import { Link, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { QUERY } from 'src/components/Task/TasksCell'
 import { timeTag, truncate } from 'src/lib/formatters'
-
-import type { DeleteTaskMutationVariables, FindTasks } from 'types/graphql'
 
 const DELETE_TASK_MUTATION = gql`
   mutation DeleteTaskMutation($id: Int!) {
@@ -46,7 +46,6 @@ const TasksList = ({ tasks }: FindTasks) => {
             <th>Updated at</th>
             <th>Title</th>
             <th>Color</th>
-            <th>Description</th>
             <th>Category id</th>
             <th>&nbsp;</th>
           </tr>
@@ -59,7 +58,6 @@ const TasksList = ({ tasks }: FindTasks) => {
               <td>{timeTag(task.updatedAt)}</td>
               <td>{truncate(task.title)}</td>
               <td>{truncate(task.color)}</td>
-              <td>{truncate(task.description)}</td>
               <td>{truncate(task.categoryId)}</td>
               <td>
                 <nav className="rw-table-actions">
