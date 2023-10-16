@@ -12,7 +12,7 @@ import {
 import { Bars2Icon } from '@heroicons/react/20/solid'
 import type {
   DeleteCategoryMutationVariables,
-  FindCategoryById,
+  FindCategories,
   UpdateCategoryInput,
 } from 'types/graphql'
 
@@ -22,7 +22,7 @@ import { toast } from '@redwoodjs/web/toast'
 
 import Toolbox from 'src/components/Toolbox/Toolbox'
 
-import { QUERY as GET_CATEGORIES } from '../CategoriesCell'
+import { QUERY as GET_CATEGORIES } from '../../CategoriesCell'
 import CategoryForm from '../CategoryForm/CategoryForm'
 
 const DELETE_CATEGORY_MUTATION = gql`
@@ -44,7 +44,7 @@ const UPDATE_CATEGORY_MUTATION = gql`
 `
 
 interface Props {
-  category: NonNullable<FindCategoryById['category']>
+  category: NonNullable<FindCategories['categories'][0]>
 }
 
 const Category = ({ category }: Props) => {
@@ -92,13 +92,13 @@ const Category = ({ category }: Props) => {
   }, [onEditStart])
 
   const onSave = useCallback(
-    (input: UpdateCategoryInput, id: FindCategoryById['category']['id']) => {
+    (input: UpdateCategoryInput, id: FindCategories['categories'][0]['id']) => {
       updateCategory({ variables: { id, input } })
     },
     [updateCategory]
   )
 
-  const { isOpen, onToggle } = useDisclosure()
+  const { isOpen, getButtonProps, getDisclosureProps } = useDisclosure()
 
   return (
     <>
@@ -109,7 +109,13 @@ const Category = ({ category }: Props) => {
           aria-label="order-controller"
           icon={<Bars2Icon className="h-4 w-4" />}
         />
-        <Button variant="unstyled" flex="1" onClick={onToggle}>
+        <Button
+          as="div"
+          {...getButtonProps()}
+          variant="unstyled"
+          flex="1"
+          cursor="pointer"
+        >
           <CategoryForm
             ref={titleRef}
             category={category}
@@ -128,7 +134,7 @@ const Category = ({ category }: Props) => {
         />
       </Flex>
       {/* 하위 할 일 항목 */}
-      <Collapse in={isOpen}>
+      <Collapse {...getDisclosureProps()} in={isOpen}>
         <Box as="ul" ml="12">
           {category.tasks.map((task) => (
             <li
