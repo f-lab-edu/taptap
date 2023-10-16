@@ -1,10 +1,10 @@
 import { EditTaskById, FindCategoriesForTask } from 'types/graphql'
 
-import { REPEAT_OPTIONS } from './TaskForm.utils'
+import { OPTIONS } from './TaskForm.utils'
 
 export type Task = NonNullable<EditTaskById['task']>
 
-export type RepeatOption = (typeof REPEAT_OPTIONS)[number]
+export type RepeatOption = (typeof OPTIONS.repeat)[number]
 
 export interface TaskFormData {
   title: string

@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import {
   Modal,
   ModalBody,
@@ -34,6 +32,7 @@ interface Props {
 type RepeatData = {
   [key in RepeatOption]?: UpdateRepeatInput
 }
+
 const repeatData: RepeatData = {
   안함: undefined,
   매일: { type: 'Daily', interval: 1 },
@@ -63,7 +62,7 @@ const repeatData: RepeatData = {
 }
 
 const NewTask = ({ isOpen, onClose }: Props) => {
-  const [createTask, { loading, error }] = useMutation(CREATE_TASK_MUTATION, {
+  const [createTask] = useMutation(CREATE_TASK_MUTATION, {
     onCompleted: () => {
       toast.success('할 일이 저장되었습니다')
       onClose()
@@ -92,9 +91,6 @@ const NewTask = ({ isOpen, onClose }: Props) => {
     }
     createTask({ variables: { input } })
   }
-
-  useEffect(() => console.log('loading in new task', loading), [loading])
-  useEffect(() => console.log('error in new task', error), [error])
 
   return (
     <>

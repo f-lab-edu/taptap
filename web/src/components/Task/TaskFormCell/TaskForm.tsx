@@ -13,8 +13,8 @@ import {
 import {
   useForm,
   SubmitHandler,
-  Controller,
   FormProvider,
+  Controller,
 } from '@redwoodjs/forms'
 
 import CategoryRadio from './components/CategoryRadio'
@@ -22,26 +22,19 @@ import ColorRadio from './components/ColorRadio'
 import DateField from './components/DateField'
 import RepeatField from './components/RepeatField'
 import TimeField from './components/TimeField/TimeField'
-import { timeFormat } from './components/TimeField/TimeField.utils'
 import { TaskFormProps, TaskFormData } from './TaskForm.types'
-import { COLOR_PALETTE, getDefaultTimes } from './TaskForm.utils'
+import { OPTIONS, defaultValues } from './TaskForm.utils'
 
 const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
   const formMethod = useForm<TaskFormData>({
     defaultValues: {
-      title: task?.title,
-      category: task?.categoryId || categories[0].id,
-      color: task?.color || COLOR_PALETTE[0].value,
-      startDate: new Date(),
-      times: {
-        allDay: true,
-        data: [getDefaultTimes().map(timeFormat) as [string, string]],
-      },
-      repeat: {
-        repeat: '안함',
-      },
+      ...defaultValues,
+      ...(task
+        ? { title: task.title, category: task.categoryId, color: task.color }
+        : { category: categories[0].id }),
     },
   })
+
   const {
     register,
     watch,
@@ -102,7 +95,7 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
               rowGap="2"
               columnGap="2%"
             >
-              {COLOR_PALETTE.map(({ value }) => (
+              {OPTIONS.color.map((value) => (
                 <ColorRadio
                   {...register('color')}
                   key={value}

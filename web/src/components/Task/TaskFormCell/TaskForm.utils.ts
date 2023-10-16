@@ -1,4 +1,32 @@
-import { addHours, roundToNearestMinutes } from 'date-fns'
+import { addHours, format, roundToNearestMinutes } from 'date-fns'
+
+export const OPTIONS = {
+  color: [
+    '#073b4c',
+    '#005f73',
+    '#94d2bd',
+    '#0a9396',
+    '#e9d8a6',
+    '#ee9b00',
+    '#ca6702',
+    '#bb3e03',
+    '#ae2012',
+    '#9b2226',
+    '#344e41',
+    '#3a5a40',
+    '#588157',
+    '#a3b18a',
+    '#dad7cd',
+    '#cac5b8',
+    '#98948a',
+    '#65635c',
+    '#33312e',
+    '#000000',
+  ],
+  repeat: ['안함', '매일', '평일', '주말', '매주', '매월', '매년'] as const,
+}
+
+export const timeFormat = (date: Date): string => format(date, 'HH:mm')
 
 export const getDefaultTimes = (): [Date, Date] => {
   const start = roundToNearestMinutes(new Date(), {
@@ -9,41 +37,14 @@ export const getDefaultTimes = (): [Date, Date] => {
   return [start, end]
 }
 
-export const COLOR_PALETTE = [
-  { value: '#073b4c' },
-  { value: '#005f73' },
-  { value: '#0a9396' },
-  { value: '#94d2bd' },
-  { value: '#e9d8a6' },
-  { value: '#ee9b00' },
-  { value: '#ca6702' },
-  { value: '#bb3e03' },
-  { value: '#ae2012' },
-  { value: '#9b2226' },
-  { value: '#344e41' },
-  { value: '#3a5a40' },
-  { value: '#588157' },
-  { value: '#a3b18a' },
-  { value: '#dad7cd' },
-  { value: '#cac5b8' },
-  { value: '#98948a' },
-  { value: '#65635c' },
-  { value: '#33312e' },
-  { value: '#000000' },
-]
-
-export const REPEAT_OPTIONS = [
-  '안함',
-  '매일',
-  '평일',
-  '주말',
-  '매주',
-  '매월',
-  '매년',
-] as const
-
-// TODO: 이게 더 나을까
-const options = {
-  color: [],
-  repeat: [],
+export const defaultValues = {
+  color: OPTIONS.color[0],
+  startDate: new Date(),
+  times: {
+    allDay: true,
+    data: [getDefaultTimes().map(timeFormat) as [string, string]],
+  },
+  repeat: {
+    repeat: '안함' as const,
+  },
 }
