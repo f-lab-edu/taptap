@@ -15,7 +15,11 @@ const DELETE_TASK_MUTATION = gql`
   }
 `
 
-const TasksList = ({ tasks }: FindTasks) => {
+interface Props {
+  tasks: FindTasks['tasks']
+}
+
+const TasksList = ({ tasks }: Props) => {
   const [deleteTask] = useMutation(DELETE_TASK_MUTATION, {
     onCompleted: () => {
       toast.success('Task deleted')

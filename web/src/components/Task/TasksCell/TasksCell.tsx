@@ -13,6 +13,10 @@ export const QUERY = gql`
       title
       color
       categoryId
+      repeat {
+        daysOfMonth
+        daysOfWeek
+      }
     }
   }
 `
@@ -34,6 +38,6 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ tasks }: CellSuccessProps<FindTasks>) => {
-  return <Tasks tasks={tasks} />
-}
+export const Success = ({ tasks }: CellSuccessProps<FindTasks>) => (
+  <Tasks tasks={tasks} />
+)

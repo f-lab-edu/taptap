@@ -6,8 +6,8 @@ export const schema = gql`
     endDate: Date
     type: RepeatType!
     interval: Int!
-    daysOfWeek: [DayOfWeek]
-    daysOfMonth: [String]
+    daysOfWeek: [Int]
+    daysOfMonth: [Int]
     weekOfMonth: Int
     months: [Int]
     taskId: Int!
@@ -39,8 +39,8 @@ export const schema = gql`
     endDate: Date
     type: RepeatType!
     interval: Int!
-    daysOfWeek: [DayOfWeek]
-    daysOfMonth: [String]
+    daysOfWeek: [Int]
+    daysOfMonth: [Int]
     weekOfMonth: Int
     months: [Int]
   }
@@ -49,8 +49,8 @@ export const schema = gql`
     endDate: Date
     type: RepeatType
     interval: Int
-    daysOfWeek: [DayOfWeek]
-    daysOfMonth: [String]
+    daysOfWeek: [Int]
+    daysOfMonth: [Int]
     weekOfMonth: Int
     months: [Int]
   }

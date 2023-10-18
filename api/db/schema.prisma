@@ -34,8 +34,8 @@ model Category {
 
 model Task {
   id    Int     @id @default(autoincrement())
-  createdAt  DateTime?  @default(now())
-  updatedAt  DateTime? @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime @updatedAt
   title     String
   color     String
   startDate DateTime?  @default(now())
@@ -78,16 +78,16 @@ enum DayOfWeek {
 
 model Repeat {
   id    Int     @id @default(autoincrement())
-  createdAt  DateTime?  @default(now())
-  updatedAt  DateTime? @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime @updatedAt
   endDate DateTime?
   type  RepeatType
   interval  Int
-  daysOfWeek DayOfWeek[]
-  daysOfMonth String[] // 1 ~30 or 31 to string
-  weekOfMonth Int?
   months  Int[]
+  daysOfMonth Int[] // 몇일 1 ~ 31
+  weekOfMonth Int? // 몇째주
+  daysOfWeek Int[] // 몇요일 sun(0) to sat(6)
 
   taskId  Int @unique
-  task  Task @relation(fields: [taskId], references: [id])
+  task  Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
 }

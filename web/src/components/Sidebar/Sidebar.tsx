@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useMemo } from 'react'
 
-import { Avatar, HStack, Box, useBoolean, Text } from '@chakra-ui/react'
+import { Avatar, HStack, Box, useBoolean, Text, Button } from '@chakra-ui/react'
 import tw, { styled } from 'twin.macro'
 
 import { Link, routes } from '@redwoodjs/router'
+
+import { useAuth } from 'src/auth'
 
 import Navigation from '../Navigation/Navigation'
 
@@ -35,6 +37,8 @@ const Sidebar = () => {
     [isOpen, toggle]
   )
 
+  const { logOut } = useAuth()
+
   return (
     <SidebarContext.Provider value={value}>
       <Container $isOpen={isOpen}>
@@ -61,6 +65,7 @@ const Sidebar = () => {
             username
           </Heading> */}
           </HStack>
+          <Button onClick={logOut}>logOut</Button>
         </Box>
       </Container>
     </SidebarContext.Provider>
