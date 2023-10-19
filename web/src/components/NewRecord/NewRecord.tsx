@@ -1,11 +1,16 @@
 import React, { useCallback } from 'react'
 
 import { TypedDocumentNode } from '@apollo/client'
-import { Select } from '@chakra-ui/react'
+import { Button, Select } from '@chakra-ui/react'
 import { Task } from 'types/graphql'
 
-import { useForm } from '@redwoodjs/forms'
-import { useSuspenseQuery } from '@redwoodjs/web/dist/components/GraphQLHooksProvider'
+import { Controller, SubmitHandler, useForm } from '@redwoodjs/forms'
+import {
+  useMutation,
+  useSuspenseQuery,
+} from '@redwoodjs/web/dist/components/GraphQLHooksProvider'
+
+import Timer from './components/Timer'
 
 const GET_TASKS: TypedDocumentNode<Data, Variables> = gql`
   query FindTasks {
@@ -20,6 +25,17 @@ const GET_TASKS: TypedDocumentNode<Data, Variables> = gql`
   }
 `
 
+const CREATE_RECORD = gql`
+  mutation createRecord($input: CreateRecordInput!) {
+    createRecord(input: $input) {
+      id
+      start
+      end
+      taskId
+    }
+  }
+`
+
 interface Variables {
   date: Date
 }
@@ -30,6 +46,8 @@ interface Data {
 
 interface NewRecordForm {
   taskId
+  start
+  end
 }
 
 const NewRecord = () => {
@@ -37,18 +55,75 @@ const NewRecord = () => {
     variables: { date: new Date() },
   })
 
-  const { register } = useForm<NewRecordForm>()
+  const [createRecord] = useMutation(CREATE_RECORD, {
+    onCompleted: () => console.log('성공'),
+    onError: (error) => console.log('error: ', error),
+  })
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { isSubmitting },
+  } = useForm<NewRecordForm>()
+
+  const start = watch('start')
+
+  const onSubmit: SubmitHandler<NewRecordForm> = useCallback(
+    async (input) => {
+      await createRecord({ variables: { input } })
+    },
+    [createRecord]
+  )
 
   return (
     <div>
-      <form>
-        <Select {...register('taskId')}>
-          {data.tasks.map(({ id, title }) => (
-            <option key={id} value={id}>
-              {title}
-            </option>
-          ))}
-        </Select>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          control={control}
+          name="taskId"
+          rules={{ required: true }}
+          render={({ field }) => (
+            <Select
+              {...field}
+              onChange={(e) => field.onChange(parseInt(e.target.value))}
+            >
+              {data.tasks.map(({ id, title }) => (
+                <option key={id} value={id}>
+                  {title}
+                </option>
+              ))}
+            </Select>
+          )}
+        />
+        <Controller
+          control={control}
+          name="start"
+          render={({ field: { onChange } }) => (
+            <Button type="button" onClick={() => onChange(new Date())}>
+              start
+            </Button>
+          )}
+        />
+
+        {start && (
+          <>
+            <Timer start={start} />
+            <Controller
+              control={control}
+              name="end"
+              render={({ field: { onChange } }) => (
+                <Button
+                  type="submit"
+                  isLoading={isSubmitting}
+                  onClick={() => onChange(new Date())}
+                >
+                  그만할래요
+                </Button>
+              )}
+            />
+          </>
+        )}
       </form>
     </div>
   )
