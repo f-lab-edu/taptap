@@ -85,7 +85,7 @@ const isPlaned =
     return true
   }
 
-export const tasks: QueryResolvers['tasks'] = async ({ date = new Date() }) => {
+export const tasks: QueryResolvers['tasks'] = async ({ date }) => {
   const data = await db.task.findMany({
     where: {
       category: {

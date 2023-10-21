@@ -8,6 +8,7 @@ import { MetaTags } from '@redwoodjs/web'
 
 import NewRecord from 'src/components/NewRecord/NewRecord'
 import NewTaskModal from 'src/components/Task/NewTaskModal/NewTaskModal'
+import TodayDuration from 'src/components/TodayDuration/TodayDuration'
 
 const HomePage = () => {
   const [isOpen, { toggle }] = useBoolean()
@@ -92,6 +93,7 @@ const HomePage = () => {
       <main>
         <Suspense fallback={<p className="bg-black">loading....</p>}>
           <NewRecord />
+          <TodayDuration />
         </Suspense>
       </main>
     </>
