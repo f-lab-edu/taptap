@@ -95,8 +95,7 @@ export const tasks: QueryResolvers['tasks'] = async ({ date = new Date() }) => {
     include: { repeat: true },
   })
 
-  const d = typeof date === 'string' ? new Date(date) : date
-  return data.filter(isPlaned(d))
+  return data.filter(isPlaned(new Date(date)))
 }
 
 export const task: QueryResolvers['task'] = ({ id }) => {

@@ -1,3 +1,4 @@
+import { Duration, endOfDay, intervalToDuration, startOfDay } from 'date-fns'
 import type {
   QueryResolvers,
   MutationResolvers,
@@ -6,8 +7,29 @@ import type {
 
 import { db } from 'src/lib/db'
 
-export const records: QueryResolvers['records'] = () => {
-  return db.record.findMany()
+const add = (d1: any, d2: Duration) => {
+  const _add = (a, b = 0) => a + b
+  for (const [k, v] of Object.entries(d2)) {
+    d1[k] = _add(v, d1[k])
+  }
+}
+
+export const records: QueryResolvers['records'] = async ({ date }) => {
+  const data = await db.record.findMany({
+    where: {
+      start: {
+        gte: startOfDay(new Date(date)),
+      },
+      end: {
+        lte: endOfDay(new Date(date)),
+      },
+    },
+  })
+  const duration = {} as Duration
+  data.forEach(({ start, end }) => {
+    add(duration, intervalToDuration({ start, end }))
+  })
+  return { duration, list: data }
 }
 
 export const record: QueryResolvers['record'] = ({ id }) => {

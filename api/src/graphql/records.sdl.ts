@@ -9,8 +9,23 @@ export const schema = gql`
     task: Task!
   }
 
+  type Duration {
+    years: Int
+    months: Int
+    weeks: Int
+    days: Int
+    hours: Int
+    minutes: Int
+    seconds: Int
+  }
+
+  type Redords {
+    duration: Duration
+    list: [Record!]!
+  }
+
   type Query {
-    records: [Record!]! @requireAuth
+    records(date: Date!): Redords @requireAuth
     record(id: Int!): Record @requireAuth
   }
 
