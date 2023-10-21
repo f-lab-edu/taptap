@@ -1,23 +1,9 @@
 import React, { useMemo } from 'react'
 
-import { TypedDocumentNode } from '@apollo/client'
 import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
-import { records, recordsVariables } from 'types/graphql'
 
-import { useSuspenseQuery } from '@redwoodjs/web/dist/components/GraphQLHooksProvider'
-
-const GET_TODAY_DURATION: TypedDocumentNode<records, recordsVariables> = gql`
-  query records($date: Date!) {
-    records(date: $date) {
-      duration {
-        hours
-        minutes
-        seconds
-      }
-    }
-  }
-`
+import useRecords from 'src/hooks/useRecords'
 
 const TodayDuration = () => {
   const today = useMemo(() => new Date(), [])
@@ -27,10 +13,8 @@ const TodayDuration = () => {
         duration: { hours, minutes, seconds },
       },
     },
-  } = useSuspenseQuery(GET_TODAY_DURATION, {
-    variables: {
-      date: format(today, 'yyyy-MM-dd'),
-    },
+  } = useRecords({
+    date: today.toISOString(),
   })
   return (
     <div>

@@ -25,7 +25,7 @@ export const schema = gql`
   }
 
   type Query {
-    records(date: Date): Redords @requireAuth
+    records(date: DateTime, taskId: Int): Redords @requireAuth
     record(id: Int!): Record @requireAuth
   }
 

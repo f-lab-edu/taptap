@@ -18,10 +18,6 @@ const Timer = ({ start }: Props) => {
     [start, end]
   )
 
-  useEffect(() => {
-    console.log('end:', end)
-  }, [end])
-
   return <p>{`${hours}:${minutes}:${seconds}`}</p>
 }
 

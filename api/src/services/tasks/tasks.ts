@@ -16,6 +16,7 @@ import type {
   MutationResolvers,
   TaskRelationResolvers,
   RepeatType,
+  Task as TaskData,
 } from 'types/graphql'
 
 import { ForbiddenError } from '@redwoodjs/graphql-server'
@@ -48,9 +49,10 @@ const empty = (arr) => Array.isArray(arr) && arr.length === 0
 
 const isPlaned =
   (date = new Date()) =>
-  (task): boolean => {
+  (task: TaskData): boolean => {
+    const startDate = new Date(task.startDate)
     if (!task.repeat) {
-      return isSameDay(task.startDate, date)
+      return isSameDay(startDate, date)
     }
 
     const {
@@ -62,11 +64,14 @@ const isPlaned =
       weekOfMonth,
       daysOfWeek,
     } = task.repeat
-    if (isBefore(date, task.startDate) || isAfter(date, endDate)) {
+    if (
+      isBefore(date, startDate) ||
+      (endDate && isAfter(date, new Date(endDate)))
+    ) {
       return false
     }
 
-    if (differenceIn[type](date, task.startDate) % interval !== 0) {
+    if (differenceIn[type](date, startDate) % interval !== 0) {
       return false
     }
     if (!empty(daysOfWeek) && !daysOfWeek.includes(getDay(date))) {
@@ -94,7 +99,6 @@ export const tasks: QueryResolvers['tasks'] = async ({ date }) => {
     },
     include: { repeat: true },
   })
-
   return data.filter(isPlaned(new Date(date)))
 }
 

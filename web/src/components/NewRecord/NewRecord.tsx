@@ -10,11 +10,13 @@ import {
   useSuspenseQuery,
 } from '@redwoodjs/web/dist/components/GraphQLHooksProvider'
 
+import useRecords from 'src/hooks/useRecords'
+
 import Timer from './components/Timer'
 
 const GET_TASKS: TypedDocumentNode<Data, Variables> = gql`
-  query FindTasks {
-    tasks {
+  query FindTasks($date: DateTime) {
+    tasks(date: $date) {
       id
       title
       color
@@ -51,7 +53,9 @@ interface NewRecordForm {
 }
 
 const NewRecord = () => {
-  const { data } = useSuspenseQuery(GET_TASKS, {
+  const {
+    data: { tasks },
+  } = useSuspenseQuery(GET_TASKS, {
     variables: { date: new Date() },
   })
 
@@ -67,7 +71,7 @@ const NewRecord = () => {
     formState: { isSubmitting },
   } = useForm<NewRecordForm>()
 
-  const start = watch('start')
+  const { start, taskId } = watch()
 
   const onSubmit: SubmitHandler<NewRecordForm> = useCallback(
     async (input) => {
@@ -75,6 +79,15 @@ const NewRecord = () => {
     },
     [createRecord]
   )
+
+  const {
+    data: {
+      records: {
+        duration: { hours, minutes, seconds },
+      },
+    },
+  } = useRecords({ date: new Date().toISOString(), taskId })
+  console.log('taskId', taskId)
 
   return (
     <div>
@@ -88,7 +101,7 @@ const NewRecord = () => {
               {...field}
               onChange={(e) => field.onChange(parseInt(e.target.value))}
             >
-              {data.tasks.map(({ id, title }) => (
+              {tasks.map(({ id, title }) => (
                 <option key={id} value={id}>
                   {title}
                 </option>
@@ -96,6 +109,7 @@ const NewRecord = () => {
             </Select>
           )}
         />
+        <p className="text-sm">{`${hours}:${minutes}:${seconds}`}</p>
         <Controller
           control={control}
           name="start"
