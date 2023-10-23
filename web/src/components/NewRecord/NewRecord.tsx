@@ -11,6 +11,7 @@ import {
 } from '@redwoodjs/web/dist/components/GraphQLHooksProvider'
 
 import useRecords from 'src/hooks/useRecords'
+import { formatDuration } from 'src/lib/formatters'
 
 import Timer from './components/Timer'
 
@@ -82,9 +83,7 @@ const NewRecord = () => {
 
   const {
     data: {
-      records: {
-        duration: { hours, minutes, seconds },
-      },
+      records: { duration },
     },
   } = useRecords({ date: new Date().toISOString(), taskId })
   console.log('taskId', taskId)
@@ -109,7 +108,7 @@ const NewRecord = () => {
             </Select>
           )}
         />
-        <p className="text-sm">{`${hours}:${minutes}:${seconds}`}</p>
+        <p className="text-sm">{formatDuration(duration)}</p>
         <Controller
           control={control}
           name="start"

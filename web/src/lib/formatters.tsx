@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Duration } from 'date-fns'
 import humanize from 'humanize-string'
 
 const MAX_STRING_LENGTH = 150
@@ -55,4 +56,14 @@ export const timeTag = (dateTime?: string) => {
 
 export const checkboxInputTag = (checked: boolean) => {
   return <input type="checkbox" checked={checked} disabled />
+}
+
+export const formatDuration = (duration: Duration) => {
+  const { hours, minutes, seconds } = duration
+  return [hours, minutes, seconds]
+    .map((n) => {
+      if (!n) return '00'
+      return n.toString().padStart(2, '0')
+    })
+    .join(':')
 }
