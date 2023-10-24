@@ -1,32 +1,13 @@
 import React, { useCallback } from 'react'
 
-import { TypedDocumentNode } from '@apollo/client'
-import { Button, Select } from '@chakra-ui/react'
-import { Task } from 'types/graphql'
+import { FormProvider, SubmitHandler, useForm } from '@redwoodjs/forms'
+import { useMutation } from '@redwoodjs/web/dist/components/GraphQLHooksProvider'
 
-import { Controller, SubmitHandler, useForm } from '@redwoodjs/forms'
-import {
-  useMutation,
-  useSuspenseQuery,
-} from '@redwoodjs/web/dist/components/GraphQLHooksProvider'
+import { GET_RECORDS } from 'src/hooks/useRecords'
 
-import useRecords from 'src/hooks/useRecords'
-import { formatDuration } from 'src/lib/formatters'
-
+import TaskSelectField from './components/TaskSelectField'
 import Timer from './components/Timer'
-
-const GET_TASKS: TypedDocumentNode<Data, Variables> = gql`
-  query FindTasks($date: DateTime) {
-    tasks(date: $date) {
-      id
-      title
-      color
-      category {
-        title
-      }
-    }
-  }
-`
+import TimerButton from './components/TimerButton'
 
 const CREATE_RECORD = gql`
   mutation createRecord($input: CreateRecordInput!) {
@@ -39,107 +20,47 @@ const CREATE_RECORD = gql`
   }
 `
 
-interface Variables {
-  date: Date
-}
-
-interface Data {
-  tasks: Task[]
-}
-
 interface NewRecordForm {
   taskId
   start
   end
 }
 
-const NewRecord = () => {
-  const {
-    data: { tasks },
-  } = useSuspenseQuery(GET_TASKS, {
-    variables: { date: new Date() },
-  })
+interface Props {
+  children: (props: { isRecording: boolean }) => React.ReactNode
+}
 
+const NewRecord = ({ children }: Props) => {
   const [createRecord] = useMutation(CREATE_RECORD, {
     onCompleted: () => console.log('성공'),
     onError: (error) => console.log('error: ', error),
+    refetchQueries: [GET_RECORDS],
   })
 
-  const {
-    control,
-    handleSubmit,
-    watch,
-    formState: { isSubmitting },
-  } = useForm<NewRecordForm>()
-
-  const { start, taskId } = watch()
+  const method = useForm<NewRecordForm>()
+  const { handleSubmit, reset, watch } = method
+  const { start } = watch()
 
   const onSubmit: SubmitHandler<NewRecordForm> = useCallback(
     async (input) => {
+      // TODO: 15초 미만의 기록은 저장 x
+      reset({ taskId: input.taskId })
       await createRecord({ variables: { input } })
     },
-    [createRecord]
+    [createRecord, reset]
   )
-
-  const {
-    data: {
-      records: { duration },
-    },
-  } = useRecords({ date: new Date().toISOString(), taskId })
-  console.log('taskId', taskId)
 
   return (
-    <div>
+    <FormProvider {...method}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Controller
-          control={control}
-          name="taskId"
-          rules={{ required: true }}
-          render={({ field }) => (
-            <Select
-              {...field}
-              onChange={(e) => field.onChange(parseInt(e.target.value))}
-            >
-              {tasks.map(({ id, title }) => (
-                <option key={id} value={id}>
-                  {title}
-                </option>
-              ))}
-            </Select>
-          )}
-        />
-        <p className="text-sm">{formatDuration(duration)}</p>
-        <Controller
-          control={control}
-          name="start"
-          render={({ field: { onChange } }) => (
-            <Button type="button" onClick={() => onChange(new Date())}>
-              start
-            </Button>
-          )}
-        />
-
-        {start && (
-          <>
-            <Timer start={start} />
-            <Controller
-              control={control}
-              name="end"
-              render={({ field: { onChange } }) => (
-                <Button
-                  type="submit"
-                  isLoading={isSubmitting}
-                  onClick={() => onChange(new Date())}
-                >
-                  그만할래요
-                </Button>
-              )}
-            />
-          </>
-        )}
+        {children({ isRecording: start })}
       </form>
-    </div>
+    </FormProvider>
   )
 }
+
+NewRecord.TaskSelectField = TaskSelectField
+NewRecord.TimerButton = TimerButton
+NewRecord.Timer = Timer
 
 export default NewRecord

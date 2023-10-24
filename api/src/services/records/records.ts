@@ -14,8 +14,10 @@ const add = (d1: Duration, d2: Duration) => {
   }
 }
 
-export const records: QueryResolvers['records'] = async ({ date, taskId }) => {
-  console.log('taskId', taskId)
+export const records: QueryResolvers['records'] = async ({
+  date = new Date(),
+  taskId,
+}) => {
   const where = {
     start: {
       gte: startOfDay(new Date(date)),

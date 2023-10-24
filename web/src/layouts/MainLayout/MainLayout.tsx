@@ -10,10 +10,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <HStack className="bg-neutral-100" w="full" h="100vh" spacing="0.5">
       <Sidebar />
-      <main className="h-full flex-1">
-        <header>title</header>
-        {children}
-      </main>
+      <div className="h-full flex-1">{children}</div>
     </HStack>
   )
 }

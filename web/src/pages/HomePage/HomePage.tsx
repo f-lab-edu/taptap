@@ -90,10 +90,32 @@ const HomePage = () => {
         </div>
         <NewTaskModal isOpen={isOpenNewTaskModal} onClose={closeModal} />
       </aside>
-      <main>
+      <main className="relative h-full">
         <Suspense fallback={<p className="bg-black">loading....</p>}>
-          <NewRecord />
-          <TodayDuration />
+          <NewRecord>
+            {({ isRecording }) => (
+              <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
+                {isRecording ? (
+                  <>
+                    <NewRecord.Timer />
+                    <div className="absolute bottom-20">
+                      <NewRecord.TimerButton />
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex h-full flex-col justify-evenly">
+                    <div className="flex h-[350px] w-[350px] flex-col items-center justify-center gap-5 rounded-full border border-teal-600/70 bg-white pt-4 shadow-2xl shadow-teal-500/50">
+                      <TodayDuration />
+                      <NewRecord.TaskSelectField />
+                    </div>
+                    <div className="mx-auto">
+                      <NewRecord.TimerButton />
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </NewRecord>
         </Suspense>
       </main>
     </>
