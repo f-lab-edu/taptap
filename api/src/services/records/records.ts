@@ -7,11 +7,12 @@ import type {
 
 import { db } from 'src/lib/db'
 
-const add = (d1: Duration, d2: Duration) => {
-  const _add = (a, b = 0) => a + b
+const addDuration = (d1: Duration, d2: Duration) => {
+  const added = { ...d1 }
   for (const [k, v] of Object.entries(d2)) {
-    d1[k] = _add(v, d1[k])
+    added[k] = added[k] ? added[k] + v : v
   }
+  return added
 }
 
 export const records: QueryResolvers['records'] = async ({
@@ -29,10 +30,9 @@ export const records: QueryResolvers['records'] = async ({
   }
   const data = await db.record.findMany({ where })
 
-  const duration = {} as Duration
-  data.forEach(({ start, end }) => {
-    add(duration, intervalToDuration({ start, end }))
-  })
+  const duration = data
+    .map(({ start, end }) => intervalToDuration({ start, end }))
+    .reduce(addDuration, {})
 
   return { duration, list: data }
 }
