@@ -9,6 +9,7 @@ import { MetaTags } from '@redwoodjs/web'
 import NewRecord from 'src/components/NewRecord/NewRecord'
 import NewTaskModal from 'src/components/Task/NewTaskModal/NewTaskModal'
 import TodayDuration from 'src/components/TodayDuration/TodayDuration'
+import useToday from 'src/hooks/useToday'
 
 const HomePage = () => {
   const [isOpen, { toggle }] = useBoolean()
@@ -95,14 +96,7 @@ const HomePage = () => {
           <NewRecord>
             {({ isRecording }) => (
               <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
-                {isRecording ? (
-                  <>
-                    <NewRecord.Timer />
-                    <div className="absolute bottom-20">
-                      <NewRecord.TimerButton />
-                    </div>
-                  </>
-                ) : (
+                {!isRecording ? (
                   <div className="flex h-full flex-col justify-evenly">
                     <div className="flex h-[350px] w-[350px] flex-col items-center justify-center gap-5 rounded-full border border-teal-600/70 bg-white pt-4 shadow-2xl shadow-teal-500/50">
                       <TodayDuration />
@@ -112,6 +106,13 @@ const HomePage = () => {
                       <NewRecord.TimerButton />
                     </div>
                   </div>
+                ) : (
+                  <>
+                    <NewRecord.Timer />
+                    <div className="absolute bottom-20">
+                      <NewRecord.TimerButton />
+                    </div>
+                  </>
                 )}
               </div>
             )}

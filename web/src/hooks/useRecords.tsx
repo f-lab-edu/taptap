@@ -1,4 +1,5 @@
 import { TypedDocumentNode } from '@apollo/client'
+import { startOfDay } from 'date-fns'
 import { records, recordsVariables } from 'types/graphql'
 
 import { useSuspenseQuery } from '@redwoodjs/web/dist/components/GraphQLHooksProvider'
@@ -20,9 +21,14 @@ export const GET_RECORDS: TypedDocumentNode<records, recordsVariables> = gql`
   }
 `
 
-const useRecords = (variables: recordsVariables) => {
+interface Variables {
+  date?: Date
+  taskId?: number
+}
+
+const useRecords = ({ date = new Date(), taskId } = {} as Variables) => {
   return useSuspenseQuery(GET_RECORDS, {
-    variables,
+    variables: { date: startOfDay(date), taskId },
     returnPartialData: true,
   })
 }

@@ -1,26 +1,25 @@
-import React, { memo, startTransition } from 'react'
+import React, { memo, useTransition } from 'react'
 
 import { Select, Text } from '@chakra-ui/react'
-import { startOfDay } from 'date-fns'
 
 import { Controller, useFormContext, useWatch } from '@redwoodjs/forms'
 
 import useRecords from 'src/hooks/useRecords'
-import useTasks from 'src/hooks/useTasks'
 import { formatDuration } from 'src/lib/formatters'
 
-const TaskSelectField = () => {
-  const {
-    data: { tasks },
-  } = useTasks({ date: new Date() })
+import { useNewRecordContext } from '../NewRecord'
 
+const TaskSelectField = () => {
+  const { tasks } = useNewRecordContext()
   const { control } = useFormContext()
   const taskId = useWatch({ control, name: 'taskId' })
-  const {
-    data: {
-      records: { duration },
-    },
-  } = useRecords({ date: startOfDay(new Date()).toISOString(), taskId })
+  // const {
+  //   data: {
+  //     records: { duration },
+  //   },
+  // } = useRecords({ date: today, taskId })
+
+  const [isPending, startTransition] = useTransition()
 
   return (
     <div className="flex flex-col items-center gap-2">
@@ -28,10 +27,10 @@ const TaskSelectField = () => {
         name="taskId"
         control={control}
         rules={{ required: true }}
-        defaultValue={tasks[0]?.id}
         render={({ field }) => (
           <Select
             {...field}
+            isDisabled={isPending}
             onChange={(e) =>
               startTransition(() => field.onChange(parseInt(e.target.value)))
             }
@@ -44,10 +43,22 @@ const TaskSelectField = () => {
           </Select>
         )}
       />
-      <Text fontSize="sm" color="gray.500">
-        {formatDuration(duration)}
-      </Text>
+      <TaskDuration taskId={taskId} />
     </div>
+  )
+}
+
+const TaskDuration = ({ taskId }: { taskId: number }) => {
+  const {
+    data: {
+      records: { duration },
+    },
+  } = useRecords({ taskId })
+
+  return (
+    <Text fontSize="sm" color="gray.500">
+      {formatDuration(duration)}
+    </Text>
   )
 }
 

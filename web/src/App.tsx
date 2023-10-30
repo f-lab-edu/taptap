@@ -21,7 +21,10 @@ const App = () => (
       <ColorModeScript />
       <ChakraProvider theme={extendedTheme}>
         <AuthProvider>
-          <RedwoodApolloProvider useAuth={useAuth}>
+          <RedwoodApolloProvider
+            useAuth={useAuth}
+            graphQLClientConfig={{ connectToDevTools: true }}
+          >
             <Routes />
           </RedwoodApolloProvider>
         </AuthProvider>

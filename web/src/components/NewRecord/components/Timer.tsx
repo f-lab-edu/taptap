@@ -12,8 +12,9 @@ const Timer = () => {
   const [end, setEndTime] = useState(new Date())
 
   useEffect(() => {
-    setInterval(() => setEndTime(new Date()), 1000)
-  }, [])
+    const interval = setInterval(() => setEndTime(new Date()), 1000)
+    return () => clearInterval(interval)
+  })
 
   const duration = useMemo(
     () => intervalToDuration({ start, end }),
