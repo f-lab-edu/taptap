@@ -43,7 +43,6 @@ const DateField = () => {
                 mode="single"
                 onDayBlur={onBlur}
                 onSelect={(e) => {
-                  console.log('change')
                   onChange(e)
                   // onClose()
                 }}
