@@ -12,6 +12,7 @@ import { AuthProvider, useAuth } from './auth'
 // import './scaffold.css'
 import './index.css'
 import 'react-day-picker/dist/style.css'
+import { TodayContextProvider } from './hooks/useToday'
 
 const extendedTheme = extendTheme(theme)
 
@@ -22,7 +23,9 @@ const App = () => (
       <ChakraProvider theme={extendedTheme}>
         <AuthProvider>
           <RedwoodApolloProvider useAuth={useAuth}>
-            <Routes />
+            <TodayContextProvider>
+              <Routes />
+            </TodayContextProvider>
           </RedwoodApolloProvider>
         </AuthProvider>
       </ChakraProvider>
