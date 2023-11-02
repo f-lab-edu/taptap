@@ -23,29 +23,28 @@ import {
   startOfDay,
 } from 'date-fns'
 
+import { useFormContext, useWatch } from '@redwoodjs/forms'
+
 import useRecords from 'src/hooks/useRecords'
 import useTasks from 'src/hooks/useTasks'
 import { formatDuration } from 'src/lib/formatters'
 
 const START_OF_DAY = 4
+const $24HOURS = eachHourOfInterval({
+  start: addHours(startOfDay(new Date()), START_OF_DAY),
+  end: addHours(endOfDay(new Date()), START_OF_DAY),
+})
+
 const TimeTable = () => {
+  const { control } = useFormContext()
+  const selectedDate = useWatch({ control, name: 'date' })
   const {
     data: { records },
-  } = useRecords()
+  } = useRecords({ date: selectedDate })
 
   const {
     data: { tasks },
-  } = useTasks()
-
-  const today = useMemo(() => new Date(), [])
-  const rowTimes = useMemo(
-    () =>
-      eachHourOfInterval({
-        start: addHours(startOfDay(today), START_OF_DAY),
-        end: addHours(endOfDay(today), START_OF_DAY),
-      }),
-    [today]
-  )
+  } = useTasks({ date: selectedDate })
 
   const planBlockMap = useMemo(
     () =>
@@ -94,7 +93,7 @@ const TimeTable = () => {
         </Tr>
       </Thead>
       <Tbody>
-        {rowTimes.map((time) => {
+        {$24HOURS.map((time) => {
           const hour = getHours(time)
           return (
             <Tr key={hour}>
@@ -103,12 +102,18 @@ const TimeTable = () => {
               </Th>
               <Td w="45%" p="0" position="relative" h="25px">
                 {planBlockMap[hour].map((props) => (
-                  <TimeBlock key={`${hour} ${props.start}`} {...props} />
+                  <TimeBlock
+                    key={`${hour} ${props.id} ${props.title}`}
+                    {...props}
+                  />
                 ))}
               </Td>
               <Td w="45%" p="0" position="relative" h="25px">
                 {recordBlockMap[hour].map((props) => (
-                  <TimeBlock key={`${hour} ${props.start}`} {...props} />
+                  <TimeBlock
+                    key={`${hour} ${props.id} ${props.title}`}
+                    {...props}
+                  />
                 ))}
               </Td>
             </Tr>
@@ -164,6 +169,7 @@ const getTimeBlockProps = function (
     },
   }
 
+  let id = 0
   const blocks = new Proxy({}, handler)
 
   items.forEach(({ start: s, end: e, ...rest }) => {
@@ -181,15 +187,18 @@ const getTimeBlockProps = function (
     for (let h = start.hour; h < end.hour; h++) {
       blocks[h].push({
         ...rest,
+        id,
         start: block_start,
         duration: 60 - block_start,
       })
       block_start = 0
+      id += 1
     }
 
     // h = end.hour
     blocks[end.hour].push({
       ...rest,
+      id,
       start: block_start,
       duration: end.minute - block_start,
     })

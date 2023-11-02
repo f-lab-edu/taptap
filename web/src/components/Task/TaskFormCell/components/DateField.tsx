@@ -42,10 +42,7 @@ const DateField = () => {
               <DayPicker
                 mode="single"
                 onDayBlur={onBlur}
-                onSelect={(e) => {
-                  onChange(e)
-                  // onClose()
-                }}
+                onSelect={onChange}
                 selected={value}
               />
             )}
