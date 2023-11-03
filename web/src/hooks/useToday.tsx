@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
-import { isSameDay } from 'date-fns'
-
-const RECALCULATE_INTERVAL = 1000 * 60 // 1 minute
+import { addDays, getTime, startOfDay } from 'date-fns'
 
 const TodayContext = createContext(new Date())
 
@@ -14,13 +12,9 @@ export const TodayContextProvider = ({
   const [today, setToday] = useState(new Date())
 
   useEffect(() => {
-    const now = new Date()
-    const id = setInterval(
-      () => setToday((prev) => (isSameDay(prev, now) ? prev : now)),
-      RECALCULATE_INTERVAL
-    )
-    return () => clearInterval(id)
-  })
+    const delay = getTime(startOfDay(addDays(today, 1))) - getTime(today)
+    setTimeout(() => setToday(new Date()), delay)
+  }, [today])
 
   return <TodayContext.Provider value={today}>{children}</TodayContext.Provider>
 }
