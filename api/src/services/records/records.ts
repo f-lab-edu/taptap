@@ -1,4 +1,4 @@
-import { endOfDay, startOfDay } from 'date-fns'
+import { addHours } from 'date-fns'
 import type {
   QueryResolvers,
   MutationResolvers,
@@ -7,16 +7,15 @@ import type {
 
 import { db } from 'src/lib/db'
 
-export const records: QueryResolvers['records'] = ({
-  date = new Date(),
-  taskId,
-}) => {
+export const records: QueryResolvers['records'] = ({ date, taskId }) => {
+  const start = new Date(date),
+    end = addHours(new Date(date), 24)
   const where = {
     start: {
-      gte: startOfDay(new Date(date)),
+      lt: end,
     },
     end: {
-      lte: endOfDay(new Date(date)),
+      gt: start,
     },
     ...(taskId ? { taskId } : {}),
   }

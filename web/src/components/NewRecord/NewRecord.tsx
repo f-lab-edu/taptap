@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext } from 'react'
 
-import { intervalToDuration } from 'date-fns'
+import { startOfDay } from 'date-fns'
 import { tasks } from 'types/graphql'
 
 import { FormProvider, SubmitHandler, useForm } from '@redwoodjs/forms'
@@ -9,7 +9,7 @@ import { useMutation } from '@redwoodjs/web/dist/components/GraphQLHooksProvider
 import { GET_RECORDS } from 'src/hooks/useRecords'
 import useTasks from 'src/hooks/useTasks'
 
-import TaskSelectField from './components/TaskSelectField'
+import TaskSelectField, { GET_TASK } from './components/TaskSelectField'
 import Timer from './components/Timer'
 import TimerButton from './components/TimerButton'
 
@@ -54,7 +54,28 @@ const NewRecord = ({ children }: Props) => {
   const [createRecord] = useMutation(CREATE_RECORD, {
     onCompleted: () => console.log('성공'),
     onError: (error) => console.log('error: ', error),
-    // refetchQueries: [GET_RECORDS],
+    update: (cache, { data: { createRecord: newRecord } }) => {
+      // FIXME: variables.date -> <today>
+      cache.updateQuery(
+        {
+          query: GET_RECORDS,
+          variables: { date: startOfDay(new Date()).toISOString() },
+        },
+        (data) => ({ records: data.records.concat(newRecord) })
+      )
+      cache.updateQuery(
+        {
+          query: GET_TASK,
+          variables: {
+            id: newRecord.taskId,
+            date: startOfDay(new Date()).toISOString(),
+          },
+        },
+        (data) => ({
+          task: { ...data.task, records: data.task.records.concat(newRecord) },
+        })
+      )
+    },
   })
 
   const method = useForm<NewRecordForm>({
@@ -69,37 +90,6 @@ const NewRecord = ({ children }: Props) => {
       reset({ taskId: input.taskId })
       await createRecord({
         variables: { input },
-        update(cache, { data: { createRecord: data } }) {
-          cache.modify({
-            fields: {
-              records(records) {
-                console.log('existing records cache: ', records)
-                console.log('data: ', data)
-
-                const duration = addDuration(
-                  records.duration,
-                  intervalToDuration({
-                    start: new Date(data.start),
-                    end: new Date(data.end),
-                  })
-                )
-                const newRecord = cache.writeFragment({
-                  data,
-                  fragment: gql`
-                    fragment NewRecord on Record {
-                      id
-                      start
-                      end
-                    }
-                  `,
-                })
-                const list = records.list.concat(newRecord)
-                // return records
-                return { ...records, duration, list }
-              },
-            },
-          })
-        },
       })
     },
     [createRecord, reset]
@@ -125,14 +115,6 @@ export const useNewRecordContext = () => {
   }
 
   return context
-}
-
-const addDuration = (d1: Duration, d2: Duration) => {
-  const added = { ...d1 }
-  for (const [k, v] of Object.entries(d2)) {
-    added[k] = added[k] ? added[k] + v : v
-  }
-  return added
 }
 
 NewRecord.TaskSelectField = TaskSelectField

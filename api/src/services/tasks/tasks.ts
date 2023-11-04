@@ -92,7 +92,7 @@ const isPlaned =
     return true
   }
 
-export const tasks: QueryResolvers['tasks'] = async ({ date = new Date() }) => {
+export const tasks: QueryResolvers['tasks'] = async ({ date }) => {
   const data = await db.task.findMany({
     where: {
       category: {
@@ -138,8 +138,8 @@ export const Task: TaskRelationResolvers = {
   repeat: (_obj, { root }) => {
     return db.task.findUnique({ where: { id: root?.id } }).repeat()
   },
-  records: ({ date }, { root }) => {
-    return records({ date, taskId: root.id })
+  records: (_obj, { root, info }) => {
+    return records({ taskId: root.id, date: info.variableValues.date })
   },
   category: (_obj, { root }) => {
     return db.task.findUnique({ where: { id: root?.id } }).category()

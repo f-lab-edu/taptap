@@ -43,13 +43,13 @@ const TaskSelectField = () => {
   )
 }
 
-const GET_TASK = gql`
+export const GET_TASK = gql`
   query task($id: Int!, $date: DateTime) {
-    task(id: $id) {
+    task(id: $id, date: $date) {
       id
       title
       color
-      records(date: $date) {
+      records {
         id
         start
         end

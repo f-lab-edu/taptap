@@ -16,12 +16,12 @@ const Timer = () => {
     return () => clearInterval(interval)
   })
 
-  const duration = useMemo(
-    () => intervalToDuration({ start, end }),
+  const { hours, minutes, seconds } = useMemo(
+    () => formatDuration(intervalToDuration({ start, end })),
     [start, end]
   )
 
-  return <p className="text-6xl">{formatDuration(duration)}</p>
+  return <p className="text-6xl">{`${hours}:${minutes}:${seconds}`}</p>
 }
 
 export default memo(Timer)

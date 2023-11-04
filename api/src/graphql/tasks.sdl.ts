@@ -8,14 +8,14 @@ export const schema = gql`
     startDate: Date!
     times: [[String]]
     repeat: Repeat
-    records(date: DateTime): [Record]!
+    records: [Record]!
     categoryId: Int!
     category: Category!
   }
 
   type Query {
     tasks(date: DateTime): [Task!]! @requireAuth
-    task(id: Int!): Task @requireAuth
+    task(id: Int!, date: DateTime): Task @requireAuth
   }
 
   input ConnectCategoryInput {
