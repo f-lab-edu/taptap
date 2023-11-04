@@ -8,7 +8,7 @@ export const schema = gql`
     startDate: Date!
     times: [[String]]
     repeat: Repeat
-    records: [Record]!
+    records(date: DateTime): [Record]!
     categoryId: Int!
     category: Category!
   }

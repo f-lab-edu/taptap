@@ -1,7 +1,13 @@
 import React from 'react'
 
-import { Duration } from 'date-fns'
+import {
+  Duration,
+  addMilliseconds,
+  getTime,
+  intervalToDuration,
+} from 'date-fns'
 import humanize from 'humanize-string'
+import { Record } from 'types/graphql'
 
 const MAX_STRING_LENGTH = 150
 
@@ -58,12 +64,25 @@ export const checkboxInputTag = (checked: boolean) => {
   return <input type="checkbox" checked={checked} disabled />
 }
 
-export const formatDuration = (duration: Duration) => {
-  const { hours, minutes, seconds } = duration
-  return [hours, minutes, seconds]
-    .map((n) => {
-      if (!n) return '00'
-      return n.toString().padStart(2, '0')
-    })
-    .join(':')
+const NEEDED = ['hours', 'minutes', 'seconds'] as const
+type FormattedDurationString = {
+  [key in (typeof NEEDED)[number]]: string
+}
+
+export const formatDuration = (duration: Duration): FormattedDurationString => {
+  const formatted = {} as FormattedDurationString
+  for (const key of NEEDED) {
+    const value = (duration[key] || 0).toString().padStart(2, '0')
+    formatted[key] = value
+  }
+  return formatted
+}
+
+export const intervalListToDuration = (records: Record[]) => {
+  const sum = records.reduce((acc, { start, end }) => {
+    const duration = getTime(new Date(end)) - getTime(new Date(start))
+    return acc + duration
+  }, 0)
+  const now = new Date()
+  return intervalToDuration({ start: now, end: addMilliseconds(now, sum) })
 }

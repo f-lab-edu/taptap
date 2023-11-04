@@ -23,6 +23,8 @@ import { ForbiddenError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 
+import { records } from '../records/records'
+
 const verifyOwnership = async ({ id }) => {
   if (await task({ id })) {
     return true
@@ -136,8 +138,8 @@ export const Task: TaskRelationResolvers = {
   repeat: (_obj, { root }) => {
     return db.task.findUnique({ where: { id: root?.id } }).repeat()
   },
-  records: (_obj, { root }) => {
-    return db.task.findUnique({ where: { id: root?.id } }).records()
+  records: ({ date }, { root }) => {
+    return records({ date, taskId: root.id })
   },
   category: (_obj, { root }) => {
     return db.task.findUnique({ where: { id: root?.id } }).category()

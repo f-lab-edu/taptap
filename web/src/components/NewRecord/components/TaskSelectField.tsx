@@ -1,11 +1,12 @@
-import React, { memo, useTransition } from 'react'
+import React, { memo, useMemo, useTransition } from 'react'
 
 import { Select, Text } from '@chakra-ui/react'
+import { startOfDay } from 'date-fns'
 
 import { Controller, useFormContext, useWatch } from '@redwoodjs/forms'
+import { useSuspenseQuery } from '@redwoodjs/web/dist/components/GraphQLHooksProvider'
 
-import useRecords from 'src/hooks/useRecords'
-import { formatDuration } from 'src/lib/formatters'
+import { formatDuration, intervalListToDuration } from 'src/lib/formatters'
 
 import { useNewRecordContext } from '../NewRecord'
 
@@ -13,12 +14,6 @@ const TaskSelectField = () => {
   const { tasks } = useNewRecordContext()
   const { control } = useFormContext()
   const taskId = useWatch({ control, name: 'taskId' })
-  // const {
-  //   data: {
-  //     records: { duration },
-  //   },
-  // } = useRecords({ date: today, taskId })
-
   const [isPending, startTransition] = useTransition()
 
   return (
@@ -48,16 +43,35 @@ const TaskSelectField = () => {
   )
 }
 
+const GET_TASK = gql`
+  query task($id: Int!, $date: DateTime) {
+    task(id: $id) {
+      id
+      title
+      color
+      records(date: $date) {
+        id
+        start
+        end
+      }
+    }
+  }
+`
+
 const TaskDuration = ({ taskId }: { taskId: number }) => {
   const {
-    data: {
-      records: { duration },
-    },
-  } = useRecords({ taskId })
+    data: { task },
+  } = useSuspenseQuery(GET_TASK, {
+    variables: { id: taskId, date: startOfDay(new Date()) },
+  })
+  const { hours, minutes, seconds } = useMemo(
+    () => formatDuration(intervalListToDuration(task.records)),
+    [task]
+  )
 
   return (
     <Text fontSize="sm" color="gray.500">
-      {formatDuration(duration)}
+      {`${hours}:${minutes}:${seconds}`}
     </Text>
   )
 }

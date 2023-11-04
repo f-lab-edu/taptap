@@ -19,14 +19,8 @@ export const schema = gql`
     seconds: Int
   }
 
-  type Redords {
-    duration: Duration
-    list: [Record!]!
-  }
-
   type Query {
-    records(date: DateTime, taskId: Int): Redords @requireAuth
-    record(id: Int!): Record @requireAuth
+    records(date: DateTime, taskId: Int): [Record!]! @requireAuth
   }
 
   input CreateRecordInput {
