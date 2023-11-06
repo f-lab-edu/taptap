@@ -1,10 +1,11 @@
 import React, { createContext, useCallback, useContext } from 'react'
 
-import { getTime, startOfDay } from 'date-fns'
+import { differenceInMilliseconds, getTime, startOfDay } from 'date-fns'
 import { tasks } from 'types/graphql'
 
 import { FormProvider, SubmitHandler, useForm } from '@redwoodjs/forms'
 import { useMutation } from '@redwoodjs/web/dist/components/GraphQLHooksProvider'
+import { Toaster, toast } from '@redwoodjs/web/dist/toast'
 
 import { GET_RECORDS } from 'src/hooks/useRecords'
 import useTasks from 'src/hooks/useTasks'
@@ -84,10 +85,20 @@ const NewRecord = ({ children }: Props) => {
   const { handleSubmit, reset, watch } = method
   const { start } = watch()
 
+  const isUnderMinTime = useCallback(({ start, end }: NewRecordForm) => {
+    const MIN_TIME = 1000 * 60 * 60 // 1 minute
+    const durationTime = differenceInMilliseconds(end, start)
+    return durationTime < MIN_TIME
+  }, [])
+
   const onSubmit: SubmitHandler<NewRecordForm> = useCallback(
     async (input) => {
-      // TODO: 15초 미만의 기록은 저장 x
       reset({ taskId: input.taskId })
+      if (isUnderMinTime(input)) {
+        toast('1분 미만의 기록은 저장되지 않습니다.')
+        return
+      }
+
       await createRecord({
         variables: { input },
         optimisticResponse: {
@@ -99,11 +110,12 @@ const NewRecord = ({ children }: Props) => {
         },
       })
     },
-    [createRecord, reset]
+    [createRecord, reset, isUnderMinTime]
   )
 
   return (
     <NewRecordContext.Provider value={{ tasks }}>
+      <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {typeof children === 'function'

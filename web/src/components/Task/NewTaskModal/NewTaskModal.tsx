@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import {
   Modal,
   ModalBody,
@@ -11,8 +9,7 @@ import { format, getDate, getDay, getMonth, getWeekOfMonth } from 'date-fns'
 import type { UpdateRepeatInput } from 'types/graphql'
 
 import { useMutation } from '@redwoodjs/web'
-import { Toaster } from '@redwoodjs/web/toast'
-import { toast } from '@redwoodjs/web/toast'
+import { Toaster, toast } from '@redwoodjs/web/toast'
 
 import TaskFormCell from 'src/components/Task/TaskFormCell'
 
@@ -63,7 +60,7 @@ const repeatData: RepeatData = {
 }
 
 const NewTask = ({ isOpen, onClose }: Props) => {
-  const [createTask, { loading, error }] = useMutation(CREATE_TASK_MUTATION, {
+  const [createTask] = useMutation(CREATE_TASK_MUTATION, {
     onCompleted: () => {
       toast.success('할 일이 저장되었습니다')
       onClose()
@@ -92,9 +89,6 @@ const NewTask = ({ isOpen, onClose }: Props) => {
     }
     createTask({ variables: { input } })
   }
-
-  useEffect(() => console.log('loading in new task', loading), [loading])
-  useEffect(() => console.log('error in new task', error), [error])
 
   return (
     <>

@@ -10,6 +10,21 @@ import { formatDuration, intervalListToDuration } from 'src/lib/formatters'
 
 import { useNewRecordContext } from '../NewRecord'
 
+export const GET_TASK = gql`
+  query task($id: Int!, $date: DateTime) {
+    task(id: $id, date: $date) {
+      id
+      title
+      color
+      records {
+        id
+        start
+        end
+      }
+    }
+  }
+`
+
 const TaskSelectField = () => {
   const { tasks } = useNewRecordContext()
   const { control } = useFormContext()
@@ -42,21 +57,6 @@ const TaskSelectField = () => {
     </div>
   )
 }
-
-export const GET_TASK = gql`
-  query task($id: Int!, $date: DateTime) {
-    task(id: $id, date: $date) {
-      id
-      title
-      color
-      records {
-        id
-        start
-        end
-      }
-    }
-  }
-`
 
 const TaskDuration = ({ taskId }: { taskId: number }) => {
   const {
