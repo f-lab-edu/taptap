@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext } from 'react'
 
-import { startOfDay } from 'date-fns'
+import { getTime, startOfDay } from 'date-fns'
 import { tasks } from 'types/graphql'
 
 import { FormProvider, SubmitHandler, useForm } from '@redwoodjs/forms'
@@ -90,6 +90,13 @@ const NewRecord = ({ children }: Props) => {
       reset({ taskId: input.taskId })
       await createRecord({
         variables: { input },
+        optimisticResponse: {
+          createRecord: {
+            __typename: 'Record',
+            id: getTime(new Date()),
+            ...input,
+          },
+        },
       })
     },
     [createRecord, reset]
