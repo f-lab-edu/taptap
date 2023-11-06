@@ -66,7 +66,7 @@ const TimeTable = () => {
   const recordBlockMap = useMemo(
     () =>
       getTimeBlockProps(
-        records.list.map(({ start, end, task: { title, color } }) => ({
+        records.map(({ start, end, task: { title, color } }) => ({
           start: new Date(start),
           end: new Date(end),
           title,
@@ -86,7 +86,7 @@ const TimeTable = () => {
             <VStack spacing="2">
               <Text color="gray.500">Record</Text>
               <Text fontSize="2xl" fontWeight="semibold">
-                {formatDuration(records.duration)}
+                {/* {formatDuration(records.duration)} */}
               </Text>
             </VStack>
           </Th>

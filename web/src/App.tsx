@@ -2,7 +2,7 @@ import { ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react'
 import * as theme from 'config/chakra.config'
 
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
-import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
+import { RedwoodApolloProvider } from '@redwoodjs/web/dist/apollo/suspense'
 
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
@@ -21,7 +21,10 @@ const App = () => (
       <ColorModeScript />
       <ChakraProvider theme={extendedTheme}>
         <AuthProvider>
-          <RedwoodApolloProvider useAuth={useAuth}>
+          <RedwoodApolloProvider
+            useAuth={useAuth}
+            graphQLClientConfig={{ connectToDevTools: true }}
+          >
             <Routes />
           </RedwoodApolloProvider>
         </AuthProvider>

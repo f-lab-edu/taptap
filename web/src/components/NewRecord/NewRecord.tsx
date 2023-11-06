@@ -1,15 +1,16 @@
 import React, { createContext, useCallback, useContext } from 'react'
 
-import { intervalToDuration } from 'date-fns'
+import { differenceInMilliseconds, getTime, startOfDay } from 'date-fns'
 import { tasks } from 'types/graphql'
 
 import { FormProvider, SubmitHandler, useForm } from '@redwoodjs/forms'
 import { useMutation } from '@redwoodjs/web/dist/components/GraphQLHooksProvider'
+import { Toaster, toast } from '@redwoodjs/web/dist/toast'
 
 import { GET_RECORDS } from 'src/hooks/useRecords'
 import useTasks from 'src/hooks/useTasks'
 
-import TaskSelectField from './components/TaskSelectField'
+import TaskSelectField, { GET_TASK } from './components/TaskSelectField'
 import Timer from './components/Timer'
 import TimerButton from './components/TimerButton'
 
@@ -54,7 +55,28 @@ const NewRecord = ({ children }: Props) => {
   const [createRecord] = useMutation(CREATE_RECORD, {
     onCompleted: () => console.log('성공'),
     onError: (error) => console.log('error: ', error),
-    // refetchQueries: [GET_RECORDS],
+    update: (cache, { data: { createRecord: newRecord } }) => {
+      // FIXME: variables.date -> <today>
+      cache.updateQuery(
+        {
+          query: GET_RECORDS,
+          variables: { date: startOfDay(new Date()).toISOString() },
+        },
+        (data) => ({ records: data.records.concat(newRecord) })
+      )
+      cache.updateQuery(
+        {
+          query: GET_TASK,
+          variables: {
+            id: newRecord.taskId,
+            date: startOfDay(new Date()).toISOString(),
+          },
+        },
+        (data) => ({
+          task: { ...data.task, records: data.task.records.concat(newRecord) },
+        })
+      )
+    },
   })
 
   const method = useForm<NewRecordForm>({
@@ -63,50 +85,37 @@ const NewRecord = ({ children }: Props) => {
   const { handleSubmit, reset, watch } = method
   const { start } = watch()
 
+  const isUnderMinTime = useCallback(({ start, end }: NewRecordForm) => {
+    const MIN_TIME = 1000 * 60 * 60 // 1 minute
+    const durationTime = differenceInMilliseconds(end, start)
+    return durationTime < MIN_TIME
+  }, [])
+
   const onSubmit: SubmitHandler<NewRecordForm> = useCallback(
     async (input) => {
-      // TODO: 15초 미만의 기록은 저장 x
       reset({ taskId: input.taskId })
+      if (isUnderMinTime(input)) {
+        toast('1분 미만의 기록은 저장되지 않습니다.')
+        return
+      }
+
       await createRecord({
         variables: { input },
-        update(cache, { data: { createRecord: data } }) {
-          cache.modify({
-            fields: {
-              records(records) {
-                console.log('existing records cache: ', records)
-                console.log('data: ', data)
-
-                const duration = addDuration(
-                  records.duration,
-                  intervalToDuration({
-                    start: new Date(data.start),
-                    end: new Date(data.end),
-                  })
-                )
-                const newRecord = cache.writeFragment({
-                  data,
-                  fragment: gql`
-                    fragment NewRecord on Record {
-                      id
-                      start
-                      end
-                    }
-                  `,
-                })
-                const list = records.list.concat(newRecord)
-                // return records
-                return { ...records, duration, list }
-              },
-            },
-          })
+        optimisticResponse: {
+          createRecord: {
+            __typename: 'Record',
+            id: getTime(new Date()),
+            ...input,
+          },
         },
       })
     },
-    [createRecord, reset]
+    [createRecord, reset, isUnderMinTime]
   )
 
   return (
     <NewRecordContext.Provider value={{ tasks }}>
+      <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {typeof children === 'function'
@@ -125,14 +134,6 @@ export const useNewRecordContext = () => {
   }
 
   return context
-}
-
-const addDuration = (d1: Duration, d2: Duration) => {
-  const added = { ...d1 }
-  for (const [k, v] of Object.entries(d2)) {
-    added[k] = added[k] ? added[k] + v : v
-  }
-  return added
 }
 
 NewRecord.TaskSelectField = TaskSelectField

@@ -14,8 +14,8 @@ export const schema = gql`
   }
 
   type Query {
-    tasks: [Task!]! @requireAuth
-    task(id: Int!): Task @requireAuth
+    tasks(date: DateTime): [Task!]! @requireAuth
+    task(id: Int!, date: DateTime): Task @requireAuth
   }
 
   input ConnectCategoryInput {
@@ -57,8 +57,7 @@ export const schema = gql`
   }
 
   type Mutation {
-    createTask(input: CreateTaskInput!): Task! @skipAuth
-    # createTask(input: CreateTaskInput!): Task! @requireAuth
+    createTask(input: CreateTaskInput!): Task! @requireAuth
     updateTask(id: Int!, input: UpdateTaskInput!): Task! @requireAuth
     deleteTask(id: Int!): Task! @requireAuth
   }

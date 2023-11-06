@@ -7,19 +7,12 @@ import { useSuspenseQuery } from '@redwoodjs/web/dist/components/GraphQLHooksPro
 export const GET_RECORDS: TypedDocumentNode<records, recordsVariables> = gql`
   query records($date: DateTime, $taskId: Int) {
     records(date: $date, taskId: $taskId) {
-      duration {
-        hours
-        minutes
-        seconds
-      }
-      list {
-        id
-        start
-        end
-        task {
-          title
-          color
-        }
+      id
+      start
+      end
+      task {
+        title
+        color
       }
     }
   }

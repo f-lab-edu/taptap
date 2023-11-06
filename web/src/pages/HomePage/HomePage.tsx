@@ -8,6 +8,8 @@ import { MetaTags } from '@redwoodjs/web'
 
 import NewRecord from 'src/components/NewRecord/NewRecord'
 import NewTaskModal from 'src/components/Task/NewTaskModal/NewTaskModal'
+import TodayDuration from 'src/components/TodayDuration/TodayDuration'
+// import useToday from 'src/hooks/useToday'
 
 const HomePage = () => {
   const [isOpen, { toggle }] = useBoolean()
@@ -89,35 +91,27 @@ const HomePage = () => {
                   color="gray.500"
                   display="block"
                 >
-                  <Box
-                    as="label"
-                    pos="relative"
-                    _hover={{ color: 'black' }}
-                    color="gray.500"
-                    display="block"
+                  <IconButton
+                    aria-label={label}
+                    icon={icon}
+                    colorScheme="whiteAlpha"
+                    shadow="md"
+                    isRound
+                    {...buttonProps}
+                  />
+                  <Text
+                    aria-hidden
+                    as="span"
+                    pos="absolute"
+                    top="10px"
+                    right="calc(100% + 10px)"
+                    fontSize="sm"
+                    fontWeight="medium"
+                    className="first-letter:uppercase"
+                    cursor="pointer"
                   >
-                    <IconButton
-                      aria-label={label}
-                      icon={icon}
-                      colorScheme="whiteAlpha"
-                      shadow="md"
-                      isRound
-                      {...buttonProps}
-                    />
-                    <Text
-                      aria-hidden
-                      as="span"
-                      pos="absolute"
-                      top="10px"
-                      right="calc(100% + 10px)"
-                      fontSize="sm"
-                      fontWeight="medium"
-                      className="first-letter:uppercase"
-                      cursor="pointer"
-                    >
-                      {label}
-                    </Text>
-                  </Box>
+                    {label}
+                  </Text>
                 </Box>
               </ScaleFade>
             )

@@ -7,9 +7,7 @@
 // 'src/pages/HomePage/HomePage.js'         -> HomePage
 // 'src/pages/Admin/BooksPage/BooksPage.js' -> AdminBooksPage
 
-import { Set, Router, Route, Private } from '@redwoodjs/router'
-
-import ScaffoldLayout from 'src/layouts/ScaffoldLayout'
+import { Set, Router, Route, PrivateSet } from '@redwoodjs/router'
 
 import { useAuth } from './auth'
 import MainLayout from './layouts/MainLayout/MainLayout'
@@ -21,23 +19,13 @@ const Routes = () => {
       <Route path="/signup" page={SignupPage} name="signup" />
       <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
       <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
-      <Private unauthenticated="login">
+      <PrivateSet unauthenticated="login">
         <Set wrap={MainLayout}>
           <Route path="/" page={HomePage} name="home" />
           <Route path="/categories" page={CategoriesPage} name="categories" />
           <Route path="/timeTable" page={TimeTablePage} name="timeTable" />
         </Set>
-        <Set wrap={ScaffoldLayout} title="Records" titleTo="records" buttonLabel="New Record" buttonTo="newRecord">
-          <Route path="/records/new" page={RecordNewRecordPage} name="newRecord" />
-          <Route path="/records/{id:Int}/edit" page={RecordEditRecordPage} name="editRecord" />
-          <Route path="/records/{id:Int}" page={RecordRecordPage} name="record" />
-        </Set>
-        <Set wrap={ScaffoldLayout} title="Tasks" titleTo="tasks" buttonLabel="New Task" buttonTo="newTask">
-          <Route path="/tasks/{id:Int}/edit" page={TaskEditTaskPage} name="editTask" />
-          <Route path="/tasks/{id:Int}" page={TaskTaskPage} name="task" />
-          <Route path="/tasks" page={TaskTasksPage} name="tasks" />
-        </Set>
-      </Private>
+      </PrivateSet>
       <Route notfound page={NotFoundPage} />
     </Router>
   )
