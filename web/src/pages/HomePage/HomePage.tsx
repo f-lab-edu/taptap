@@ -7,7 +7,7 @@ import { Link } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 
 import NewRecord from 'src/components/NewRecord/NewRecord'
-import NewTaskModal from 'src/components/Task/NewTaskModal/NewTaskModal'
+import NewTaskModal from 'src/components/NewTaskModal/NewTaskModal'
 import TodayDuration from 'src/components/TodayDuration/TodayDuration'
 // import useToday from 'src/hooks/useToday'
 
