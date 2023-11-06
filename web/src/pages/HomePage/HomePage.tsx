@@ -20,11 +20,11 @@ const HomePage = () => {
       label: 'category',
       as: Link,
       to: '/categories',
-      icon: TagIcon,
+      Icon: <TagIcon />,
     },
     {
       label: 'task',
-      icon: DocumentIcon,
+      Icon: <DocumentIcon />,
       onClick: openModal,
     },
   ]

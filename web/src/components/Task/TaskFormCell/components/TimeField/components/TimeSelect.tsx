@@ -17,8 +17,9 @@ import {
   UseFormStateReturn,
 } from '@redwoodjs/forms'
 
+import { timeFormat } from '../../../TaskForm.utils'
 import BasicSelect from '../../BasicSelect'
-import { getTimeOptions, timeFormat } from '../TimeField.utils'
+import { getTimeOptions } from '../TimeField.utils'
 
 interface Props extends InputProps {
   field: ControllerRenderProps<FieldValues, any>

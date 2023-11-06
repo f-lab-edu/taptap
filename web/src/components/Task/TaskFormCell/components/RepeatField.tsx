@@ -15,7 +15,7 @@ import { DayPicker } from 'react-day-picker'
 
 import { Controller, useFormContext, useWatch } from '@redwoodjs/forms'
 
-import { REPEAT_OPTIONS } from '../TaskForm.utils'
+import { OPTIONS } from '../TaskForm.utils'
 
 const RepeatField = () => {
   const { control, register } = useFormContext()
@@ -24,21 +24,8 @@ const RepeatField = () => {
     <FormControl as="fieldset" display="flex" flexDirection="column" gap="2">
       <FormLabel as="legend">반복설정</FormLabel>
       <section>
-        {/* <Menu>
-          <MenuButton as="div">
-            <BasicSelect value={value?.repeat} placeholder="반복" isReadOnly />
-          </MenuButton>
-          <MenuList>
-            <MenuOptionGroup {...register('repeat.repeat')}>
-              {repeatOptions.map(({ id, label }) => (
-                <MenuItemOption key={id}>{label}</MenuItemOption>
-              ))}
-            </MenuOptionGroup>
-          </MenuList>
-        </Menu> */}
-
         <Select {...register('repeat.repeat')}>
-          {REPEAT_OPTIONS.map((value) => (
+          {OPTIONS.repeat.map((value) => (
             <option key={value}>{value}</option>
           ))}
         </Select>

@@ -1,19 +1,9 @@
-import {
-  eachMinuteOfInterval,
-  endOfToday,
-  format,
-  set,
-  startOfToday,
-} from 'date-fns'
+import { eachMinuteOfInterval, endOfToday, set, startOfToday } from 'date-fns'
 
-export const timeFormat = (date: Date): string => format(date, 'HH:mm')
-
-export const getTimeOptions = (
-  { start = startOfToday(), end = endOfToday() } = {
-    start: startOfToday(),
-    end: endOfToday(),
-  }
-) =>
+export const getTimeOptions = ({
+  start = startOfToday(),
+  end = endOfToday(),
+} = {}) =>
   eachMinuteOfInterval(
     {
       start,

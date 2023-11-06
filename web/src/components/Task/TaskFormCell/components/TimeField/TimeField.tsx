@@ -12,10 +12,10 @@ import {
   useWatch,
 } from '@redwoodjs/forms'
 
-import { getDefaultTimes } from '../../TaskForm.utils'
+import { getDefaultTimes, timeFormat } from '../../TaskForm.utils'
 
 import TimeSelect from './components/TimeSelect'
-import { getTimeOptions, timeFormat, timestringToDate } from './TimeField.utils'
+import { getTimeOptions, timestringToDate } from './TimeField.utils'
 
 const TimeField = () => {
   const { control, setValue, register } = useFormContext()
@@ -23,20 +23,22 @@ const TimeField = () => {
     control,
     name: 'times.data',
   })
-  const times = useWatch({ name: 'times.data' })
+  const { allDay, data: times } = useWatch({ name: 'times' })
   return (
     <fieldset className="w-full">
       <HStack justifyContent="space-between" alignItems="center">
         <FormLabel as="legend">시간</FormLabel>
-        <IconButton
-          aria-label="add new"
-          type="button"
-          variant="unstyled"
-          size="xs"
-          color="gray.500"
-          icon={<PlusCircleIcon />}
-          onClick={() => append([getDefaultTimes().map(timeFormat)])}
-        />
+        {!allDay && (
+          <IconButton
+            aria-label="add new"
+            type="button"
+            variant="unstyled"
+            size="xs"
+            color="gray.500"
+            icon={<PlusCircleIcon />}
+            onClick={() => append([getDefaultTimes().map(timeFormat)])}
+          />
+        )}
       </HStack>
       <div className="flex flex-col-reverse gap-2">
         <Checkbox className="peer" data-peer {...register('times.allDay')}>

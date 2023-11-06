@@ -31,6 +31,7 @@ interface Props {
 type RepeatData = {
   [key in RepeatOption]?: UpdateRepeatInput
 }
+
 const repeatData: RepeatData = {
   안함: undefined,
   매일: { type: 'Daily', interval: 1 },
