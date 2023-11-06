@@ -69,7 +69,9 @@ type FormattedDurationString = {
   [key in (typeof NEEDED)[number]]: string
 }
 
-export const formatDuration = (duration: Duration): FormattedDurationString => {
+export const formatDuration = (
+  duration = {} as Duration
+): FormattedDurationString => {
   const formatted = {} as FormattedDurationString
   for (const key of NEEDED) {
     const value = (duration[key] || 0).toString().padStart(2, '0')

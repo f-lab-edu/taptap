@@ -29,4 +29,4 @@ export default meta
 
 type Story = StoryObj<typeof Task>
 
-export const Primary: Story = () => <Task {...TASK} />
+export const Primary: Story = { args: { ...TASK } }
