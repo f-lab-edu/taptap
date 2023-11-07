@@ -11,8 +11,15 @@ export const GET_TASKS: TypedDocumentNode<Tasks, tasksVariables> = gql`
       title
       color
       times
+      categoryId
       category {
+        id
         title
+      }
+      records {
+        id
+        start
+        end
       }
     }
   }

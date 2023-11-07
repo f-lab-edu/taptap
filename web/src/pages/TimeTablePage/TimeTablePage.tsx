@@ -1,11 +1,12 @@
 import { Suspense } from 'react'
 
-import { Center } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 
 import { DateField, FormProvider, useForm } from '@redwoodjs/forms'
 import { MetaTags } from '@redwoodjs/web'
 
 // import TimeTableHeader from 'src/components/TimeTable/components/TimeTableHeader'
+import TaskList from 'src/components/TaskList/TaskList'
 import TimeTable from 'src/components/TimeTable/TimeTable'
 
 /**
@@ -38,9 +39,14 @@ const TimeTablePage = () => {
             <DateField {...register('date')} />
           </header>
           <Suspense fallback={<div>loading...</div>}>
-            <Center as="section" bg="white" h="full">
-              <TimeTable />
-            </Center>
+            <Flex as="section" h="full" justifyContent="center" gap="4">
+              <div className="rounded-lg bg-white px-7 py-5 shadow-sm">
+                <TimeTable />
+              </div>
+              <div className="rounded-lg bg-white px-7 py-5 shadow-sm">
+                <TaskList />
+              </div>
+            </Flex>
           </Suspense>
         </main>
       </FormProvider>

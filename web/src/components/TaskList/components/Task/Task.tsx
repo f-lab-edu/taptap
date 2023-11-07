@@ -4,7 +4,7 @@ import { Box, Flex, HStack, Tag, Text } from '@chakra-ui/react'
 
 import { formatDuration } from 'src/lib/formatters'
 
-import Toolbox from '../Toolbox/Toolbox'
+import Toolbox from '../../../Toolbox/Toolbox'
 
 export interface TaskProps {
   id: number | string

@@ -12,7 +12,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react'
 
-import Task from './Task'
+import Task from './Task/Task'
 
 const TASK = {
   id: 1,
