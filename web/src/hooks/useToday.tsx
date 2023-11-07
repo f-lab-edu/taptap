@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
-import { addDays, getTime, startOfDay } from 'date-fns'
+import { addDays, startOfDay, differenceInMilliseconds } from 'date-fns'
 
 const TodayContext = createContext(new Date())
 
@@ -12,8 +12,10 @@ export const TodayContextProvider = ({
   const [today, setToday] = useState(new Date())
 
   useEffect(() => {
-    const delay = getTime(startOfDay(addDays(today, 1))) - getTime(today)
-    setTimeout(() => setToday(new Date()), delay)
+    const tomorrow = startOfDay(addDays(today, 1))
+    const delay = differenceInMilliseconds(tomorrow, today)
+    const id = setTimeout(() => setToday(tomorrow), delay)
+    return () => clearTimeout(id)
   }, [today])
 
   return <TodayContext.Provider value={today}>{children}</TodayContext.Provider>
