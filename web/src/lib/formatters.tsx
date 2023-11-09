@@ -81,7 +81,7 @@ export interface Interval {
   start: Date | string | number
   end: Date | string | number
 }
-export const intervalListToDuration = (intervals: Interval[]) => {
+export const intervalListToDuration = (intervals = [] as Interval[]) => {
   const sum = intervals.reduce((acc, { start, end }) => {
     const duration = getTime(new Date(end)) - getTime(new Date(start))
     return acc + duration
