@@ -75,6 +75,6 @@ const Sidebar = () => {
 export default React.memo(Sidebar)
 
 const Container = styled.div<ControllerProps>`
-  ${tw`flex flex-col gap-8 py-8 h-screen bg-white drop-shadow-sm transition-all duration-500`}
+  ${tw`flex flex-col gap-8 py-8 h-screen bg-white drop-shadow-sm transition-all duration-500 z-10`}
   ${({ isOpen }) => (isOpen ? tw`w-1/4 pl-5 pr-6` : tw`w-[70px] px-4`)}
 `
