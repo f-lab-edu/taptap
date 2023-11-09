@@ -16,16 +16,7 @@ export const GET_TASK = gql`
       id
       title
       color
-      records {
-        id
-        start
-        end
-      }
-      duration @client {
-        hours
-        minutes
-        seconds
-      }
+      ...DurationField
     }
   }
 `

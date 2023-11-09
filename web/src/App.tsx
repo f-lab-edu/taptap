@@ -1,3 +1,4 @@
+import { createFragmentRegistry } from '@apollo/client/cache'
 import { ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react'
 import * as theme from 'config/chakra.config'
 
@@ -8,10 +9,9 @@ import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
 
 import { AuthProvider, useAuth } from './auth'
-
-// import './scaffold.css'
 import './index.css'
 import 'react-day-picker/dist/style.css'
+import { TASK_DURATION } from './graphql/duration'
 import { intervalListToDuration, Interval } from './lib/formatters'
 
 const extendedTheme = extendTheme(theme)
@@ -76,6 +76,7 @@ const App = () => (
                     },
                   },
                 },
+                fragments: createFragmentRegistry(TASK_DURATION),
               },
               typeDefs: clientSchema,
             }}
