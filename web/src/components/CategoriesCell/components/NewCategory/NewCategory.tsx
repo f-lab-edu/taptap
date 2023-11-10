@@ -6,10 +6,10 @@ import { navigate, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
-import CategoryForm from '../CategoryForm/CategoryForm'
 import useBoolean from 'src/hooks/useBoolean'
 
 import { QUERY as GET_CATEGORIES } from '../../CategoriesCell'
+import CategoryForm from '../CategoryForm/CategoryForm'
 
 const CREATE_CATEGORY_MUTATION = gql`
   mutation CreateCategoryMutation($input: CreateCategoryInput!) {

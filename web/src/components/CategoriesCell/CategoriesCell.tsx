@@ -3,7 +3,6 @@ import type { FindCategories } from 'types/graphql'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
 import Category from './components/Category/Category'
-
 import NewCategory from './components/NewCategory/NewCategory'
 
 export const QUERY = gql`

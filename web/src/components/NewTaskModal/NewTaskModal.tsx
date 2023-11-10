@@ -9,7 +9,7 @@ import { format, getDate, getDay, getMonth, getWeekOfMonth } from 'date-fns'
 import type { UpdateRepeatInput } from 'types/graphql'
 
 import { useMutation } from '@redwoodjs/web'
-import { Toaster, toast } from '@redwoodjs/web/toast'
+import { toast } from '@redwoodjs/web/toast'
 
 import TaskFormCell from 'src/components/TaskFormCell'
 
@@ -93,7 +93,6 @@ const NewTask = ({ isOpen, onClose }: Props) => {
 
   return (
     <>
-      <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalContent pb="4">
           <ModalHeader>New Task</ModalHeader>
