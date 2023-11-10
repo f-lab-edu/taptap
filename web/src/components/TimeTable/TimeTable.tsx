@@ -51,15 +51,15 @@ const TimeTable = () => {
       getTimeBlockProps(
         tasks
           .filter(({ times }) => times)
-          .flatMap(({ title, color, times }) => {
-            return times.map(([startTime, endTime]) => {
+          .flatMap(({ title, color, times }) =>
+            times.map(([startTime, endTime]) => {
               const [sh, sm] = startTime.split(':')
               const [eh, em] = endTime.split(':')
               const start = setMinutes(setHours(new Date(), sh), sm)
               const end = setMinutes(setHours(new Date(), eh), em)
               return { title, color, start, end }
             })
-          })
+          )
       ),
     [tasks]
   )
@@ -75,6 +75,8 @@ const TimeTable = () => {
       ),
     [records]
   )
+
+  console.log(recordBlockMap)
 
   return (
     <Table width="500px" size="sm">
@@ -102,18 +104,12 @@ const TimeTable = () => {
               </Th>
               <Td w="45%" p="0" position="relative" h="25px">
                 {planBlockMap[hour].map((props) => (
-                  <TimeBlock
-                    key={`${hour} ${props.id} ${props.title}`}
-                    {...props}
-                  />
+                  <TimeBlock key={`plan-${props.id}`} {...props} />
                 ))}
               </Td>
               <Td w="45%" p="0" position="relative" h="25px">
                 {recordBlockMap[hour].map((props) => (
-                  <TimeBlock
-                    key={`${hour} ${props.id} ${props.title}`}
-                    {...props}
-                  />
+                  <TimeBlock key={`record-${props.id}`} {...props} />
                 ))}
               </Td>
             </Tr>
@@ -127,6 +123,7 @@ const TimeTable = () => {
 export default TimeTable
 
 interface TimeBlockProps {
+  id: number
   title: string
   color: string
   start: number
@@ -187,18 +184,17 @@ const getTimeBlockProps = function (
     for (let h = start.hour; h < end.hour; h++) {
       blocks[h].push({
         ...rest,
-        id,
+        id: id++,
         start: block_start,
         duration: 60 - block_start,
       })
       block_start = 0
-      id += 1
     }
 
     // h = end.hour
     blocks[end.hour].push({
       ...rest,
-      id,
+      id: id++,
       start: block_start,
       duration: end.minute - block_start,
     })
