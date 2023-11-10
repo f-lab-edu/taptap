@@ -21,7 +21,7 @@ const items: NavItemProps[] = [
   {
     title: 'Time Table',
     icon: CalendarIcon,
-    to: 'records',
+    to: 'home',
   },
   {
     title: 'Dashboard',

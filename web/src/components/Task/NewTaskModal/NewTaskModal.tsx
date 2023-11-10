@@ -5,12 +5,11 @@ import {
   ModalContent,
   ModalHeader,
 } from '@chakra-ui/react'
-import { format, getDate, getMonth, getWeekOfMonth } from 'date-fns'
-import type { DayOfWeek, UpdateRepeatInput } from 'types/graphql'
+import { format, getDate, getDay, getMonth, getWeekOfMonth } from 'date-fns'
+import type { UpdateRepeatInput } from 'types/graphql'
 
 import { useMutation } from '@redwoodjs/web'
-import { Toaster } from '@redwoodjs/web/toast'
-import { toast } from '@redwoodjs/web/toast'
+import { Toaster, toast } from '@redwoodjs/web/toast'
 
 import TaskFormCell from 'src/components/Task/TaskFormCell'
 
@@ -39,25 +38,25 @@ const repeatData: RepeatData = {
   평일: {
     type: 'Weekly',
     interval: 1,
-    daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    daysOfWeek: [1, 2, 3, 4, 5],
   },
-  주말: { type: 'Weekly', interval: 1, daysOfWeek: ['Sat', 'Sun'] },
+  주말: { type: 'Weekly', interval: 1, daysOfWeek: [0, 6] },
   매주: {
     type: 'Weekly',
     interval: 1,
-    daysOfWeek: [format(new Date(), 'iii') as DayOfWeek],
+    daysOfWeek: [getDay(new Date())],
   },
   매월: {
     type: 'Monthly',
     interval: 1,
     weekOfMonth: getWeekOfMonth(new Date()),
-    daysOfWeek: [format(new Date(), 'iii') as DayOfWeek],
+    daysOfWeek: [getDay(new Date())],
   },
   매년: {
     type: 'Yearly',
     interval: 1,
     months: [getMonth(new Date())],
-    daysOfMonth: [getDate(new Date()).toString()],
+    daysOfMonth: [getDate(new Date())],
   },
 }
 
