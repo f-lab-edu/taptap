@@ -15,9 +15,9 @@ const Controller = () => {
   const icon = useMemo(
     () =>
       isOpen ? (
-        <ChevronRightIcon className="m-[6px] stroke-2" />
-      ) : (
         <ChevronLeftIcon className="m-[6px] stroke-2" />
+      ) : (
+        <ChevronRightIcon className="m-[6px] stroke-2" />
       ),
     [isOpen]
   )

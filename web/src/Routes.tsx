@@ -23,6 +23,7 @@ const Routes = () => {
         <Set wrap={MainLayout}>
           <Route path="/" page={HomePage} name="home" />
           <Route path="/categories" page={CategoriesPage} name="categories" />
+          <Route path="/timeTable" page={TimeTablePage} name="timeTable" />
         </Set>
       </PrivateSet>
       <Route notfound page={NotFoundPage} />

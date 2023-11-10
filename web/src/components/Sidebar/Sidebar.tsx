@@ -43,13 +43,6 @@ const Sidebar = () => {
     <SidebarContext.Provider value={value}>
       <Container isOpen={isOpen}>
         <Controller />
-        <header>
-          <Link
-            to={routes.home()}
-            className="block h-9 w-full bg-[url('images/logo.svg')] bg-contain bg-no-repeat"
-            aria-label="logo"
-          />
-        </header>
         <Navigation />
 
         <Box as="aside" mt="auto">
@@ -76,5 +69,5 @@ export default React.memo(Sidebar)
 
 const Container = styled.div<ControllerProps>`
   ${tw`flex flex-col gap-8 py-8 h-screen bg-white drop-shadow-sm transition-all duration-500 z-10`}
-  ${({ isOpen }) => (isOpen ? tw`w-1/4 pl-5 pr-6` : tw`w-[70px] px-4`)}
+  ${({ isOpen }) => (isOpen ? tw`w-[220px] pl-5 pr-6` : tw`w-[70px] px-4`)}
 `

@@ -11,7 +11,7 @@ import type { UpdateRepeatInput } from 'types/graphql'
 import { useMutation } from '@redwoodjs/web'
 import { Toaster, toast } from '@redwoodjs/web/toast'
 
-import TaskFormCell from 'src/components/Task/TaskFormCell'
+import TaskFormCell from 'src/components/TaskFormCell'
 
 import { RepeatOption, TaskFormData } from '../TaskFormCell/TaskForm.types'
 

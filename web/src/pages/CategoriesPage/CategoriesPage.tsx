@@ -1,6 +1,6 @@
 import { MetaTags } from '@redwoodjs/web'
 
-import CategoriesCell from 'src/components/Category/CategoriesCell'
+import CategoriesCell from 'src/components/CategoriesCell'
 
 const CategoriesPage = () => (
   <>

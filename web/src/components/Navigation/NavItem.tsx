@@ -22,6 +22,7 @@ const NavItem = ({ title, to, icon }: NavItemProps) => {
   return (
     <NavLink
       to={to}
+      aria-label={title}
       className="group flex h-9 items-center rounded-lg px-3 transition duration-150 hover:bg-neutral-200/30"
       activeClassName="bg-neutral-200/70"
     >
