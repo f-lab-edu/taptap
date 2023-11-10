@@ -11,6 +11,7 @@ export const GET_RECORDS: TypedDocumentNode<records, recordsVariables> = gql`
       start
       end
       task {
+        id
         title
         color
       }
@@ -25,7 +26,7 @@ interface Variables {
 
 const useRecords = ({ date = new Date(), taskId } = {} as Variables) => {
   return useSuspenseQuery(GET_RECORDS, {
-    variables: { date: startOfDay(date), taskId },
+    variables: { date: startOfDay(date).toISOString(), taskId },
     returnPartialData: true,
   })
 }

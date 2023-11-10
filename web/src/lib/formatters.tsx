@@ -7,7 +7,6 @@ import {
   intervalToDuration,
 } from 'date-fns'
 import humanize from 'humanize-string'
-import { Record } from 'types/graphql'
 
 const MAX_STRING_LENGTH = 150
 
@@ -80,8 +79,12 @@ export const formatDuration = (
   return formatted
 }
 
-export const intervalListToDuration = (records: Record[]) => {
-  const sum = records.reduce((acc, { start, end }) => {
+export interface Interval {
+  start: Date | string | number
+  end: Date | string | number
+}
+export const intervalListToDuration = (intervals = [] as Interval[]) => {
+  const sum = intervals.reduce((acc, { start, end }) => {
     const duration = getTime(new Date(end)) - getTime(new Date(start))
     return acc + duration
   }, 0)
