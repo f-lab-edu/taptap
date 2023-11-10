@@ -13,6 +13,7 @@ import { AuthProvider, useAuth } from './auth'
 import './index.css'
 import 'react-day-picker/dist/style.css'
 import { TASK_DURATION } from './graphql/duration'
+import { TodayContextProvider } from './hooks/useToday'
 import {
   intervalListToDuration,
   Interval,
@@ -101,7 +102,9 @@ const App = () => (
               typeDefs: clientSchema,
             }}
           >
-            <Routes />
+            <TodayContextProvider>
+              <Routes />
+            </TodayContextProvider>
           </RedwoodApolloProvider>
         </AuthProvider>
       </ChakraProvider>
