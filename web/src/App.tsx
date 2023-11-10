@@ -77,7 +77,7 @@ const App = () => (
                     fields: {
                       date: {
                         read(_, { variables }) {
-                          return variables.date
+                          return variables.date || 'all'
                         },
                       },
                       duration: {
