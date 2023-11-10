@@ -1,3 +1,4 @@
+import { addHours } from 'date-fns'
 import type {
   QueryResolvers,
   MutationResolvers,
@@ -6,14 +7,19 @@ import type {
 
 import { db } from 'src/lib/db'
 
-export const records: QueryResolvers['records'] = () => {
-  return db.record.findMany()
-}
-
-export const record: QueryResolvers['record'] = ({ id }) => {
-  return db.record.findUnique({
-    where: { id },
-  })
+export const records: QueryResolvers['records'] = ({ date, taskId }) => {
+  const start = new Date(date),
+    end = addHours(new Date(date), 24)
+  const where = {
+    start: {
+      lt: end,
+    },
+    end: {
+      gt: start,
+    },
+    ...(taskId ? { taskId } : {}),
+  }
+  return db.record.findMany({ where, include: { task: true } })
 }
 
 export const createRecord: MutationResolvers['createRecord'] = ({ input }) => {
@@ -40,6 +46,6 @@ export const deleteRecord: MutationResolvers['deleteRecord'] = ({ id }) => {
 
 export const Record: RecordRelationResolvers = {
   task: (_obj, { root }) => {
-    return db.record.findUnique({ where: { id: root?.id } }).task()
+    return root.task
   },
 }
