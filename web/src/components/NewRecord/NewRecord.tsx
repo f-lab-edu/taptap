@@ -5,7 +5,7 @@ import { tasks } from 'types/graphql'
 
 import { FormProvider, SubmitHandler, useForm } from '@redwoodjs/forms'
 import { useMutation } from '@redwoodjs/web/dist/components/GraphQLHooksProvider'
-import { Toaster, toast } from '@redwoodjs/web/dist/toast'
+import { toast } from '@redwoodjs/web/dist/toast'
 
 import { GET_RECORDS } from 'src/hooks/useRecords'
 import useTasks from 'src/hooks/useTasks'
@@ -115,7 +115,6 @@ const NewRecord = ({ children }: Props) => {
 
   return (
     <NewRecordContext.Provider value={{ tasks }}>
-      <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {typeof children === 'function'
