@@ -6414,7 +6414,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redwoodjs/auth-dbauth-api@npm:7.0.0-canary.402":
+"@redwoodjs/auth-dbauth-api@npm:7.0.0-canary.402+50b212d4b":
   version: 7.0.0-canary.402
   resolution: "@redwoodjs/auth-dbauth-api@npm:7.0.0-canary.402"
   dependencies:
@@ -6444,7 +6444,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redwoodjs/auth-dbauth-web@npm:7.0.0-canary.402":
+"@redwoodjs/auth-dbauth-web@npm:7.0.0-canary.402+50b212d4b":
   version: 7.0.0-canary.402
   resolution: "@redwoodjs/auth-dbauth-web@npm:7.0.0-canary.402"
   dependencies:
@@ -10296,7 +10296,7 @@ __metadata:
   resolution: "api@workspace:api"
   dependencies:
     "@redwoodjs/api": 7.0.0-canary.402
-    "@redwoodjs/auth-dbauth-api": 7.0.0-canary.402
+    "@redwoodjs/auth-dbauth-api": 7.0.0-canary.402+50b212d4b
     "@redwoodjs/graphql-server": 7.0.0-canary.402
   languageName: unknown
   linkType: soft
@@ -25704,7 +25704,7 @@ __metadata:
     "@emotion/styled": ^11
     "@headlessui/react": ^1.7.17
     "@heroicons/react": ^2.0.18
-    "@redwoodjs/auth-dbauth-web": 7.0.0-canary.402
+    "@redwoodjs/auth-dbauth-web": 7.0.0-canary.402+50b212d4b
     "@redwoodjs/forms": 7.0.0-canary.402
     "@redwoodjs/router": 7.0.0-canary.402
     "@redwoodjs/vite": 7.0.0-canary.402
