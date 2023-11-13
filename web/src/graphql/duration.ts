@@ -1,4 +1,4 @@
-const CORE_RECORDS_FIELDS = gql`
+export const RECORDS_FIELDS_FOR_DURATION = gql`
   fragment RecordsFields on Record {
     id
     start
@@ -7,7 +7,7 @@ const CORE_RECORDS_FIELDS = gql`
 `
 
 export const TASK_DURATION = gql`
-  ${CORE_RECORDS_FIELDS}
+  ${RECORDS_FIELDS_FOR_DURATION}
   fragment DurationField on Task {
     duration @client {
       hours
@@ -21,15 +21,15 @@ export const TASK_DURATION = gql`
 `
 
 export const GET_TOTAL_DURATION = gql`
-  ${CORE_RECORDS_FIELDS}
+  ${RECORDS_FIELDS_FOR_DURATION}
   query duration($date: DateTime) {
-    records(date: $date) {
-      ...RecordsFields
-    }
     duration(date: $date) @client {
       hours
       minutes
       seconds
+    }
+    records(date: $date) {
+      ...RecordsFields
     }
   }
 `

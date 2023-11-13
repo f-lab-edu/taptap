@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext } from 'react'
 
-import { differenceInMilliseconds, getTime, startOfDay } from 'date-fns'
+import { differenceInMilliseconds, getTime } from 'date-fns'
 import { tasks } from 'types/graphql'
 
 import { FormProvider, SubmitHandler, useForm } from '@redwoodjs/forms'
@@ -9,6 +9,7 @@ import { toast } from '@redwoodjs/web/dist/toast'
 
 import { GET_RECORDS } from 'src/hooks/useRecords'
 import useTasks from 'src/hooks/useTasks'
+import useToday from 'src/hooks/useToday'
 
 import TaskSelectField, { GET_TASK } from './components/TaskSelectField'
 import Timer from './components/Timer'
@@ -48,19 +49,19 @@ interface Context {
 const NewRecordContext = createContext<null | Context>(null)
 
 const NewRecord = ({ children }: Props) => {
+  const today = useToday()
   const {
     data: { tasks },
-  } = useTasks()
+  } = useTasks({ date: today })
 
   const [createRecord] = useMutation(CREATE_RECORD, {
     onCompleted: () => console.log('성공'),
     onError: (error) => console.log('error: ', error),
     update: (cache, { data: { createRecord: newRecord } }) => {
-      // FIXME: variables.date -> <today>
       cache.updateQuery(
         {
           query: GET_RECORDS,
-          variables: { date: startOfDay(new Date()).toISOString() },
+          variables: { date: today.toISOString() },
         },
         (data) => ({ records: data.records.concat(newRecord) })
       )
@@ -69,7 +70,7 @@ const NewRecord = ({ children }: Props) => {
           query: GET_TASK,
           variables: {
             id: newRecord.taskId,
-            date: startOfDay(new Date()).toISOString(),
+            date: today.toISOString(),
           },
         },
         (data) => ({
@@ -86,7 +87,7 @@ const NewRecord = ({ children }: Props) => {
   const { start } = watch()
 
   const isUnderMinTime = useCallback(({ start, end }: NewRecordForm) => {
-    const MIN_TIME = 1000 * 60 * 60 // 1 minute
+    const MIN_TIME = 1000 * 60 // 1 minute
     const durationTime = differenceInMilliseconds(end, start)
     return durationTime < MIN_TIME
   }, [])

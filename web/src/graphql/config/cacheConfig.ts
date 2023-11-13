@@ -6,21 +6,19 @@ import { records as RecordsType } from 'types/graphql'
 
 import { formatDuration, intervalListToDuration } from 'src/lib/formatters'
 
-import { TASK_DURATION } from '../duration'
+import { RECORDS_FIELDS_FOR_DURATION, TASK_DURATION } from '../duration'
 
 export const typePolicies: InMemoryCacheConfig['typePolicies'] = {
   Query: {
     fields: {
       duration: {
         read(_, { cache, variables: { date } }) {
-          // FIXME: records fields -> fragment
           const data = cache.readQuery({
             query: gql`
+              ${RECORDS_FIELDS_FOR_DURATION}
               query records($date: DateTime) {
                 records(date: $date) {
-                  id
-                  start
-                  end
+                  ...RecordsFields
                 }
               }
             `,
