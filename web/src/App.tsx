@@ -9,6 +9,7 @@ import Routes from 'src/Routes'
 
 import { AuthProvider, useAuth } from './auth'
 import './index.css'
+import './scaffold.css'
 import 'react-day-picker/dist/style.css'
 import { cacheConfig, typeDefs } from './graphql/config'
 import { TodayContextProvider } from './hooks/useToday'

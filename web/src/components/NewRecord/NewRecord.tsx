@@ -39,7 +39,7 @@ interface Props {
 }
 
 // TODO: 10시간 초과 기록 제한
-// TODO: 할 일 조회시 로딩, empty, 실패 ui
+// TODO: 할 일 조회시 로딩, 실패 ui
 // TODO: 새 기록 생성시, 실패시
 
 interface Context {
