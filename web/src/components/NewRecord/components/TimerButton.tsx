@@ -3,7 +3,7 @@ import React, { memo, useCallback } from 'react'
 import { Button, Icon } from '@chakra-ui/react'
 import { PlayIcon } from '@heroicons/react/20/solid'
 
-import { Controller, useFormContext, useWatch } from '@redwoodjs/forms'
+import { Controller, useFormContext } from '@redwoodjs/forms'
 import { toast } from '@redwoodjs/web/dist/toast'
 
 const TimerButton = () => {
@@ -14,7 +14,7 @@ const TimerButton = () => {
     setValue,
   } = useFormContext()
   const { start, taskId } = watch()
-  const onStart = useCallback(() => {
+  const startTimer = useCallback(() => {
     if (!taskId) {
       toast('할 일을 선택해주세요')
       return
@@ -55,7 +55,7 @@ const TimerButton = () => {
           fontWeight="bold"
           colorScheme="teal"
           gap="2"
-          onClick={onStart}
+          onClick={startTimer}
         >
           START
           <Icon as={PlayIcon} fontSize="sm" />

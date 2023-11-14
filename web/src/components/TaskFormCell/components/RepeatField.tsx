@@ -50,7 +50,6 @@ const RepeatField = () => {
                 render={({ field: { onChange, value } }) => (
                   <DayPicker
                     mode="single"
-                    onDayBlur={() => console.log('day picker blur')}
                     onSelect={onChange}
                     selected={value}
                   />

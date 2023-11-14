@@ -11,7 +11,6 @@ import useToday from 'src/hooks/useToday'
 
 const TodayDuration = () => {
   const today = useToday()
-  console.log(today)
   const {
     data: {
       duration: { hours, minutes, seconds },

@@ -55,7 +55,7 @@ const NewRecord = ({ children }: Props) => {
   } = useTasks({ date: today })
 
   const [createRecord] = useMutation(CREATE_RECORD, {
-    onCompleted: () => console.log('성공'),
+    onCompleted: () => toast.success('기록이 저장되었습니다'),
     onError: (error) => console.log('error: ', error),
     update: (cache, { data: { createRecord: newRecord } }) => {
       cache.updateQuery(

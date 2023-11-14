@@ -33,10 +33,7 @@ const TimeTableHeader = () => {
               <DayPicker
                 onDayBlur={onBlur}
                 selected={value}
-                onSelect={(e) => {
-                  console.log('->', e)
-                  onChange(e)
-                }}
+                onSelect={(e) => onChange(e)}
               />
             </div>
           </div>

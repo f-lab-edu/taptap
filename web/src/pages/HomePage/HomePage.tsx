@@ -32,7 +32,7 @@ const HomePage = () => {
     <>
       <MetaTags title="Home" description="Home page" />
       <main className="relative h-full">
-        <Suspense fallback={<p className="bg-black">loading....</p>}>
+        <Suspense fallback={<p>loading....</p>}>
           <NewRecord>
             {({ isRecording }) => (
               <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">

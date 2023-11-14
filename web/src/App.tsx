@@ -19,9 +19,9 @@ const extendedTheme = extendTheme(theme)
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
-      <ColorModeScript />
-      <ChakraProvider theme={extendedTheme}>
-        <AuthProvider>
+      <AuthProvider>
+        <ColorModeScript />
+        <ChakraProvider theme={extendedTheme}>
           <RedwoodApolloProvider
             useAuth={useAuth}
             graphQLClientConfig={{
@@ -34,8 +34,8 @@ const App = () => (
               <Routes />
             </TodayContextProvider>
           </RedwoodApolloProvider>
-        </AuthProvider>
-      </ChakraProvider>
+        </ChakraProvider>
+      </AuthProvider>
     </RedwoodProvider>
   </FatalErrorBoundary>
 )
