@@ -21,6 +21,8 @@ import {
 } from '@redwoodjs/forms'
 import { Link, routes } from '@redwoodjs/router'
 
+import useToday from 'src/hooks/useToday'
+
 import CategoryRadio from './components/CategoryRadio'
 import ColorRadio from './components/ColorRadio'
 import DateField from './components/DateField'
@@ -30,9 +32,11 @@ import { TaskFormProps, TaskFormData } from './TaskForm.types'
 import { OPTIONS, defaultValues } from './TaskForm.utils'
 
 const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
+  const { today } = useToday()
   const formMethod = useForm<TaskFormData>({
     defaultValues: {
       ...defaultValues,
+      startDate: today,
       ...(task
         ? { title: task.title, category: task.categoryId, color: task.color }
         : { category: categories[0]?.id }),

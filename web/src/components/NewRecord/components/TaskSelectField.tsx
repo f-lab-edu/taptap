@@ -64,7 +64,7 @@ const TaskSelectField = () => {
 }
 
 const TaskDuration = ({ taskId }: { taskId: number }) => {
-  const today = useToday()
+  const { today } = useToday()
   const {
     data: { task },
   } = useSuspenseQuery(GET_TASK, {

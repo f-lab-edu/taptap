@@ -24,7 +24,7 @@ interface TimeTablePageContext {
 }
 
 const TimeTablePage = () => {
-  const today = useToday()
+  const { today } = useToday()
   const context = useForm<TimeTablePageContext>({
     defaultValues: {
       date: today,

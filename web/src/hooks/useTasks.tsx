@@ -1,5 +1,4 @@
 import { TypedDocumentNode } from '@apollo/client'
-import { startOfDay } from 'date-fns'
 import { tasks as Tasks, tasksVariables as TaskVariables } from 'types/graphql'
 
 import { useSuspenseQuery } from '@redwoodjs/web/dist/components/GraphQLHooksProvider'

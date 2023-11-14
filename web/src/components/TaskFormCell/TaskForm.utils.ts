@@ -39,7 +39,6 @@ export const getDefaultTimes = (): [Date, Date] => {
 
 export const defaultValues = {
   color: OPTIONS.color[0],
-  startDate: new Date(),
   times: {
     allDay: true,
     data: [getDefaultTimes().map(timeFormat) as [string, string]],
