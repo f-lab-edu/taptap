@@ -9,7 +9,6 @@ import { MetaTags } from '@redwoodjs/web'
 import NewRecord from 'src/components/NewRecord/NewRecord'
 import NewTaskModal from 'src/components/NewTaskModal/NewTaskModal'
 import TodayDuration from 'src/components/TodayDuration/TodayDuration'
-// import useToday from 'src/hooks/useToday'
 
 const HomePage = () => {
   const [isOpen, { toggle }] = useBoolean()
@@ -33,7 +32,7 @@ const HomePage = () => {
     <>
       <MetaTags title="Home" description="Home page" />
       <main className="relative h-full">
-        <Suspense fallback={<p className="bg-black">loading....</p>}>
+        <Suspense fallback={<p>loading....</p>}>
           <NewRecord>
             {({ isRecording }) => (
               <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">

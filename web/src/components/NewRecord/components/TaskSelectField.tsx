@@ -1,11 +1,11 @@
-import React, { memo, useEffect, useMemo, useTransition } from 'react'
+import React, { memo, useMemo, useTransition } from 'react'
 
 import { Select, Text } from '@chakra-ui/react'
-import { startOfDay } from 'date-fns'
 
 import { Controller, useFormContext, useWatch } from '@redwoodjs/forms'
 import { useSuspenseQuery } from '@redwoodjs/web/dist/components/GraphQLHooksProvider'
 
+import useToday from 'src/hooks/useToday'
 import { formatDuration } from 'src/lib/formatters'
 
 import { useNewRecordContext } from '../NewRecord'
@@ -23,8 +23,8 @@ export const GET_TASK = gql`
 
 const TaskSelectField = () => {
   const { tasks } = useNewRecordContext()
-  const { control } = useFormContext()
-  const taskId = useWatch({ control, name: 'taskId' })
+  const { control, watch } = useFormContext()
+  const taskId = watch('taskId')
   const [isPending, startTransition] = useTransition()
 
   return (
@@ -37,8 +37,11 @@ const TaskSelectField = () => {
           <Select
             {...field}
             isDisabled={isPending}
+            placeholder="할 일 선택하기"
             onChange={(e) =>
-              startTransition(() => field.onChange(parseInt(e.target.value)))
+              startTransition(() =>
+                field.onChange(e.target.value && parseInt(e.target.value))
+              )
             }
           >
             {tasks.map(({ id, title }) => (
@@ -49,18 +52,25 @@ const TaskSelectField = () => {
           </Select>
         )}
       />
-      <TaskDuration taskId={taskId} />
+      {taskId ? (
+        <TaskDuration taskId={taskId} />
+      ) : (
+        <Text fontSize="sm" color="gray.500">
+          00:00:00
+        </Text>
+      )}
     </div>
   )
 }
 
 const TaskDuration = ({ taskId }: { taskId: number }) => {
+  const { today } = useToday()
   const {
     data: { task },
   } = useSuspenseQuery(GET_TASK, {
     variables: {
       id: taskId,
-      date: startOfDay(new Date()).toISOString(),
+      date: today.toISOString(),
     },
   })
 
@@ -68,24 +78,6 @@ const TaskDuration = ({ taskId }: { taskId: number }) => {
     () => formatDuration(task.duration),
     [task]
   )
-
-  // useEffect(() => {
-  //   console.log('[today] task: ', task)
-  //   console.log('->', task.duration)
-  // }, [task])
-
-  // const {
-  //   data: { task: pastTask },
-  // } = useSuspenseQuery(GET_TASK, {
-  //   variables: {
-  //     id: taskId,
-  //     date: startOfDay(new Date('2023-10-28')).toISOString(),
-  //   },
-  // })
-  // useEffect(() => {
-  //   console.log('[2023-10-28] task: ', pastTask)
-  //   console.log('->', pastTask.duration)
-  // }, [pastTask])
 
   return (
     <Text fontSize="sm" color="gray.500">

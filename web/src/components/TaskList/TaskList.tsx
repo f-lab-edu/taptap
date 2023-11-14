@@ -24,6 +24,7 @@ interface Props {
 // 카테고리 총 duration 요소의 background
 // - color는 tasks 중 하나 가져오기 (아무거나? 첫번째?)
 // - opacity
+// TODO: 날짜 선택 시 시간 통일
 const TaskList = () => {
   const { watch } = useFormContext()
   const { date } = watch()

@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext } from 'react'
 
-import { differenceInMilliseconds, getTime, startOfDay } from 'date-fns'
+import { differenceInMilliseconds, getTime } from 'date-fns'
 import { tasks } from 'types/graphql'
 
 import { FormProvider, SubmitHandler, useForm } from '@redwoodjs/forms'
@@ -9,6 +9,7 @@ import { toast } from '@redwoodjs/web/dist/toast'
 
 import { GET_RECORDS } from 'src/hooks/useRecords'
 import useTasks from 'src/hooks/useTasks'
+import useToday from 'src/hooks/useToday'
 
 import TaskSelectField, { GET_TASK } from './components/TaskSelectField'
 import Timer from './components/Timer'
@@ -21,6 +22,11 @@ const CREATE_RECORD = gql`
       start
       end
       taskId
+      task {
+        id
+        title
+        color
+      }
     }
   }
 `
@@ -38,7 +44,7 @@ interface Props {
 }
 
 // TODO: 10시간 초과 기록 제한
-// TODO: 할 일 조회시 로딩, empty, 실패 ui
+// TODO: 할 일 조회시 로딩, 실패 ui
 // TODO: 새 기록 생성시, 실패시
 
 interface Context {
@@ -48,28 +54,31 @@ interface Context {
 const NewRecordContext = createContext<null | Context>(null)
 
 const NewRecord = ({ children }: Props) => {
+  const { today } = useToday()
   const {
     data: { tasks },
-  } = useTasks()
+  } = useTasks({ date: today })
 
   const [createRecord] = useMutation(CREATE_RECORD, {
-    onCompleted: () => console.log('성공'),
+    onCompleted: () => toast.success('기록이 저장되었습니다'),
     onError: (error) => console.log('error: ', error),
     update: (cache, { data: { createRecord: newRecord } }) => {
-      // FIXME: variables.date -> <today>
+      console.log('new record: ', newRecord)
       cache.updateQuery(
         {
           query: GET_RECORDS,
-          variables: { date: startOfDay(new Date()).toISOString() },
+          variables: { date: today.toISOString() },
         },
-        (data) => ({ records: data.records.concat(newRecord) })
+        (data) => ({
+          records: data ? data.records.concat(newRecord) : [newRecord],
+        })
       )
       cache.updateQuery(
         {
           query: GET_TASK,
           variables: {
             id: newRecord.taskId,
-            date: startOfDay(new Date()).toISOString(),
+            date: today.toISOString(),
           },
         },
         (data) => ({
@@ -86,7 +95,7 @@ const NewRecord = ({ children }: Props) => {
   const { start } = watch()
 
   const isUnderMinTime = useCallback(({ start, end }: NewRecordForm) => {
-    const MIN_TIME = 1000 * 60 * 60 // 1 minute
+    const MIN_TIME = 1000 * 60 // 1 minute
     const durationTime = differenceInMilliseconds(end, start)
     return durationTime < MIN_TIME
   }, [])
@@ -94,10 +103,10 @@ const NewRecord = ({ children }: Props) => {
   const onSubmit: SubmitHandler<NewRecordForm> = useCallback(
     async (input) => {
       reset({ taskId: input.taskId })
-      if (isUnderMinTime(input)) {
-        toast('1분 미만의 기록은 저장되지 않습니다.')
-        return
-      }
+      // if (isUnderMinTime(input)) {
+      //   toast('1분 미만의 기록은 저장되지 않습니다.')
+      //   return
+      // }
 
       await createRecord({
         variables: { input },

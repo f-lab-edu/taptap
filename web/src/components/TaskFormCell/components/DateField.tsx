@@ -7,9 +7,12 @@ import { DayPicker } from 'react-day-picker'
 
 import { useFormContext, Controller, useWatch } from '@redwoodjs/forms'
 
+import useToday from 'src/hooks/useToday'
+
 import BasicSelect from './BasicSelect'
 
 const DateField = () => {
+  const { customStartOfDay } = useToday()
   const { control } = useFormContext()
   const { startDate } = useWatch()
   const calendarMenuRef = useRef()
@@ -42,7 +45,7 @@ const DateField = () => {
               <DayPicker
                 mode="single"
                 onDayBlur={onBlur}
-                onSelect={onChange}
+                onSelect={(e) => onChange(customStartOfDay(e))}
                 selected={value}
               />
             )}

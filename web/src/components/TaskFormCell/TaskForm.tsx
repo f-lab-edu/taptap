@@ -6,9 +6,12 @@ import {
   FormControl,
   FormLabel,
   HStack,
+  IconButton,
   Input,
   VStack,
+  Text,
 } from '@chakra-ui/react'
+import { PlusSmallIcon } from '@heroicons/react/20/solid'
 
 import {
   useForm,
@@ -16,6 +19,9 @@ import {
   FormProvider,
   Controller,
 } from '@redwoodjs/forms'
+import { Link, routes } from '@redwoodjs/router'
+
+import useToday from 'src/hooks/useToday'
 
 import CategoryRadio from './components/CategoryRadio'
 import ColorRadio from './components/ColorRadio'
@@ -26,12 +32,14 @@ import { TaskFormProps, TaskFormData } from './TaskForm.types'
 import { OPTIONS, defaultValues } from './TaskForm.utils'
 
 const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
+  const { today } = useToday()
   const formMethod = useForm<TaskFormData>({
     defaultValues: {
       ...defaultValues,
+      startDate: today,
       ...(task
         ? { title: task.title, category: task.categoryId, color: task.color }
-        : { category: categories[0].id }),
+        : { category: categories[0]?.id }),
     },
   })
 
@@ -40,7 +48,7 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
     watch,
     handleSubmit,
     control,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = formMethod
 
   const { color, category } = watch()
@@ -60,19 +68,43 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
       >
         <VStack as="main" gap="5" mb="5">
           <FormControl>
-            <FormLabel>제목</FormLabel>
-            <Input type="text" {...register('title', { required: true })} />
+            <FormLabel>
+              제목
+              {errors.title && (
+                <Text fontSize="xs" color="red.400">
+                  {errors.title.message}
+                </Text>
+              )}
+            </FormLabel>
+            <Input
+              type="text"
+              {...register('title', { required: '할 일을 적어주세요.' })}
+            />
           </FormControl>
 
           <FormControl as="fieldset">
-            <FormLabel as="legend">카테고리</FormLabel>
+            <FormLabel as="legend">
+              카테고리
+              {errors.category && (
+                <Text fontSize="xs" color="red.400">
+                  {errors.category.message}
+                </Text>
+              )}
+            </FormLabel>
+            <input
+              {...register('category', {
+                required: '카테고리를 선택해주세요.',
+              })}
+              readOnly
+              hidden
+              aria-hidden
+            />
             <HStack>
               {categories.map(({ id, title }) => (
                 <Controller
                   key={id}
                   name="category"
                   control={control}
-                  rules={{ required: true }}
                   render={({ field }) => (
                     <CategoryRadio
                       {...field}
@@ -84,6 +116,17 @@ const TaskForm = ({ task, onSave, onCancel, categories }: TaskFormProps) => {
                   )}
                 />
               ))}
+              <Link to={routes.categories()}>
+                <IconButton
+                  as="span"
+                  aria-label="카테고리 추가"
+                  isRound
+                  size="xs"
+                  variant="outline"
+                  colorScheme="blue"
+                  icon={<PlusSmallIcon />}
+                />
+              </Link>
             </HStack>
           </FormControl>
 

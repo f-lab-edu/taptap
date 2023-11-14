@@ -8,6 +8,7 @@ import { MetaTags } from '@redwoodjs/web'
 // import TimeTableHeader from 'src/components/TimeTable/components/TimeTableHeader'
 import TaskList from 'src/components/TaskList/TaskList'
 import TimeTable from 'src/components/TimeTable/TimeTable'
+import useToday from 'src/hooks/useToday'
 
 /**
  *
@@ -23,9 +24,10 @@ interface TimeTablePageContext {
 }
 
 const TimeTablePage = () => {
+  const { today } = useToday()
   const context = useForm<TimeTablePageContext>({
     defaultValues: {
-      date: new Date(), // FIXME: useToday
+      date: today,
     },
   })
   const { register } = context

@@ -76,7 +76,7 @@ CREATE TABLE "Repeat" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Category_title_key" ON "Category"("title");
+CREATE UNIQUE INDEX "Category_userId_title_key" ON "Category"("userId", "title");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Repeat_taskId_key" ON "Repeat"("taskId");

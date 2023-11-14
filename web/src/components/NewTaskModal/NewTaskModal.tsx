@@ -12,6 +12,7 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import TaskFormCell from 'src/components/TaskFormCell'
+import { GET_TASKS } from 'src/hooks/useTasks'
 
 import { RepeatOption, TaskFormData } from '../TaskFormCell/TaskForm.types'
 
@@ -69,6 +70,7 @@ const NewTask = ({ isOpen, onClose }: Props) => {
     onError: (error) => {
       toast.error(error.message)
     },
+    refetchQueries: [GET_TASKS], // TODO: optimize
   })
 
   const onSave = (data: TaskFormData) => {

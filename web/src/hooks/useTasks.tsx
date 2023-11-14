@@ -1,5 +1,4 @@
 import { TypedDocumentNode } from '@apollo/client'
-import { startOfDay } from 'date-fns'
 import { tasks as Tasks, tasksVariables as TaskVariables } from 'types/graphql'
 
 import { useSuspenseQuery } from '@redwoodjs/web/dist/components/GraphQLHooksProvider'
@@ -26,12 +25,11 @@ export const GET_TASKS: TypedDocumentNode<Tasks, TaskVariables> = gql`
 `
 
 interface Variables {
-  date?: Date
+  date: Date
 }
 
-// FIXME: default date = today (useToday)
 // TODO: enable to get options
-const useTasks = ({ date = startOfDay(new Date()) } = {} as Variables) =>
+const useTasks = ({ date }: Variables) =>
   useSuspenseQuery(GET_TASKS, {
     variables: { date: date.toISOString() },
   })

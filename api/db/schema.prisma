@@ -25,11 +25,13 @@ model User {
 model Category {
   id    Int     @id @default(autoincrement())
   createdAt  DateTime  @default(now())
-  title       String  @unique
+  title       String
   tasks   Task[]
 
   userId  Int
   user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, title])
 }
 
 model Task {
