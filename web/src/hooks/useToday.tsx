@@ -10,15 +10,17 @@ import {
 const TodayContext = createContext(new Date())
 
 const OFFSET = 4 // 하루의 시작은 4시. 추후 사용자 설정 가능
+const customStartOfDay = (date: Date) => addHours(startOfDay(date), OFFSET)
+
 export const TodayContextProvider = ({
   children,
 }: {
   children: React.ReactNode
 }) => {
-  const [today, setToday] = useState(new Date())
+  const [today, setToday] = useState(customStartOfDay(new Date()))
 
   useEffect(() => {
-    const tomorrow = addHours(startOfDay(addDays(today, 1)), OFFSET)
+    const tomorrow = customStartOfDay(addDays(today, 1))
     const delay = differenceInMilliseconds(tomorrow, today)
     const id = setTimeout(() => setToday(tomorrow), delay)
     return () => clearTimeout(id)
