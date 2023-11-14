@@ -26,12 +26,11 @@ export const GET_TASKS: TypedDocumentNode<Tasks, TaskVariables> = gql`
 `
 
 interface Variables {
-  date?: Date
+  date: Date
 }
 
-// FIXME: default date = today (useToday)
 // TODO: enable to get options
-const useTasks = ({ date = startOfDay(new Date()) } = {} as Variables) =>
+const useTasks = ({ date }: Variables) =>
   useSuspenseQuery(GET_TASKS, {
     variables: { date: date.toISOString() },
   })
