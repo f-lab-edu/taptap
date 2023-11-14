@@ -23,8 +23,8 @@ export const GET_TASK = gql`
 
 const TaskSelectField = () => {
   const { tasks } = useNewRecordContext()
-  const { control } = useFormContext()
-  const taskId = useWatch({ control, name: 'taskId' })
+  const { control, watch } = useFormContext()
+  const taskId = watch('taskId')
   const [isPending, startTransition] = useTransition()
 
   return (
@@ -37,8 +37,11 @@ const TaskSelectField = () => {
           <Select
             {...field}
             isDisabled={isPending}
+            placeholder="할 일 선택하기"
             onChange={(e) =>
-              startTransition(() => field.onChange(parseInt(e.target.value)))
+              startTransition(() =>
+                field.onChange(e.target.value && parseInt(e.target.value))
+              )
             }
           >
             {tasks.map(({ id, title }) => (
@@ -49,7 +52,13 @@ const TaskSelectField = () => {
           </Select>
         )}
       />
-      <TaskDuration taskId={taskId} />
+      {taskId ? (
+        <TaskDuration taskId={taskId} />
+      ) : (
+        <Text fontSize="sm" color="gray.500">
+          00:00:00
+        </Text>
+      )}
     </div>
   )
 }

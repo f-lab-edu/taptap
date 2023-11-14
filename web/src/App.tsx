@@ -11,6 +11,7 @@ import Routes from 'src/Routes'
 
 import { AuthProvider, useAuth } from './auth'
 import './index.css'
+import './scaffold.css'
 import 'react-day-picker/dist/style.css'
 import { TASK_DURATION } from './graphql/duration'
 import { TodayContextProvider } from './hooks/useToday'
