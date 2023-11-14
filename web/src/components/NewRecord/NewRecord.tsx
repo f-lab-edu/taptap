@@ -54,7 +54,7 @@ interface Context {
 const NewRecordContext = createContext<null | Context>(null)
 
 const NewRecord = ({ children }: Props) => {
-  const today = useToday()
+  const { today } = useToday()
   const {
     data: { tasks },
   } = useTasks({ date: today })
@@ -63,12 +63,15 @@ const NewRecord = ({ children }: Props) => {
     onCompleted: () => toast.success('기록이 저장되었습니다'),
     onError: (error) => console.log('error: ', error),
     update: (cache, { data: { createRecord: newRecord } }) => {
+      console.log('new record: ', newRecord)
       cache.updateQuery(
         {
           query: GET_RECORDS,
           variables: { date: today.toISOString() },
         },
-        (data) => ({ records: data.records.concat(newRecord) })
+        (data) => ({
+          records: data ? data.records.concat(newRecord) : [newRecord],
+        })
       )
       cache.updateQuery(
         {
@@ -100,10 +103,10 @@ const NewRecord = ({ children }: Props) => {
   const onSubmit: SubmitHandler<NewRecordForm> = useCallback(
     async (input) => {
       reset({ taskId: input.taskId })
-      if (isUnderMinTime(input)) {
-        toast('1분 미만의 기록은 저장되지 않습니다.')
-        return
-      }
+      // if (isUnderMinTime(input)) {
+      //   toast('1분 미만의 기록은 저장되지 않습니다.')
+      //   return
+      // }
 
       await createRecord({
         variables: { input },
