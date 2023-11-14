@@ -22,6 +22,11 @@ const CREATE_RECORD = gql`
       start
       end
       taskId
+      task {
+        id
+        title
+        color
+      }
     }
   }
 `
