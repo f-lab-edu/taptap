@@ -7,12 +7,7 @@ import React, {
   useState,
 } from 'react'
 
-import {
-  addDays,
-  startOfDay,
-  differenceInMilliseconds,
-  addHours,
-} from 'date-fns'
+import { addDays, differenceInMilliseconds, sub, set } from 'date-fns'
 
 interface TodayContextType {
   today: Date
@@ -31,14 +26,23 @@ export const TodayContextProvider = ({
 }) => {
   const [offset, setOffset] = useState(DEFAULT_OFFSET)
   const customStartOfDay = useCallback(
-    (date: Date) => addHours(startOfDay(date), offset),
+    // 하루의 시작 시간으로 맞춤
+    (date: Date) =>
+      set(date, {
+        hours: offset,
+        minutes: 0,
+        seconds: 0,
+        milliseconds: 0,
+      }),
     [offset]
   )
 
-  const [today, setToday] = useState(customStartOfDay(new Date()))
+  const [today, setToday] = useState(
+    customStartOfDay(sub(new Date(), { hours: DEFAULT_OFFSET }))
+  )
   useEffect(() => {
     const tomorrow = customStartOfDay(addDays(today, 1))
-    const delay = differenceInMilliseconds(tomorrow, today)
+    const delay = differenceInMilliseconds(tomorrow, new Date())
     const id = setTimeout(() => setToday(tomorrow), delay)
     return () => clearTimeout(id)
   }, [today, customStartOfDay])
