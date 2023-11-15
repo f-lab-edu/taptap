@@ -77,7 +77,6 @@ const NewTask = ({ isOpen, onClose }: Props) => {
     const input = {
       ...data,
       times: data.times.allDay ? undefined : data.times.data,
-      startDate: format(data.startDate, 'yyyy-MM-dd'),
       category: {
         connect: {
           id: data.category,
