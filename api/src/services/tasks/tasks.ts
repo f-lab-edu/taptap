@@ -53,6 +53,7 @@ const isPlaned =
   (date = new Date()) =>
   (task: TaskData): boolean => {
     const startDate = new Date(task.startDate)
+    console.log('tasks 조회', task.title, startDate, date)
     if (!task.repeat) {
       return isSameDay(startDate, date)
     }

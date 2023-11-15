@@ -5,7 +5,7 @@ export const schema = gql`
     updatedAt: DateTime
     title: String!
     color: String!
-    startDate: Date!
+    startDate: DateTime!
     times: [[String]]
     repeat: Repeat
     records: [Record]!
@@ -41,7 +41,7 @@ export const schema = gql`
   input CreateTaskInput {
     title: String!
     color: String!
-    startDate: Date
+    startDate: DateTime
     times: [[String]]
     category: ConnectCategoryArgs!
     repeat: CreateRepeatArgs
@@ -50,7 +50,7 @@ export const schema = gql`
   input UpdateTaskInput {
     title: String
     color: String
-    startDate: Date
+    startDate: DateTime
     times: [[String]]
     categpry: ConnectCategoryArgs
     repeat: UpdateRepeatArgs
