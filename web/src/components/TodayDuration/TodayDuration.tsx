@@ -10,8 +10,7 @@ import { GET_TOTAL_DURATION } from 'src/graphql/duration'
 import useToday from 'src/hooks/useToday'
 
 const TodayDuration = () => {
-  const today = useToday()
-  console.log(today)
+  const { today } = useToday()
   const {
     data: {
       duration: { hours, minutes, seconds },

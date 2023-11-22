@@ -11,6 +11,11 @@ export const records: QueryResolvers['records'] = ({ date, taskId }) => {
   const start = new Date(date),
     end = addHours(new Date(date), 24)
   const where = {
+    task: {
+      category: {
+        userId: context.currentUser.id,
+      },
+    },
     start: {
       lt: end,
     },
@@ -25,6 +30,9 @@ export const records: QueryResolvers['records'] = ({ date, taskId }) => {
 export const createRecord: MutationResolvers['createRecord'] = ({ input }) => {
   return db.record.create({
     data: input,
+    include: {
+      task: true,
+    },
   })
 }
 
@@ -35,6 +43,9 @@ export const updateRecord: MutationResolvers['updateRecord'] = ({
   return db.record.update({
     data: input,
     where: { id },
+    include: {
+      task: true,
+    },
   })
 }
 

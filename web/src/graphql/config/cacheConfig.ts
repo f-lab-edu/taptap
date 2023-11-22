@@ -37,7 +37,7 @@ export const typePolicies: InMemoryCacheConfig['typePolicies'] = {
     fields: {
       date: {
         read(_, { variables }) {
-          return variables.date || 'all'
+          return variables.date ?? 'all'
         },
       },
       duration: {

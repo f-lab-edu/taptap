@@ -76,8 +76,6 @@ const TimeTable = () => {
     [records]
   )
 
-  console.log(recordBlockMap)
-
   return (
     <Table width="500px" size="sm">
       <Thead>
