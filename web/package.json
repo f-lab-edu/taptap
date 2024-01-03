@@ -11,20 +11,36 @@
     ]
   },
   "dependencies": {
-    "@redwoodjs/auth-dbauth-web": "6.1.1",
-    "@redwoodjs/forms": "6.1.1",
-    "@redwoodjs/router": "6.1.1",
-    "@redwoodjs/web": "6.1.1",
+    "@apollo/experimental-nextjs-app-support": "0.0.0-commit-5141fa5",
+    "@chakra-ui/react": "^2",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
+    "@redwoodjs/auth-dbauth-web": "7.0.0-canary.402",
+    "@redwoodjs/forms": "7.0.0-canary.402",
+    "@redwoodjs/router": "7.0.0-canary.402",
+    "@redwoodjs/web": "7.0.0-canary.402",
+    "framer-motion": "^9",
     "humanize-string": "2.1.0",
     "prop-types": "15.8.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react": "0.0.0-experimental-e5205658f-20230913",
+    "react-day-picker": "^8.8.2",
+    "react-dom": "0.0.0-experimental-e5205658f-20230913",
+    "react-icons": "^4.11.0"
   },
   "devDependencies": {
-    "@redwoodjs/vite": "6.1.1",
+    "@babel/plugin-transform-react-jsx": "^7.22.15",
+    "@emotion/babel-plugin-jsx-pragmatic": "^0.2.1",
+    "@redwoodjs/vite": "7.0.0-canary.402",
+    "@types/react": "18.2.14",
+    "@types/react-dom": "18.2.6",
     "autoprefixer": "^10.4.15",
+    "babel-plugin-macros": "^3.1.0",
     "postcss": "^8.4.29",
+    "postcss-cli": "^10.1.0",
     "postcss-loader": "^7.3.3",
-    "tailwindcss": "^3.3.3"
+    "tailwindcss": "^3.3.3",
+    "twin.macro": "^3.4.0"
   }
 }

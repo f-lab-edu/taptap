@@ -4,8 +4,9 @@ import type {
   CategoryRelationResolvers,
 } from 'types/graphql'
 
-import { db } from 'src/lib/db'
 import { ForbiddenError } from '@redwoodjs/graphql-server'
+
+import { db } from 'src/lib/db'
 
 const verifyOwnership = async ({ id }) => {
   if (await category({ id })) {
@@ -16,7 +17,9 @@ const verifyOwnership = async ({ id }) => {
 }
 
 export const categories: QueryResolvers['categories'] = () => {
-  return db.category.findMany({ where: { userId: context.currentUser.id } })
+  return db.category.findMany({
+    where: { userId: context.currentUser.id },
+  })
 }
 
 export const category: QueryResolvers['category'] = ({ id }) => {

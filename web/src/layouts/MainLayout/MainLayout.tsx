@@ -1,51 +1,20 @@
-import { Link, routes } from '@redwoodjs/router'
-import { useAuth } from 'src/auth'
+import { HStack } from '@chakra-ui/react'
+
+import { Toaster } from '@redwoodjs/web/dist/toast'
+
+import Sidebar from 'src/components/Sidebar/Sidebar'
 
 type MainLayoutProps = {
   children?: React.ReactNode
 }
 
 const MainLayout = ({ children }: MainLayoutProps) => {
-  const { isAuthenticated, currentUser, logOut } = useAuth()
-  console.log(JSON.stringify(currentUser))
   return (
-    <>
-      <header>
-        <div>
-          <h1>
-            <Link to={routes.home()}>Tap Tap</Link>
-          </h1>
-          {isAuthenticated ? (
-            <div>
-              <span>Logged in as {currentUser.id}</span>{' '}
-              <button type="button" onClick={logOut}>
-                Logout
-              </button>
-            </div>
-          ) : (
-            <Link to={routes.login()}>Login</Link>
-          )}
-        </div>
-        <nav>
-          <ul>
-            <li>
-              <Link to={routes.home()}>Home</Link>
-            </li>
-            <li>
-              <Link to={routes.tasks()}>Tasks</Link>
-            </li>
-            <li>
-              <Link to={routes.categories()}>Category</Link>
-            </li>
-            <li>
-              <Link to={routes.records()}>Record</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
-      {children}
-      <footer></footer>
-    </>
+    <HStack className="bg-neutral-100" w="full" h="100vh" spacing="0.5">
+      <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
+      <Sidebar />
+      <div className="h-full flex-1">{children}</div>
+    </HStack>
   )
 }
 
